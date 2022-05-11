@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -159,6 +159,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            //Atack();
         }
 
         private void LateUpdate()
@@ -278,6 +279,19 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }
+
+        //----------------------------------------------------------------------------------//
+        //private void Atack()
+        //{
+        //    if (_input.atack)
+        //    {
+        //        _animator.SetBool("Atack", true);
+        //        _input.atack = false;
+        //    }
+        //    else
+        //        _animator.SetBool("Atack",false);
+        //}
+        //----------------------------------------------------------------------------------//
 
         private void JumpAndGravity()
         {
