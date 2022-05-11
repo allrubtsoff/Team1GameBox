@@ -22,11 +22,13 @@ public class MeleeAtack : MonoBehaviour
     private void Atack()
     {
         if (input.atack)
-        {
             animator.SetBool("Atack", true);
-            input.atack = false;
-        }
-        else
-            animator.SetBool("Atack", false);
+    }
+
+    //to reset state in first frame of Atack animation by AnimationEvent
+    public void resetAtackState()
+    {
+        input.atack = false;
+        animator.SetBool("Atack", false);
     }
 }
