@@ -9,18 +9,12 @@ public class PortalScript : MonoBehaviour
     [SerializeField] private Transform teleportationTarget;
     bool isTeleported = false;
 
-    public delegate void TeleportCallback();
-    public static event TeleportCallback TeleportUsed;
-
-    private void OnEnable() => PortalScript.TeleportUsed += TeleportTimer;
-    private void OnDisable() => PortalScript.TeleportUsed -= TeleportTimer;
-
     private void Start()
     {
         interactSymbol.SetActive(false);
     }
 
-    private void TeleportTimer()
+    public void SetTeleportTimer()
     {
         isTeleported = true;
         StartCoroutine(TeleportTimerCorutine());
@@ -34,14 +28,19 @@ public class PortalScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
             interactSymbol.SetActive(true);
 
             if (input.interact && !isTeleported)
             {
-                TeleportUsed();
                 other.transform.position = teleportationTarget.position;
+
+                if (teleportationTarget.gameObject.GetComponent<PortalScript>() != null)
+                {
+                    teleportationTarget.gameObject.GetComponent<PortalScript>().SetTeleportTimer();
+                }
             }
         }
     }
