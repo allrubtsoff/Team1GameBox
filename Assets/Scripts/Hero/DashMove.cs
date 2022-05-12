@@ -12,20 +12,30 @@ public class DashMove : MonoBehaviour
 
     private ThirdPersonController personController;
     private StarterAssetsInputs inputs;
+    private Animator animator;
+    private int baseLayer;
+    private bool isDashCooled;
 
     private void Start()
     {
         personController = GetComponent<ThirdPersonController>();
         inputs = GetComponent<StarterAssetsInputs>();
+        animator = GetComponent<Animator>();
+        baseLayer = animator.GetLayerIndex("Base Layer");
+        isDashCooled = true;
     }
 
     void Update()
     {
-        if (inputs.dash && !personController.IsDashing)
+        if (inputs.dash && !personController.IsDashing && isDashCooled)
         {
             personController.IsDashing = true;
             inputs.dash = false;
-            StartCoroutine(DashTimerCorutine());
+            isDashCooled = false;
+            animator.SetLayerWeight(baseLayer,0f);
+            animator.SetBool("Dash", true);
+            StartCoroutine(TimerCorutine());
+            StartCoroutine(DashCorutine());
         }
 
         if (personController.IsDashing) Dash();
@@ -38,10 +48,17 @@ public class DashMove : MonoBehaviour
                  new Vector3(0.0f, personController._verticalVelocity, 0.0f) * Time.deltaTime);
     }
 
-    private IEnumerator DashTimerCorutine()
+    private IEnumerator DashCorutine()
     {
-        Debug.Log("DashTimer");
         yield return new WaitForSeconds(dashTime);
+        animator.SetBool("Dash", false);
+        animator.SetLayerWeight(baseLayer, 1f);
         personController.IsDashing = false;
+    }
+
+    private IEnumerator TimerCorutine()
+    {
+        yield return new WaitForSeconds(dashCooldown);
+        isDashCooled = true;
     }
 }
