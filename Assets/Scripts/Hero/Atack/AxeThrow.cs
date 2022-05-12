@@ -32,7 +32,7 @@ public class AxeThrow : MonoBehaviour
         axeRigidBody.AddForce(transform.forward * throwPower, ForceMode.Impulse);
     }
 
-    public void resetThrowAxeState()
+    private void resetThrowAxeState()
     {
         input.throwAxe = false;
         animator.SetBool("AxeThrow", false);
