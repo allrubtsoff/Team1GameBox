@@ -51,9 +51,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
-                    "type": "PassThrough",
-                    "id": "a584ccef-938a-499e-973d-31fc3948f9ca",
+                    "name": "Atack",
+                    "type": "Button",
+                    "id": "b8d507f0-f3b9-4ffd-ab44-ca580ba6b5bc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -250,12 +250,12 @@
                 },
                 {
                     "name": "",
-                    "id": "58d95522-9d48-4ac8-963f-4f915b0c86b7",
-                    "path": "<Keyboard>/leftAlt",
+                    "id": "9166c7a3-5585-4601-958d-fa0e5aa69189",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Dash",
+                    "action": "Atack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
