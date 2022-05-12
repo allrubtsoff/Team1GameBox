@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool interact;
 		public bool atack;
+		public bool dash;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -51,6 +52,11 @@ namespace StarterAssets
 			AtackInput(value.isPressed);
 		}
 
+		public void OnDash(InputValue value)
+		{
+			DashInput(value.isPressed);
+		}
+
 		public void OnSprint(InputValue value)
 		{
 			SprintInput(value.isPressed);
@@ -81,6 +87,11 @@ namespace StarterAssets
 		public void AtackInput(bool newAtackState)
 		{
 			atack = newAtackState;
+		}
+
+		public void DashInput(bool newDashState)
+		{
+			dash = newDashState;
 		}
 
 		public void SprintInput(bool newSprintState)
