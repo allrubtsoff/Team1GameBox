@@ -1,12 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AxeRotate : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private float timeToDestroyAfterCollision;
-    [SerializeField] private Transform playerHand;
-    [SerializeField] private GameObject player;
 
     private float xRotation;
 
@@ -19,21 +17,12 @@ public class AxeRotate : MonoBehaviour
             xRotation += rotationSpeed;
             transform.rotation = Quaternion.Euler(xRotation, transform.rotation.y, transform.rotation.z);
         }    
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Player")
-        {
-            Activated = false;
-            GetComponent<Rigidbody>().isKinematic = true;
-            StartCoroutine(DestroyAxe());
-        }
-    }
-
-    private IEnumerator DestroyAxe()
-    {
-        yield return new WaitForSeconds(timeToDestroyAfterCollision);
-        Destroy(gameObject);
+        Activated = false;
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 }
