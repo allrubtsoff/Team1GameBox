@@ -5,18 +5,24 @@ using UnityEngine;
 public class AxeRotate : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;
-    public bool Activated;
+
+    private float xRotation;
+
+    public bool Activated { get; set; }
 
     void Update()
     {
         if (Activated)
-            transform.localEulerAngles += transform.forward * rotationSpeed * Time.deltaTime;
+        {
+            xRotation += rotationSpeed;
+            transform.rotation = Quaternion.Euler(xRotation, transform.rotation.y, transform.rotation.z);
+        }    
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Lol");
         Activated = false;
-        //GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 }

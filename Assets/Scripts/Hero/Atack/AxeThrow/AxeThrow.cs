@@ -54,8 +54,8 @@ public class AxeThrow : MonoBehaviour
         else
         {
             animator.SetBool("AxeThrow", true);
+            StartCoroutine(ThrowCoolDown());
         }
-        StartCoroutine(ThrowCoolDown());
     }
 
     private IEnumerator ThrowCoolDown()
