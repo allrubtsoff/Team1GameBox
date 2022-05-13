@@ -10,6 +10,7 @@ namespace StarterAssets
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
+		public Vector2 mousePosition;
 		public bool jump;
 		public bool sprint;
 		public bool interact;
@@ -23,7 +24,7 @@ namespace StarterAssets
 		public bool analogMovement;
 
 		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = true;
+		public bool cursorLocked = false;
 		public bool cursorInputForLook = true;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -38,6 +39,11 @@ namespace StarterAssets
 			{
 				LookInput(value.Get<Vector2>());
 			}
+		}
+
+		public void OnMousePosition(InputValue value)
+		{
+			MousePositionInput(value.Get<Vector2>());
 		}
 
 		public void OnJump(InputValue value)
@@ -87,6 +93,10 @@ namespace StarterAssets
 		public void LookInput(Vector2 newLookDirection)
 		{
 			look = newLookDirection;
+		}
+		public void MousePositionInput(Vector2 newMousePosition)
+		{
+			mousePosition = newMousePosition;
 		}
 
 		public void JumpInput(bool newJumpState)

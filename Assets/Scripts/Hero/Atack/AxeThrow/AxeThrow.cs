@@ -9,6 +9,7 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private float throwPower;
     [SerializeField] private float CoolDown;
     [SerializeField] private AnimatorManager animatorManager;
+    [SerializeField] private MousePositionManager mouseManager;
 
     private StarterAssetsInputs input;
     private bool isAxeThrow;
@@ -44,6 +45,8 @@ public class AxeThrow : MonoBehaviour
         }
         else
         {
+            Vector3 direction = mouseManager.MousePosition - transform.position;
+            Debug.DrawRay(transform.position, direction, Color.blue);
             animatorManager.SetAxeThrow(true);
             StartCoroutine(ThrowCoolDown());
         }
@@ -69,7 +72,9 @@ public class AxeThrow : MonoBehaviour
         var axeRigidBody = axe.GetComponent<Rigidbody>();
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
-        axeRigidBody.AddForce(transform.forward * throwPower, ForceMode.Impulse);
+        Vector3 direction = (mouseManager.MousePosition-transform.position).normalized;
+        Debug.DrawRay(transform.position, direction, Color.blue, 10f);
+        axeRigidBody.AddForce(direction * throwPower,ForceMode.Impulse);
         axeRigidBody.GetComponent<AxeRotate>().Activated = true;
     }
 
