@@ -11,7 +11,6 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private float throwPower;
     [SerializeField] private float CoolDown;
 
-
     private StarterAssetsInputs input;
     private Animator animator;
     private Rigidbody axeRigidBody;
@@ -63,6 +62,15 @@ public class AxeThrow : MonoBehaviour
         isAxeThrow = true;
         yield return new WaitForSeconds(CoolDown);
         isAxeThrow = false;
+    }
+
+    public void UpdateAxe()
+    {
+        this.axe = Instantiate(axe,hand);
+        axeRigidBody = axe.GetComponent<Rigidbody>();
+        axeRotate = axe.GetComponent<AxeRotate>();
+        axe.transform.position = hand.position;
+        axe.transform.rotation = Quaternion.Euler(40f, -142f, -34f);
     }
 
     //Called in the middle of Animation
