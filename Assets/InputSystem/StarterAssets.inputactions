@@ -272,7 +272,7 @@
                     "name": "",
                     "id": "b5b4ddfe-401b-4b57-bd96-548d05775234",
                     "path": "<Keyboard>/r",
-                    "interactions": "",
+                    "interactions": "Hold,Press(behavior=2)",
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "ThrowAxe",

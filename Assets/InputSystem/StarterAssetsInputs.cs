@@ -16,7 +16,9 @@ namespace StarterAssets
 		public bool atack;
 		public bool throwAxe;
 
-		[Header("Movement Settings")]
+        public bool isThrowAxePressed { get; set; }
+
+        [Header("Movement Settings")]
 		public bool analogMovement;
 
 		[Header("Mouse Cursor Settings")]
@@ -54,6 +56,13 @@ namespace StarterAssets
 		
 		public void OnThrowAxe(InputValue value)
         {
+			float val = value.Get<float>();
+
+				if (val <= InputSystem.settings.defaultButtonPressPoint)
+				{
+					isThrowAxePressed = true;
+				}
+
 			ThrowAxeInput(value.isPressed);
 		}
 
