@@ -41,7 +41,7 @@ namespace StarterAssets
 
         [Space(10)]
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-        public float JumpTimeout = 0.50f;
+        public float JumpTimeout = 0.20f;
 
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
@@ -78,6 +78,8 @@ namespace StarterAssets
         // Dashing
         [HideInInspector] public bool IsDashing { get; set; }
 
+        //doublejump 
+        private bool isDoubleJumped;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -305,6 +307,8 @@ namespace StarterAssets
         {
             if (Grounded)
             {
+                isDoubleJumped = false;
+
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
@@ -322,7 +326,7 @@ namespace StarterAssets
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if (_input.jump /* && _jumpTimeoutDelta <= 0.0f */)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -332,12 +336,30 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+                    _input.jump = false;
                 }
 
                 // jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
+                }
+            }
+            else if (!Grounded && !isDoubleJumped && _input.jump)
+            {
+                //doubleJump
+                if (_input.jump && !isDoubleJumped  /* && _jumpTimeoutDelta <= 0.0f */)
+                {
+                    // the square root of H * -2 * G = how much velocity needed to reach desired height
+                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    isDoubleJumped = true;
+
+                    // update animator if using character
+                    if (_hasAnimator)
+                    {
+                        _animator.SetTrigger("DoubleJump");
+                    }
                 }
             }
             else
@@ -358,7 +380,6 @@ namespace StarterAssets
                         _animator.SetBool(_animIDFreeFall, true);
                     }
                 }
-
                 // if we are not grounded, do not jump
                 _input.jump = false;
             }
