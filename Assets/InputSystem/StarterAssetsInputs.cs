@@ -14,7 +14,10 @@ namespace StarterAssets
 		public bool sprint;
 		public bool interact;
 		public bool atack;
+		public bool throwAxe;
 		public bool dash;
+
+		public bool isThrowAxePressed { get; set; }
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -52,6 +55,18 @@ namespace StarterAssets
 			AtackInput(value.isPressed);
 		}
 
+		public void OnThrowAxe(InputValue value)
+		{
+			float val = value.Get<float>();
+
+			if (val <= InputSystem.settings.defaultButtonPressPoint)
+			{
+				isThrowAxePressed = true;
+			}
+
+			ThrowAxeInput(value.isPressed);
+		}
+
 		public void OnDash(InputValue value)
 		{
 			DashInput(value.isPressed);
@@ -87,6 +102,11 @@ namespace StarterAssets
 		public void AtackInput(bool newAtackState)
 		{
 			atack = newAtackState;
+		}
+
+		public void ThrowAxeInput(bool newThrowAxeInputState)
+		{
+			throwAxe = newThrowAxeInputState;
 		}
 
 		public void DashInput(bool newDashState)

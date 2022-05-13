@@ -1,10 +1,11 @@
+using StarterAssets;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AxeRotate : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float timeToDestroyAfterCollision;
 
     private float xRotation;
 
@@ -22,7 +23,17 @@ public class AxeRotate : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Activated = false;
-        GetComponent<Rigidbody>().isKinematic = true;
+        if (collision.gameObject.GetComponent<ThirdPersonController>() == null)
+        {
+            Activated = false;
+            GetComponent<Rigidbody>().isKinematic = true;
+            StartCoroutine(DestroyAxe());
+        }
+    }
+
+    private IEnumerator DestroyAxe()
+    {
+        yield return new WaitForSeconds(timeToDestroyAfterCollision);
+        Destroy(gameObject);
     }
 }

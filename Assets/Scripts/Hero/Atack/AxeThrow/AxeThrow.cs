@@ -1,8 +1,6 @@
 using StarterAssets;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class AxeThrow : MonoBehaviour
 {
@@ -10,21 +8,14 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private Transform hand;
     [SerializeField] private float throwPower;
     [SerializeField] private float CoolDown;
-
+    [SerializeField] private AnimatorManager animatorManager;
 
     private StarterAssetsInputs input;
-    private Animator animator;
-    private Rigidbody axeRigidBody;
-    private AxeRotate axeRotate;
-
     private bool isAxeThrow;
 
     void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
-        animator = GetComponent<Animator>();
-        axeRigidBody = axe.GetComponent<Rigidbody>();
-        axeRotate = axe.GetComponent<AxeRotate>();
     }
 
     private void Update()
@@ -49,11 +40,11 @@ public class AxeThrow : MonoBehaviour
     {
         if (isHold)
         {
-            animator.SetBool("AxeAim", true);
+            animatorManager.SetAxeAim(true);
         }
         else
         {
-            animator.SetBool("AxeThrow", true);
+            animatorManager.SetAxeThrow(true);
             StartCoroutine(ThrowCoolDown());
         }
     }
@@ -65,13 +56,21 @@ public class AxeThrow : MonoBehaviour
         isAxeThrow = false;
     }
 
+    //Called after ThrowAxe event
+    public void UpdateAxe()
+    {
+        this.axe = Instantiate(axe, hand);
+        axe.transform.position = hand.position;
+    }
+
     //Called in the middle of Animation
     private void ThrowAxe()
     {
+        var axeRigidBody = axe.GetComponent<Rigidbody>();
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
         axeRigidBody.AddForce(transform.forward * throwPower, ForceMode.Impulse);
-        axeRotate.Activated = true;
+        axeRigidBody.GetComponent<AxeRotate>().Activated = true;
     }
 
     //Called in the start of Animation
@@ -79,7 +78,7 @@ public class AxeThrow : MonoBehaviour
     {
         input.isThrowAxePressed = false;
         input.throwAxe = false;
-        animator.SetBool("AxeThrow", false);
-        animator.SetBool("AxeAim", false);
+        animatorManager.SetAxeAim(false);
+        animatorManager.SetAxeThrow(false);
     }
 }

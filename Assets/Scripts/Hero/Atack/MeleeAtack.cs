@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class MeleeAtack : MonoBehaviour
 {
+    [SerializeField] private AnimatorManager animatorManager;
+
     private StarterAssetsInputs input;
-    private Animator animator;
 
     private void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
-        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -22,13 +22,13 @@ public class MeleeAtack : MonoBehaviour
     private void Atack()
     {
         if (input.atack)
-            animator.SetBool("Atack", true);
+            animatorManager.SetAtack(true);
     }
 
     //to reset state in first frame of Atack animation by AnimationEvent
     public void resetAtackState()
     {
         input.atack = false;
-        animator.SetBool("Atack", false);
+        animatorManager.SetAtack(false);
     }
 }

@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ThrowAxe",
+                    "type": "Button",
+                    "id": "695e6f18-b7fd-48d1-915e-04e1c257a30e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Dash",
                     "type": "PassThrough",
                     "id": "610fd6ca-5c61-4ac2-9408-5eb9e9fb09e8",
@@ -276,6 +285,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe39a828-1955-4efa-bcd2-4bd9d0387ba8",
+                    "path": "<Keyboard>/r",
+                    "interactions": "Hold(duration=0.2),Press(behavior=2)",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ThrowAxe",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
