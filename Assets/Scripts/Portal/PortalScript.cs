@@ -1,17 +1,19 @@
 using System.Collections;
 using UnityEngine;
 using StarterAssets;
+using System;
 
 public class PortalScript : MonoBehaviour
 {
-    [SerializeField] private GameObject interactSymbol;
     [SerializeField] private StarterAssetsInputs input;
     [SerializeField] private Transform teleportationTarget;
     bool isTeleported = false;
 
+    public static event Action<bool> PlayerInTrigger;
+
     private void Start()
     {
-        interactSymbol.SetActive(false);
+        PlayerInTrigger(false);
     }
 
     public void SetTeleportTimer()
@@ -29,17 +31,17 @@ public class PortalScript : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
 
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out ThirdPersonController thirdPerson))
         {
-            interactSymbol.SetActive(true);
+            PlayerInTrigger(true);
 
             if (input.interact && !isTeleported)
             {
                 other.transform.position = teleportationTarget.position;
 
-                if (teleportationTarget.gameObject.GetComponent<PortalScript>() != null)
+                if (teleportationTarget.TryGetComponent(out PortalScript portalScript))
                 {
-                    teleportationTarget.gameObject.GetComponent<PortalScript>().SetTeleportTimer();
+                    portalScript.SetTeleportTimer();
                 }
             }
         }
@@ -47,9 +49,9 @@ public class PortalScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out ThirdPersonController thirdPerson))
         {
-            interactSymbol.SetActive(false);
+            PlayerInTrigger(false);
         }
     }
 }
