@@ -11,7 +11,9 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private AnimatorManager animatorManager;
     [SerializeField] private MousePositionManager mouseManager;
 
+
     private StarterAssetsInputs input;
+    private Vector3 throwDirection;
     private bool isAxeThrow;
 
     void Start()
@@ -39,14 +41,17 @@ public class AxeThrow : MonoBehaviour
 
     private void ChangeState(bool isHold)
     {
+        throwDirection = mouseManager.MousePosition;
+
+        Vector3 target = new Vector3(throwDirection.x, transform.position.y, throwDirection.z);
+        transform.LookAt(target);
+
         if (isHold)
         {
             animatorManager.SetAxeAim(true);
         }
         else
         {
-            Vector3 direction = mouseManager.MousePosition - transform.position;
-            Debug.DrawRay(transform.position, direction, Color.blue);
             animatorManager.SetAxeThrow(true);
             StartCoroutine(ThrowCoolDown());
         }
@@ -56,6 +61,7 @@ public class AxeThrow : MonoBehaviour
     {
         isAxeThrow = true;
         yield return new WaitForSeconds(CoolDown);
+        resetThrowAxeState();
         isAxeThrow = false;
     }
 
@@ -72,10 +78,9 @@ public class AxeThrow : MonoBehaviour
         var axeRigidBody = axe.GetComponent<Rigidbody>();
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
-        Vector3 direction = (mouseManager.MousePosition-transform.position).normalized;
-        Debug.DrawRay(transform.position, direction, Color.blue, 10f);
-        axeRigidBody.AddForce(direction * throwPower,ForceMode.Impulse);
-        axeRigidBody.GetComponent<AxeRotate>().Activated = true;
+        axe.GetComponent<AxeRotate>().Activated = true;
+        Vector3 direction = (throwDirection - axe.transform.position).normalized;
+        axeRigidBody.AddForce(direction * throwPower, ForceMode.Impulse);
     }
 
     //Called in the start of Animation

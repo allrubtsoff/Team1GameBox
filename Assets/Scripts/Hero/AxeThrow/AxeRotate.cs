@@ -16,14 +16,14 @@ public class AxeRotate : MonoBehaviour
         if (Activated)
         {
             xRotation += rotationSpeed;
-            transform.rotation = Quaternion.Euler(xRotation, transform.rotation.y, transform.rotation.z);
-        }    
-
+            transform.localRotation = Quaternion.Euler(xRotation, transform.rotation.y, transform.rotation.z);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<ThirdPersonController>() == null)
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag =="Environment")
         {
             Activated = false;
             GetComponent<Rigidbody>().isKinematic = true;
