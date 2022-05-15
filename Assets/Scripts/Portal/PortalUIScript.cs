@@ -10,10 +10,18 @@ public class PortalUIScript : MonoBehaviour
     private void OnDisable() => PortalScript.PlayerInTrigger -= ChangeUIState;
 
 
-    private void Start()
+    private void Awake()
     {
         m_MeshRenderer = GetComponent<MeshRenderer>();
     }
 
-    private void ChangeUIState(bool newState) => m_MeshRenderer.enabled = newState;
+    private void ChangeUIState(bool newState)
+    {
+        if (m_MeshRenderer != null)
+        {
+           m_MeshRenderer.enabled = newState;
+
+        }
+        
+    }
 }

@@ -12,11 +12,13 @@ public class EnemyController : EnemyStateMachine
     [SerializeField] private bool isCyberGiant;
     [SerializeField] private bool isCreature;
 
-    private int currState;
+    public Animator Animator { get; set; }
+
+    public int CurrState { get; private set; }
     private const int idleState = 0;
     private const int moveState = 1;
     private const int attackState = 2;
-    private const int specialAttackState = 3;
+    private const int specialJumpState = 3;
     private const int deadState = 4;
 
     public bool IsAttaking;
@@ -29,7 +31,7 @@ public class EnemyController : EnemyStateMachine
     {
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = enemiesConfigs.speed;
-        currState = idleState;
+        CurrState = idleState;
     }
 
 
@@ -45,31 +47,31 @@ public class EnemyController : EnemyStateMachine
     {
         float distanceToTarget = Vector3.Distance(transform.position, m_Target.position);
 
-        switch (currState)
+        switch (CurrState)
         {
             case idleState:
                 if (distanceToTarget < enemiesConfigs.reactDistance)
                 {
-                    currState = moveState;
+                    CurrState = moveState;
                 }
                 SetState(new IdleState(this));
                 break;
             case moveState:
                 if (distanceToTarget < Agent.stoppingDistance)
                 {
-                    currState = attackState;
+                    CurrState = attackState;
                 }
                 SetState(new MoveState(this));
                 break;
             case attackState:
                 if (distanceToTarget > Agent.stoppingDistance && !IsAttaking)
                 {
-                    currState = moveState;
+                    CurrState = moveState;
                 }
 
                 if (Random.value < enemiesConfigs.specialAttackChance)
                 {
-                    currState = specialAttackState;
+                    CurrState = specialJumpState;
                 }
                 SetState(new AttackState(this));
                 break;
