@@ -68,7 +68,8 @@ public class AxeThrow : MonoBehaviour
     //Called after ThrowAxe event
     public void UpdateAxe()
     {
-        this.axe = Instantiate(axe, hand);
+        this.axe = Instantiate(axe, hand.position, Quaternion.identity);
+        axe.transform.parent = hand;
         axe.transform.position = hand.position;
     }
 

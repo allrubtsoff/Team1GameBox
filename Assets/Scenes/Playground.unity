@@ -2122,6 +2122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4355972745207172190, guid: dbe767ff2d2030c499d03c35f29e6477, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8249939450648440077, guid: dbe767ff2d2030c499d03c35f29e6477, type: 3}
       propertyPath: input
       value: 
@@ -2940,9 +2944,17 @@ PrefabInstance:
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3007290596730250847, guid: dbe767ff2d2030c499d03c35f29e6477, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4355972745207172190, guid: dbe767ff2d2030c499d03c35f29e6477, type: 3}
       propertyPath: m_Name
       value: Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355972745207172190, guid: dbe767ff2d2030c499d03c35f29e6477, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8249939450648440077, guid: dbe767ff2d2030c499d03c35f29e6477, type: 3}
       propertyPath: input
