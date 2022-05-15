@@ -1,17 +1,22 @@
 using StarterAssets;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(StarterAssetsInputs))]
 
 public class MeleeAtack : MonoBehaviour
 {
+    [SerializeField] private AnimatorManager animatorManager;
+    [SerializeField] private MousePositionManager mousePositionManager;
+    [SerializeField] private float atackTime;
+
+    private ThirdPersonController personController;
     private StarterAssetsInputs input;
-    private Animator animator;
 
     private void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
-        animator = GetComponent<Animator>();
+        personController = GetComponent<ThirdPersonController>();
     }
 
     void Update()
@@ -22,13 +27,29 @@ public class MeleeAtack : MonoBehaviour
     private void Atack()
     {
         if (input.atack)
-            animator.SetBool("Atack", true);
+        {
+            animatorManager.SetAtack(true);
+            LookAtMouseDirection();
+        }
+    }
+
+    private void LookAtMouseDirection()
+    {
+        personController.isAtacking = true;
+        Vector3 target = new Vector3(mousePositionManager.MousePosition.x, transform.position.y, mousePositionManager.MousePosition.z);
+        transform.LookAt(target);
+    }
+
+    //to reset player rotation
+    private void resetRotationState()
+    {
+        personController.isAtacking = false;
     }
 
     //to reset state in first frame of Atack animation by AnimationEvent
     public void resetAtackState()
     {
         input.atack = false;
-        animator.SetBool("Atack", false);
+        animatorManager.SetAtack(false);
     }
 }
