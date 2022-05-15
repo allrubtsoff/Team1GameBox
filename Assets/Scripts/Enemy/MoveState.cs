@@ -10,6 +10,7 @@ public class MoveState : EnemyStates
 
     public override IEnumerator CurrentState()
     {
+        _enemyController.Agent.isStopped = false;
         _enemyController.Agent.SetDestination(_enemyController.m_Target.position);
 
         yield break;

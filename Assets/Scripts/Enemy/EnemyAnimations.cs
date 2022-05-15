@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemyAnimations : MonoBehaviour
 {
-    private EnemyController m_EnemyController;
+    [SerializeField] private EnemyController m_EnemyController;
+    [SerializeField] private AnimationClip attackAnimClip;
+
     private Animator animator;
     private int animIDIdle;
     private int animIDMove;
@@ -18,10 +21,14 @@ public class EnemyAnimations : MonoBehaviour
     private const int specialJumpState = 3;
     private const int deadState = 4;
 
+    public float attackAnimLength;
+
+    public static event Action<bool> IsAttacking;
+
     void Start()
     {
-        m_EnemyController = GetComponent<EnemyController>();
         animator = GetComponent<Animator>();
+
         AssignAnimationsIDs();
     }
 
@@ -63,6 +70,7 @@ public class EnemyAnimations : MonoBehaviour
 
     public void IdleState()
     {
+
         animator.SetBool(animIDIdle, true);
         animator.SetBool(animIDMove, false);
         animator.SetBool(animIDAttack, false);
@@ -93,5 +101,6 @@ public class EnemyAnimations : MonoBehaviour
         animator.SetBool(animIDSpecialJump, true);
     }
 
-
+    public void StartAttackEvent() => IsAttacking(true);
+    public void StopAttackEvent() => IsAttacking(false);
 }

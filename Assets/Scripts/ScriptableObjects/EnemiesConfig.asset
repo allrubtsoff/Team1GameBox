@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63c84b93e8419a4e948f8b6b3a1ebde, type: 3}
   m_Name: EnemiesConfig
   m_EditorClassIdentifier: 
+  reactDistance: 5
   stoppingDistance: 1.5
   speed: 3
+  specialAttackChance: 0
   damage: 5
   health: 5

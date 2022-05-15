@@ -11,11 +11,7 @@ public class AttackState : EnemyStates
 
     public override IEnumerator CurrentState()
     {
-        if (!_enemyController.IsAttaking)
-        {
-            Debug.Log("Regular Attack");
-            _enemyController.IsAttaking = true;
-        }
+
         _enemyController.Agent.isStopped = true;
 
         yield break;
