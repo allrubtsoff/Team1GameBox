@@ -67,10 +67,19 @@ public class AxeThrow : MonoBehaviour
     //Called after ThrowAxe event
     public void UpdateAxe()
     {
+        resetThrowAxeState();
         this.axe = Instantiate(axe, hand.position, Quaternion.identity);
         axe.transform.parent = hand;
         // to reset player looking direction
         personController.isAtacking = false;
+    }
+
+    private void resetThrowAxeState()
+    {
+        input.isThrowAxePressed = false;
+        input.throwAxe = false;
+        animatorManager.SetAxeAim(false);
+        animatorManager.SetAxeThrow(false);
     }
 
     //Called in the middle of Animation
@@ -87,16 +96,7 @@ public class AxeThrow : MonoBehaviour
     private void LookAtMouseDirection()
     {
         personController.isAtacking = true;
-        Vector3 direction = new Vector3(throwDirection.x , transform.position.y,throwDirection.z);
-        transform.LookAt(Vector3.Lerp(transform.position,direction,1f));
-    }
-
-    //Called in the start of Animation
-    private void resetThrowAxeState()
-    {
-        input.isThrowAxePressed = false;
-        input.throwAxe = false;
-        animatorManager.SetAxeAim(false);
-        animatorManager.SetAxeThrow(false);
+        Vector3 direction = new Vector3(throwDirection.x, transform.position.y, throwDirection.z);
+        transform.LookAt(Vector3.Lerp(transform.position, direction, 1f));
     }
 }
