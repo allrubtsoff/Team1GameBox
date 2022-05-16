@@ -7,10 +7,14 @@ public class MeleeAtack : MonoBehaviour
 {
     private StarterAssetsInputs input;
     private Animator animator;
-    [SerializeField] private AudioSource AttackSound;
+    [SerializeField] private AudioClip[] SwordAttackClips;
+    [Range(0, 1)]  public float SwordAttackVolume = 0.5f;
+    private CharacterController controller;
 
     private void Start()
     {
+        controller = GetComponent<CharacterController>();
+
         input = GetComponent<StarterAssetsInputs>();
         animator = GetComponent<Animator>();
     }
@@ -22,12 +26,24 @@ public class MeleeAtack : MonoBehaviour
 
     }
 
+    private void OnSwordAttack(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            if (SwordAttackClips.Length > 0)
+            {
+                var index = Random.Range(0, SwordAttackClips.Length);
+                AudioSource.PlayClipAtPoint(SwordAttackClips[index], transform.TransformPoint(controller.center), SwordAttackVolume);
+            }
+        }
+    }
+
     private void Atack()
     {
         if (input.atack)
         {
             animator.SetBool("Atack", true);
-            AttackSound.Play();
+     
         }
     }
 

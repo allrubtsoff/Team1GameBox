@@ -28,7 +28,8 @@ namespace StarterAssets
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
 
-        public AudioClip LandingAudioClip;
+        public AudioClip[] LandingAudioClips;
+        [Range(0, 1)] public float LandingAudioVolume = 0.5f;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
@@ -428,7 +429,13 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(Controller.center), FootstepAudioVolume);
+                if (LandingAudioClips.Length > 0)
+                {
+                    var index = Random.Range(0, LandingAudioClips.Length);
+                    AudioSource.PlayClipAtPoint(LandingAudioClips[index], transform.TransformPoint(Controller.center), LandingAudioVolume);
+                }
+
+
             }
         }
     }

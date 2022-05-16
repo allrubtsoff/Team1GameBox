@@ -6,7 +6,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Group
+  m_Name: Footsteps
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 101d7ce7066f95442b2ab0f0b877ad6f
   m_Children: []
