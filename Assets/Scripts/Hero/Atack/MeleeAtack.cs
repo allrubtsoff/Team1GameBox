@@ -7,6 +7,7 @@ public class MeleeAtack : MonoBehaviour
 {
     private StarterAssetsInputs input;
     private Animator animator;
+    [SerializeField] private AudioSource AttackSound;
 
     private void Start()
     {
@@ -17,12 +18,17 @@ public class MeleeAtack : MonoBehaviour
     void Update()
     {
         Atack();
+      
+
     }
 
     private void Atack()
     {
         if (input.atack)
+        {
             animator.SetBool("Atack", true);
+            AttackSound.Play();
+        }
     }
 
     //to reset state in first frame of Atack animation by AnimationEvent
@@ -32,3 +38,4 @@ public class MeleeAtack : MonoBehaviour
         animator.SetBool("Atack", false);
     }
 }
+ 
