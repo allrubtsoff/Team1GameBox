@@ -256,12 +256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 321c3f0cc981bfc48a6edd7e1f0b1e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axe: {fileID: 0}
-  hand: {fileID: 0}
-  throwPower: 0
-  CoolDown: 0
-  animatorManager: {fileID: 0}
-  mouseManager: {fileID: 0}
+  axe: {fileID: 1839303210}
+  hand: {fileID: 1837700271}
+  throwPower: 40
+  CoolDown: 5
+  animatorManager: {fileID: 350098322}
+  mouseManager: {fileID: 1248701782}
 --- !u!1 &267997987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2677,6 +2677,7 @@ GameObject:
   - component: {fileID: 1839303214}
   - component: {fileID: 1839303213}
   - component: {fileID: 1839303212}
+  - component: {fileID: 1839303215}
   m_Layer: 8
   m_Name: Axe
   m_TagString: Untagged
@@ -2742,6 +2743,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.03811044, y: 0.040078875, z: 0.7160083}
   m_Center: {x: -0.015446713, y: -0.0013536446, z: 0.23247188}
+--- !u!114 &1839303215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839303210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7820cf396ae7894abc812b3fae43c92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToDestroyAfterCollision: 1
 --- !u!1 &2114283753834967212
 GameObject:
   m_ObjectHideFlags: 0
