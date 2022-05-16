@@ -9,6 +9,9 @@ public class EnemiesConfigs : ScriptableObject
     public float stoppingDistance;
     public float speed;
     public float specialAttackChance;
+    public float specialAttackCooldownTime;
+    public float specialAttackDelay;
+    public int specialAttackDamage;
     public int damage;
     public int health;
 }

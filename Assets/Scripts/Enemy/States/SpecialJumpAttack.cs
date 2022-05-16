@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SpecialJumpAttack : EnemyStates
 {
@@ -10,7 +11,7 @@ public class SpecialJumpAttack : EnemyStates
 
     public override IEnumerator CurrentState()
     {
-
+        _enemyController.Agent.isStopped = false;
         yield break;
     }
 }

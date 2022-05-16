@@ -13,4 +13,9 @@ public abstract class EnemyStates
     {
         yield break;
     }
+
+    public virtual IEnumerator SpecialBehaviour()
+    {
+        yield break;
+    }
 }

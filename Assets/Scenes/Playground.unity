@@ -2817,6 +2817,14 @@ PrefabInstance:
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 252300007}
+    - target: {fileID: 6991446463954760582, guid: 277a0eae7f034ac46af0edaebdf67f8a, type: 3}
+      propertyPath: pondPrefab
+      value: 
+      objectReference: {fileID: 4658799616723373051, guid: 657801eb17e163640bf843eaad054d14, type: 3}
+    - target: {fileID: 6991446463954760582, guid: 277a0eae7f034ac46af0edaebdf67f8a, type: 3}
+      propertyPath: specialAttack
+      value: 
+      objectReference: {fileID: 7400000, guid: b8c9956960f26ac42bcc603ec3627342, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 277a0eae7f034ac46af0edaebdf67f8a, type: 3}
 --- !u!1 &2114283753834967212

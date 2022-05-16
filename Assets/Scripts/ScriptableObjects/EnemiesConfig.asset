@@ -15,6 +15,9 @@ MonoBehaviour:
   reactDistance: 5
   stoppingDistance: 1.5
   speed: 3
-  specialAttackChance: 0
+  specialAttackChance: 0.2
+  specialAttackCooldownTime: 5
+  specialAttackDelay: 1
+  specialAttackDamage: 10
   damage: 5
   health: 5
