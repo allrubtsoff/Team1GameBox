@@ -10,6 +10,7 @@ public class EnemyController : EnemyStateMachine
     [SerializeField] public Transform m_Target;
     [SerializeField] public EnemiesConfigs enemiesConfigs;
     [SerializeField] public GameObject pondPrefab;
+    [Header("Marker")]
     [Header("EnemyType")]
     [SerializeField] private bool isLikho;
     [SerializeField] private bool isCyberGiant;
