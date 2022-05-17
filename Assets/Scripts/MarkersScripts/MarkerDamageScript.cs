@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
 
-public class PondMarkerScript : MonoBehaviour
+public class MarkerDamageScript : MonoBehaviour
 {
     private ThirdPersonController _thirdPersonController;
     private bool _isPlayerInZone;
@@ -18,9 +18,14 @@ public class PondMarkerScript : MonoBehaviour
         }
     }
 
-    public void Resize(float width, float length)
+    public void PondResize(float radius)
     {
-        transform.localScale = new Vector3(width, kHeigth, length);
+        transform.localScale = new Vector3(radius, kHeigth, radius);
+    }
+
+    public void RayResize(float width, float length)
+    {
+        transform.localScale = new Vector3(width, length, 1);
     }
 
     private void OnTriggerEnter(Collider other)

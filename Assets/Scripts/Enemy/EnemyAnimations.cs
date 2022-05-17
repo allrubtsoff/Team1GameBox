@@ -24,7 +24,10 @@ public class EnemyAnimations : MonoBehaviour
     public static event Action SpecialIsFinished;
     public static event Action<bool> IsAttacking;
     public static event Action<bool> TrySpecialEvent;
+    public static event Action<Vector3> ShootEvent;
 
+
+    public void Shoot() => ShootEvent(m_EnemyController.m_Target.position);
     public void SpecialFinished() => SpecialIsFinished();
     public void TrySpecial() => TrySpecialEvent(true);
     public void StartAttackEvent() => IsAttacking(true);
