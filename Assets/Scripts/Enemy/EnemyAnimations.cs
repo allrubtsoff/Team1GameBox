@@ -21,9 +21,11 @@ public class EnemyAnimations : MonoBehaviour
     private const int chargeState = 4;
     private const int deadState = 8;
 
+    public static event Action SpecialIsFinished;
     public static event Action<bool> IsAttacking;
     public static event Action<bool> TrySpecialEvent;
 
+    public void SpecialFinished() => SpecialIsFinished();
     public void TrySpecial() => TrySpecialEvent(true);
     public void StartAttackEvent() => IsAttacking(true);
     public void StopAttackEvent() => IsAttacking(false);

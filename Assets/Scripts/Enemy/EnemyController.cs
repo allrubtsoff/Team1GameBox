@@ -9,8 +9,6 @@ public class EnemyController : EnemyStateMachine
 
     [SerializeField] public Transform m_Target;
     [SerializeField] public EnemiesConfigs enemiesConfigs;
-    [SerializeField] public GameObject pondPrefab;
-    [Header("Marker")]
     [Header("EnemyType")]
     [SerializeField] private bool isLikho;
     [SerializeField] private bool isCyberGiant;
@@ -29,6 +27,8 @@ public class EnemyController : EnemyStateMachine
     private const int chargeState = 4;
     private const int deadState = 8;
 
+    private float stopDistanceCorrection = 0.3f;
+
     private bool _isAttaking;
     private bool _isCharging;
     private bool _isSpecialAttacking;
@@ -38,20 +38,24 @@ public class EnemyController : EnemyStateMachine
     {
         EnemyAnimations.IsAttacking += SetIsAttacking;
         EnemyAnimations.TrySpecialEvent += TakeASpecialChance;
+        EnemyAnimations.SpecialIsFinished += SpecialJumpIsFinished;
     }
 
     private void OnDisable()
     {
         EnemyAnimations.IsAttacking -= SetIsAttacking;
         EnemyAnimations.TrySpecialEvent -= TakeASpecialChance;
+        EnemyAnimations.SpecialIsFinished += SpecialJumpIsFinished;
     }
 
     private void TakeASpecialChance(bool chance) => SpecialAttackChance();
+    private void SpecialJumpIsFinished() => _isSpecialAttacking = false;
     private void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = enemiesConfigs.speed;
         Agent.stoppingDistance = enemiesConfigs.stoppingDistance;
+        stopDistanceCorrection += Agent.stoppingDistance;
         CurrState = idleState;
         specialAnimLength = specialAttack.length;
         _isSpecialAttackCooled = true;
@@ -88,20 +92,19 @@ public class EnemyController : EnemyStateMachine
                 SetState(new IdleState(this));
                 break;
             case moveState:
-                if (distanceToTarget <= Agent.stoppingDistance)
+                SetState(new MoveState(this));
+                if (distanceToTarget <= stopDistanceCorrection)
                 {
                     CurrState = attackState;
                 }
-                SetState(new MoveState(this));
                 break;
             case attackState:
-                if (distanceToTarget > Agent.stoppingDistance && !_isAttaking)
+                SetState(new AttackState(this));
+                if (distanceToTarget >= Agent.stoppingDistance && !_isAttaking)
                 {
                     CurrState = moveState;
                 }
-                SetState(new AttackState(this));
                 break;
-
             case chargeState:
                 if (!_isCharging)
                 {
@@ -110,16 +113,17 @@ public class EnemyController : EnemyStateMachine
                 }
                 break;
             case specialJumpState:
+                
+                SetState(new SpecialJumpAttack(this));
 
                 float newDistance = Vector3.Distance(transform.position, Agent.destination);
 
-                if (newDistance <= Agent.stoppingDistance)
+                if (!_isSpecialAttacking)
                 {
                     Agent.velocity = Vector3.zero;
                     CurrState = moveState;
                 }
 
-                SetState(new SpecialJumpAttack(this));
                 break;
             case deadState:
 
@@ -148,16 +152,11 @@ public class EnemyController : EnemyStateMachine
 
     public void StartSpecialAttack()
     {
+        _isSpecialAttacking = true;
         CurrState = specialJumpState;
         StartCoroutine(SpecialAttackCooling(enemiesConfigs.specialAttackCooldownTime));
     }
 
-    public void CreatePond(Vector3 lastTargetPos)
-    {
-        lastTargetPos.y += 0.01f;
-        GameObject pond = Instantiate(pondPrefab, lastTargetPos  , Quaternion.identity);
-        Destroy(pond, enemiesConfigs.specialAttackDelay + specialAnimLength);
-    }
 
     private IEnumerator SpecialAttackCooling(float specialAttackReloadTime)
     {
