@@ -11,6 +11,8 @@ public class AnimatorManager : MonoBehaviour
     private readonly int axeAim = Animator.StringToHash("AxeAim");    
     private readonly int airAtack = Animator.StringToHash("AirAtack");
 
+    private const int AngleOfView = 60;
+
     public void SetAtack(bool value)
     {
         animator.SetBool(atack, value);
@@ -37,9 +39,7 @@ public class AnimatorManager : MonoBehaviour
         var controller = animator.gameObject.GetComponent<ThirdPersonController>();
         if (player.move != Vector2.zero && controller.Grounded)
         {       
-
-            //Debug.Log(mouseManager.AngleBetweenMouseAndPlayer);
-            var isBackward = mouseManager.AngleBetweenMouseAndPlayer > 90 ;
+            var isBackward = mouseManager.AngleBetweenMouseAndPlayer > AngleOfView;
             if (isBackward)
                 SetBackwardRun();
         }
