@@ -15,12 +15,10 @@ public class AxeThrow : MonoBehaviour
     private StarterAssetsInputs input;
     private Vector3 throwDirection;
     private bool isAxeThrow;
-    private ThirdPersonController personController;
 
     void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
-        personController = GetComponent<ThirdPersonController>();
     }
 
     private void Update()
@@ -44,7 +42,9 @@ public class AxeThrow : MonoBehaviour
     private void ChangeState(bool isHold)
     {
         throwDirection = mouseManager.MousePosition;
-        LookAtMouseDirection();
+        animatorManager.CheckBackwardRun();
+        mouseManager.LookAtMouseDirection();
+
         if (isHold)
         {
             animatorManager.SetAxeAim(true);
@@ -71,7 +71,8 @@ public class AxeThrow : MonoBehaviour
         this.axe = Instantiate(axe, hand.position, Quaternion.identity);
         axe.transform.parent = hand;
         // to reset player looking direction
-        personController.isAtacking = false;
+        mouseManager.StopLookingAtMouseDirection();
+        animatorManager.ResetBackwardRun();
     }
 
     private void resetThrowAxeState()
@@ -91,12 +92,5 @@ public class AxeThrow : MonoBehaviour
         axe.transform.LookAt(throwDirection);
         Vector3 direction = (throwDirection - axe.transform.position).normalized;
         axeRigidBody.AddForce(direction * throwPower, ForceMode.Impulse);
-    }
-
-    private void LookAtMouseDirection()
-    {
-        personController.isAtacking = true;
-        Vector3 direction = new Vector3(throwDirection.x, transform.position.y, throwDirection.z);
-        transform.LookAt(Vector3.Lerp(transform.position, direction, 1f));
     }
 }

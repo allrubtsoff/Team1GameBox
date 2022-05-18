@@ -262,6 +262,19 @@ MonoBehaviour:
   CoolDown: 5
   animatorManager: {fileID: 350098322}
   mouseManager: {fileID: 1248701782}
+--- !u!114 &252300008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252299998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee75544d84cd3b459b425d7fa10efa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorManager: {fileID: 350098322}
 --- !u!1 &267997987
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 252300004}
+  mouseManager: {fileID: 1248701782}
 --- !u!1 &486089919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2070925442191277755, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
@@ -1981,6 +1995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mousepos: {fileID: 1248701782}
+  player: {fileID: 252299998}
 --- !u!4 &1447760159
 Transform:
   m_ObjectHideFlags: 0
