@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class MeleeAttackState : EnemyStates
+public class AttackState : EnemyStates
 {
-    public MeleeAttackState(EnemyController enemyController) : base(enemyController)
+    public AttackState(EnemyController enemyController) : base(enemyController)
     {
     }
 

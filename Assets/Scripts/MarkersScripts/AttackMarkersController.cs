@@ -9,18 +9,16 @@ public class AttackMarkersController : MonoBehaviour
     [SerializeField] private GameObject pondMarkerPrefab;
     [SerializeField] private GameObject rayMarkerPrefab;
 
-    private void OnEnable()
-    {
-        ChargingState.CreateMarker += CreateEnemyPondMarker;
-    }
+    private const float posCorrection = 1f;
 
-    private void OnDisable()
+    private void Awake()
     {
-        ChargingState.CreateMarker -= CreateEnemyPondMarker;
+        LikhoChargingState.CreateMarker += CreateEnemyPondMarker;
+        GiantChargeState.CreateMarker += CreateEnemyRayMarker;
     }
 
     private void CreateEnemyPondMarker(Vector3 pos, float timeToDel) => StartCoroutine(PondCorutine(pos, timeToDel));
-    private void CreateEnemyRayMarker(Vector3 pos, float timeToDel) => StartCoroutine(RayCorutine(pos, timeToDel));
+    private void CreateEnemyRayMarker(Vector3 pos, Vector3 target, float timeToDel) => StartCoroutine(RayCorutine(pos, target, timeToDel));
 
 
     private IEnumerator PondCorutine(Vector3 pos, float timeToDel)
@@ -40,9 +38,13 @@ public class AttackMarkersController : MonoBehaviour
         Destroy(pond);
     }
 
-    private IEnumerator RayCorutine(Vector3 pos, float timeToDel)
+    private IEnumerator RayCorutine(Vector3 pos, Vector3 target, float timeToDel)
     {
+        target.y -= posCorrection;
+        pos.y -= posCorrection;
         GameObject rayMark = Instantiate(rayMarkerPrefab, pos, Quaternion.identity);
+        rayMark.transform.LookAt(target);
+        rayMark.transform.Rotate(90, rayMark.transform.rotation.y, rayMark.transform.rotation.z);
         float delay = timeToDel / 3;
         var rayMarkScript = rayMark.GetComponent<MarkerDamageScript>();
         var rayMaterial = rayMark.transform.GetChild(0).GetComponent<Renderer>().material;
@@ -55,5 +57,11 @@ public class AttackMarkersController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         rayMarkScript.TryToHit(markersConfigs.rayMarkerDamage);
         Destroy(rayMark);
+    }
+
+    private void OnDestroy()
+    {
+        LikhoChargingState.CreateMarker -= CreateEnemyPondMarker;
+        GiantChargeState.CreateMarker -= CreateEnemyRayMarker;
     }
 }

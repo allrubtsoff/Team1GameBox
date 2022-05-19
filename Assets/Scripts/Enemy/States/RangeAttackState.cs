@@ -8,9 +8,12 @@ public class RangeAttackState : EnemyStates
     {
     }
 
+
     public override IEnumerator CurrentState()
     {
+        _enemyController.Agent.updateRotation = true;
         _enemyController.Agent.isStopped = true;
+
         yield break;
     }
 }

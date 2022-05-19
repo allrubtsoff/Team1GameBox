@@ -6,44 +6,40 @@ using System;
 public class EnemyAnimations : MonoBehaviour
 {
     [SerializeField] private EnemyController m_EnemyController;
+    [SerializeField] private EnemyShooter m_Shooter;
 
-    private Animator animator;
-    private int animIDIdle;
-    private int animIDMove;
-    private int animIDAttack;
-    private int animIDSpecialJump;
+    private Animator _animator;
+    private int _animIDIdle;
+    private int _animIDMove;
+    private int _animIDAttack;
+    private int _animIDSpecialJump;
 
-    private int currAnimState;
-    private const int idleState = 0;
-    private const int moveState = 1;
-    private const int attackState = 2;
-    private const int specialJumpState = 3;
-    private const int chargeState = 4;
-    private const int deadState = 8;
-
-    public static event Action SpecialIsFinished;
-    public static event Action<bool> IsAttacking;
-    public static event Action<bool> TrySpecialEvent;
-    public static event Action<Vector3> ShootEvent;
+    private int _currAnimState;
+    private const int _idleState = 0;
+    private const int _moveState = 1;
+    private const int _attackState = 2;
+    private const int _specialState = 3;
+    private const int _chargeState = 4;
+    private const int _deadState = 8;
 
 
-    public void Shoot() => ShootEvent(m_EnemyController.m_Target.position);
-    public void SpecialFinished() => SpecialIsFinished();
-    public void TrySpecial() => TrySpecialEvent(true);
-    public void StartAttackEvent() => IsAttacking(true);
-    public void StopAttackEvent() => IsAttacking(false);
+    public void Shoot() => m_Shooter.Shoot(m_EnemyController.Target.position);
+    public void SpecialFinished() => m_EnemyController.SpecialIsFinished();
+    public void TrySpecial() => m_EnemyController.SpecialAttackChance();
+    public void StartAttackEvent() => m_EnemyController.SetIsAttacking(true);
+    public void StopAttackEvent() => m_EnemyController.SetIsAttacking(false);
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
 
         AssignAnimationsIDs();
     }
 
     private void Update()
     {
-        currAnimState = m_EnemyController.CurrState;
-        if (animator != null)
+        _currAnimState = m_EnemyController.CurrState;
+        if (_animator != null)
         {
             StateSwitcher();
         }
@@ -51,64 +47,67 @@ public class EnemyAnimations : MonoBehaviour
 
     private void StateSwitcher()
     {
-        switch (currAnimState)
+        switch (_currAnimState)
         {
-            case idleState:
+            case _idleState:
                 IdleState();
                 break;
-            case chargeState:
+            case _chargeState:
                 IdleState();
                 break;
-            case moveState:
+            case _moveState:
                 MoveState();
                 break;
-            case attackState:
+            case _attackState:
                 AttackState();
                 break;
-            case specialJumpState:
-                SpecialJumpState();
+            case _specialState:
+                SpecialState();
+                break;
+            case _deadState:
+
                 break;
         }
     }
 
     private void AssignAnimationsIDs()
     {
-        animIDIdle = Animator.StringToHash("Idle");
-        animIDMove = Animator.StringToHash("Move");
-        animIDAttack = Animator.StringToHash("Attack");
-        animIDSpecialJump = Animator.StringToHash("SpecialJump");
+        _animIDIdle = Animator.StringToHash("Idle");
+        _animIDMove = Animator.StringToHash("Move");
+        _animIDAttack = Animator.StringToHash("Attack");
+        _animIDSpecialJump = Animator.StringToHash("Special");
     }
 
     public void IdleState()
     {
-        animator.SetBool(animIDIdle, true);
-        animator.SetBool(animIDMove, false);
-        animator.SetBool(animIDAttack, false);
-        animator.SetBool(animIDSpecialJump, false);
+        _animator.SetBool(_animIDIdle, true);
+        _animator.SetBool(_animIDMove, false);
+        _animator.SetBool(_animIDAttack, false);
+        _animator.SetBool(_animIDSpecialJump, false);
     }
 
     public void AttackState()
     {
-        animator.SetBool(animIDIdle, false);
-        animator.SetBool(animIDMove, false);
-        animator.SetBool(animIDAttack, true);
-        animator.SetBool(animIDSpecialJump, false);
+        _animator.SetBool(_animIDIdle, false);
+        _animator.SetBool(_animIDMove, false);
+        _animator.SetBool(_animIDAttack, true);
+        _animator.SetBool(_animIDSpecialJump, false);
     }
 
     public void MoveState()
     {
-        animator.SetBool(animIDIdle, false);
-        animator.SetBool(animIDMove, true);
-        animator.SetBool(animIDAttack, false);
-        animator.SetBool(animIDSpecialJump, false);
+        _animator.SetBool(_animIDIdle, false);
+        _animator.SetBool(_animIDMove, true);
+        _animator.SetBool(_animIDAttack, false);
+        _animator.SetBool(_animIDSpecialJump, false);
     }
 
-    public void SpecialJumpState()
+    public void SpecialState()
     {
-        animator.SetBool(animIDIdle, false);
-        animator.SetBool(animIDMove, false);
-        animator.SetBool(animIDAttack, false);
-        animator.SetBool(animIDSpecialJump, true);
+        _animator.SetBool(_animIDIdle, false);
+        _animator.SetBool(_animIDMove, false);
+        _animator.SetBool(_animIDAttack, false);
+        _animator.SetBool(_animIDSpecialJump, true);
     }
 
 }

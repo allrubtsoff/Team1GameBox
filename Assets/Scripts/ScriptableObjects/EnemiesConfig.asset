@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63c84b93e8419a4e948f8b6b3a1ebde, type: 3}
   m_Name: EnemiesConfig
   m_EditorClassIdentifier: 
-  likhoReactDistance: 10
+  likhoReactDistance: 5
   likhoStoppingDistance: 1.5
   likhoSpeed: 3
   likhoSpecialAttackChance: 0.3
@@ -21,12 +21,12 @@ MonoBehaviour:
   likhoSpecialAttackDamage: 0
   likhoDamage: 0
   likhoHealth: 0
-  giantReactDistance: 0
-  giantStoppingDistance: 0
-  giantSpeed: 0
-  giantSpecialAttackChance: 0
-  giantSpecialAttackCooldownTime: 0
-  giantSpecialAttackDelay: 0
+  giantReactDistance: 7
+  giantStoppingDistance: 7
+  giantSpeed: 3
+  giantSpecialAttackChance: 0.3
+  giantSpecialAttackCooldownTime: 3
+  giantSpecialAttackDelay: 2
   giantSpecialAttackDamage: 0
   giantDamage: 0
   giantHealth: 0

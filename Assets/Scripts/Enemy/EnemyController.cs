@@ -1,64 +1,52 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
 
 public class EnemyController : EnemyStateMachine
 {
 
-    [SerializeField] public Transform m_Target;
-    [SerializeField] public EnemiesConfigs enemiesConfigs;
+    [SerializeField] public Transform Target;
+    [SerializeField] public EnemiesConfigs EnemiesConfigs;
     [Header("EnemyType")]
-    [SerializeField] private bool isLikho;
-    [SerializeField] private bool isCyberGiant;
-    [SerializeField] private bool isSniper;
+    [SerializeField] private bool _isLikho;
+    [SerializeField] private bool _isCyberGiant;
     [Header("SpecialAttackAnimation")]
-    [SerializeField] private AnimationClip specialAttack;
-    public NavMeshAgent Agent { get; set; }
-    public int CurrState { get; private set; }
-    public bool DoSpecial { get; set; }
-    public float specialAnimLength { get; private set; }
-
+    [Tooltip("Special Animation of your enemy type")]
+    [SerializeField] private AnimationClip _specialAttack;
     private enum EnemyType
     {
         Likho,
         CyberGiant,
-        Sniper,
         Normal
     }
-    private int enemyType;
+    private int _enemyType;
 
-    private const int idleState = 0;
-    private const int moveState = 1;
-    private const int attackState = 2;
-    private const int specialJumpState = 3;
-    private const int chargeState = 4;
-    private const int deadState = 8;
+    private const int _idleState = 0;
+    private const int _moveState = 1;
+    private const int _attackState = 2;
+    private const int _specialState = 3;
+    private const int _chargeState = 4;
+    private const int _deadState = 8;
 
-    private float stopDistanceCorrection = 0.3f;
+    private const float yPlayerCorrection = 1f;
+
+    private float _stopDistanceCorrection = 0.3f;
+
+    private float _specialChance;
+    private float _cooldownTime;
 
     private bool _isAttaking;
     private bool _isCharging;
     private bool _isSpecialAttacking;
     private bool _isSpecialAttackCooled;
 
-    private void OnEnable()
-    {
-        EnemyAnimations.IsAttacking += SetIsAttacking;
-        EnemyAnimations.TrySpecialEvent += TakeASpecialChance;
-        EnemyAnimations.SpecialIsFinished += SpecialJumpIsFinished;
-    }
 
-    private void OnDisable()
-    {
-        EnemyAnimations.IsAttacking -= SetIsAttacking;
-        EnemyAnimations.TrySpecialEvent -= TakeASpecialChance;
-        EnemyAnimations.SpecialIsFinished += SpecialJumpIsFinished;
-    }
 
-    private void TakeASpecialChance(bool chance) => SpecialAttackChance();
-    private void SpecialJumpIsFinished() => _isSpecialAttacking = false;
+    public NavMeshAgent Agent { get; set; }
+    public int CurrState { get; private set; }
+    public bool DoSpecial { get; set; }
+    public float SpecialAnimLength { get; private set; }
+    public void SpecialIsFinished() => _isSpecialAttacking = false;
 
 
     private void Start()
@@ -71,29 +59,29 @@ public class EnemyController : EnemyStateMachine
     {
         Agent = GetComponent<NavMeshAgent>();
 
-        switch (enemyType)
+        switch (_enemyType)
         {
             case (int)EnemyType.Likho:
-                Agent.speed = enemiesConfigs.likhoSpeed;
-                Agent.stoppingDistance = enemiesConfigs.likhoStoppingDistance;
+                Agent.speed = EnemiesConfigs.likhoSpeed;
+                Agent.stoppingDistance = EnemiesConfigs.likhoStoppingDistance;
+                _specialChance = EnemiesConfigs.likhoSpecialAttackChance;
+                _cooldownTime = EnemiesConfigs.likhoSpecialAttackCooldownTime;
                 break;
             case (int)EnemyType.CyberGiant:
-                Agent.speed = enemiesConfigs.giantSpeed;
-                Agent.stoppingDistance = enemiesConfigs.giantStoppingDistance;
-                break;
-            case (int)EnemyType.Sniper:
-                Agent.speed = enemiesConfigs.sniperSpeed;
-                Agent.stoppingDistance = enemiesConfigs.sniperStoppingDistance;
+                Agent.speed = EnemiesConfigs.giantSpeed;
+                Agent.stoppingDistance = EnemiesConfigs.giantStoppingDistance;
+                _specialChance = EnemiesConfigs.giantSpecialAttackChance;
+                _cooldownTime = EnemiesConfigs.giantSpecialAttackCooldownTime;
                 break;
             case (int)EnemyType.Normal:
-                Agent.speed = enemiesConfigs.normalSpeed;
-                Agent.stoppingDistance = enemiesConfigs.normalStoppingDistance;
+                Agent.speed = EnemiesConfigs.normalSpeed;
+                Agent.stoppingDistance = EnemiesConfigs.normalStoppingDistance;
                 break;
         }
 
-        stopDistanceCorrection += Agent.stoppingDistance;
-        CurrState = idleState;
-        specialAnimLength = specialAttack.length;
+        _stopDistanceCorrection += Agent.stoppingDistance;
+        CurrState = _idleState;
+        SpecialAnimLength = _specialAttack.length;
         _isSpecialAttackCooled = true;
         _isCharging = false;
         _isSpecialAttacking = false;
@@ -101,21 +89,17 @@ public class EnemyController : EnemyStateMachine
 
     private void EnemyTypeSet()
     {
-        if (isLikho)
+        if (_isLikho)
         {
-            enemyType = (int)EnemyType.Likho;
+            _enemyType = (int)EnemyType.Likho;
         }
-        else if (isCyberGiant)
+        else if (_isCyberGiant)
         {
-            enemyType = (int)EnemyType.CyberGiant;
-        }
-        else if (isSniper)
-        {
-            enemyType = (int)EnemyType.Sniper;
+            _enemyType = (int)EnemyType.CyberGiant;
         }
         else
         {
-            enemyType = (int)EnemyType.Normal;
+            _enemyType = (int)EnemyType.Normal;
         }
     }
 
@@ -127,78 +111,87 @@ public class EnemyController : EnemyStateMachine
     private void EnemyBehaviour()
     {
 
-        switch (enemyType)
+        switch (_enemyType)
         {
             case (int)EnemyType.Likho:
                 LikhoControll();
                 break;
             case (int)EnemyType.CyberGiant:
-                Agent.speed = enemiesConfigs.giantSpeed;
-                Agent.stoppingDistance = enemiesConfigs.giantStoppingDistance;
-                break;
-            case (int)EnemyType.Sniper:
-                SniperControll();
+                GiantControll();
                 break;
             case (int)EnemyType.Normal:
-                Agent.speed = enemiesConfigs.likhoSpeed;
-                Agent.stoppingDistance = enemiesConfigs.likhoStoppingDistance;
+                Agent.speed = EnemiesConfigs.normalSpeed;
+                Agent.stoppingDistance = EnemiesConfigs.normalStoppingDistance;
                 break;
         }
     }
 
-    private void SniperControll()
+    private void GiantControll()
     {
-        float distanceToTarget = Vector3.Distance(transform.position, m_Target.position);
+        float distanceToTarget = Vector3.Distance(transform.position, Target.position);
 
-        if (CurrState != chargeState)
+        if (CurrState != _chargeState)
         {
             _isCharging = false;
         }
 
         switch (CurrState)
         {
-            case idleState:
-                if (distanceToTarget <= enemiesConfigs.sniperReactDistance)
+            case _idleState:
+                if (distanceToTarget <= EnemiesConfigs.giantReactDistance)
                 {
-                    CurrState = moveState;
+                    CurrState = _moveState;
                 }
                 SetState(new IdleState(this));
                 break;
-            case moveState:
+            case _moveState:
                 SetState(new MoveState(this));
                 if (distanceToTarget <= Agent.stoppingDistance)
                 {
-                    CurrState = attackState;
+                    CurrState = _attackState;
                 }
                 break;
-            case attackState:
-                SetState(new MeleeAttackState(this));
+            case _attackState:
+                SetState(new AttackState(this));
+
+                Vector3 lastPlayerPos = Target.position;
+                lastPlayerPos.y += yPlayerCorrection;
+                transform.LookAt(lastPlayerPos);
+
                 if (distanceToTarget >= Agent.stoppingDistance && !_isAttaking)
                 {
-                    CurrState = moveState;
+                    CurrState = _moveState;
                 }
+
                 break;
-            case chargeState:
+            case _chargeState:
                 if (!_isCharging)
                 {
                     _isCharging = true;
-                    SetState(new ChargingState(this));
+
+                    switch (_enemyType)
+                    {
+                        case (int)EnemyType.Likho:
+                            SetState(new LikhoChargingState(this));
+                            break;
+                        case (int)EnemyType.CyberGiant:
+                            SetState(new GiantChargeState(this));
+                            break;
+                    }
                 }
                 break;
-            case specialJumpState:
+            case _specialState:
 
                 SetState(new SpecialJumpAttack(this));
-
-                float newDistance = Vector3.Distance(transform.position, Agent.destination);
 
                 if (!_isSpecialAttacking)
                 {
                     Agent.velocity = Vector3.zero;
-                    CurrState = moveState;
+                    CurrState = _moveState;
                 }
 
                 break;
-            case deadState:
+            case _deadState:
 
                 break;
         }
@@ -206,45 +199,45 @@ public class EnemyController : EnemyStateMachine
 
     private void LikhoControll()
     {
-        float distanceToTarget = Vector3.Distance(transform.position, m_Target.position);
+        float distanceToTarget = Vector3.Distance(transform.position, Target.position);
 
-        if (CurrState != chargeState)
+        if (CurrState != _chargeState)
         {
             _isCharging = false;
         }
 
         switch (CurrState)
         {
-            case idleState:
-                if (distanceToTarget <= enemiesConfigs.likhoReactDistance)
+            case _idleState:
+                if (distanceToTarget <= EnemiesConfigs.likhoReactDistance)
                 {
-                    CurrState = moveState;
+                    CurrState = _moveState;
                 }
                 SetState(new IdleState(this));
                 break;
-            case moveState:
+            case _moveState:
                 SetState(new MoveState(this));
-                if (distanceToTarget <= stopDistanceCorrection)
+                if (distanceToTarget <= _stopDistanceCorrection)
                 {
-                    CurrState = attackState;
+                    CurrState = _attackState;
                 }
                 break;
-            case attackState:
-                SetState(new MeleeAttackState(this));
+            case _attackState:
+                SetState(new AttackState(this));
                 if (distanceToTarget >= Agent.stoppingDistance && !_isAttaking)
                 {
-                    CurrState = moveState;
+                    CurrState = _moveState;
                 }
                 break;
-            case chargeState:
+            case _chargeState:
                 if (!_isCharging)
                 {
                     _isCharging = true;
-                    SetState(new ChargingState(this));
+                    SetState(new LikhoChargingState(this));
                 }
                 break;
-            case specialJumpState:
-                
+            case _specialState:
+
                 SetState(new SpecialJumpAttack(this));
 
                 float newDistance = Vector3.Distance(transform.position, Agent.destination);
@@ -252,17 +245,17 @@ public class EnemyController : EnemyStateMachine
                 if (!_isSpecialAttacking)
                 {
                     Agent.velocity = Vector3.zero;
-                    CurrState = moveState;
+                    CurrState = _moveState;
                 }
 
                 break;
-            case deadState:
+            case _deadState:
 
                 break;
         }
     }
 
-    private void SetIsAttacking(bool isAttacking)
+    public void SetIsAttacking(bool isAttacking)
     {
         _isAttaking = isAttacking;
         if (_isAttaking == false)
@@ -273,24 +266,26 @@ public class EnemyController : EnemyStateMachine
 
     public void SpecialAttackChance()
     {
-        if (_isSpecialAttackCooled && UnityEngine.Random.value < enemiesConfigs.likhoSpecialAttackChance)
+        bool canDoSpecial = _isSpecialAttackCooled && UnityEngine.Random.value < _specialChance;
+
+        if (canDoSpecial)
         {
             _isSpecialAttackCooled = false;
-            CurrState = chargeState;
+            CurrState = _chargeState;
         }
     }
 
     public void StartSpecialAttack()
     {
         _isSpecialAttacking = true;
-        CurrState = specialJumpState;
-        StartCoroutine(SpecialAttackCooling(enemiesConfigs.likhoSpecialAttackCooldownTime));
+        CurrState = _specialState;
+        StartCoroutine(SpecialAttackCooling(_cooldownTime));
     }
 
 
-    private IEnumerator SpecialAttackCooling(float specialAttackReloadTime)
+    private IEnumerator SpecialAttackCooling(float cooldownTime)
     {
-        yield return new WaitForSeconds(specialAttackReloadTime);
+        yield return new WaitForSeconds(cooldownTime);
         _isSpecialAttackCooled = true;
     }
 

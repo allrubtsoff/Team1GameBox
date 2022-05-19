@@ -10,11 +10,7 @@ public class EnemyShooter : MonoBehaviour
 
     private const float k_targetHeightCorrection = 1f;
 
-    private void OnEnable() => EnemyAnimations.ShootEvent += Shoot;
-
-    private void OnDisable() => EnemyAnimations.ShootEvent -= Shoot;
-
-    private void Shoot( Vector3 target)
+    public void Shoot( Vector3 target)
     {
         target.y += k_targetHeightCorrection;
         GameObject newBullet = Instantiate(bullet, shootPosition.position, Quaternion.identity);
