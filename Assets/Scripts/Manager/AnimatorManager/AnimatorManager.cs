@@ -13,6 +13,17 @@ public class AnimatorManager : MonoBehaviour
 
     private const int AngleOfView = 60;
 
+    private StarterAssetsInputs playerInputs;
+    private ThirdPersonController playerController;
+    private bool isBackward;
+
+
+    private void Start()
+    {
+        playerInputs = animator.gameObject.GetComponent<StarterAssetsInputs>();
+        playerController = animator.gameObject.GetComponent<ThirdPersonController>();
+    }
+
     public void SetAtack(bool value)
     {
         animator.SetBool(atack, value);
@@ -35,11 +46,10 @@ public class AnimatorManager : MonoBehaviour
 
     public void CheckBackwardRun()
     {
-        var player = animator.gameObject.GetComponent<StarterAssetsInputs>();
-        var controller = animator.gameObject.GetComponent<ThirdPersonController>();
-        if (player.move != Vector2.zero && controller.Grounded)
+
+        if (playerInputs.move != Vector2.zero && playerController.Grounded)
         {       
-            var isBackward = mouseManager.AngleBetweenMouseAndPlayer > AngleOfView;
+            isBackward = mouseManager.AngleBetweenMouseAndPlayer > AngleOfView;
             if (isBackward)
                 SetBackwardRun();
         }
