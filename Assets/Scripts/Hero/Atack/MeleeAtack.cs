@@ -1,5 +1,4 @@
 using StarterAssets;
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(StarterAssetsInputs))]
@@ -11,12 +10,10 @@ public class MeleeAtack : MonoBehaviour
     [SerializeField] private float atackTime;
 
     private StarterAssetsInputs input;
-    private ThirdPersonController controller;
 
     private void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
-        controller = GetComponent<ThirdPersonController>();
     }
 
     void Update()
@@ -26,7 +23,7 @@ public class MeleeAtack : MonoBehaviour
 
     private void Atack()
     {
-        if (input.atack && controller.Grounded)
+        if (input.atack && animatorManager.isGrounded())
         {
             animatorManager.SetAtack(true);
             mousePositionManager.LookAtMouseDirection();

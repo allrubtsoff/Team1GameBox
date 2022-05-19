@@ -15,10 +15,12 @@ public class AttackMarkersController : MonoBehaviour
     {
         LikhoChargingState.CreateMarker += CreateEnemyPondMarker;
         GiantChargeState.CreateMarker += CreateEnemyRayMarker;
+        AirAtack.CreateMarker += CreateEnemyPondMarker;
     }
 
     private void CreateEnemyPondMarker(Vector3 pos, float timeToDel) => StartCoroutine(PondCorutine(pos, timeToDel));
-    private void CreateEnemyRayMarker(Vector3 pos, Vector3 target, float timeToDel) => StartCoroutine(RayCorutine(pos, target, timeToDel));
+    private void CreateEnemyRayMarker(Vector3 pos, Vector3 target, float timeToDel) 
+        => StartCoroutine(RayCorutine(pos, target, timeToDel));
 
 
     private IEnumerator PondCorutine(Vector3 pos, float timeToDel)
@@ -63,5 +65,6 @@ public class AttackMarkersController : MonoBehaviour
     {
         LikhoChargingState.CreateMarker -= CreateEnemyPondMarker;
         GiantChargeState.CreateMarker -= CreateEnemyRayMarker;
+        AirAtack.CreateMarker -= CreateEnemyPondMarker;
     }
 }

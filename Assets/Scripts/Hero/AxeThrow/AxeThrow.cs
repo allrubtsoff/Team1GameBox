@@ -43,7 +43,7 @@ public class AxeThrow : MonoBehaviour
 
     private void ChangeState(bool isHold)
     {
-        throwDirection = mouseManager.MousePosition;
+        throwDirection = mouseManager.GetMousePosition();
         mouseManager.LookAtMouseDirection();
         animatorManager.CheckBackwardRun();
 
@@ -66,6 +66,16 @@ public class AxeThrow : MonoBehaviour
         isAxeThrow = false;
     }
 
+    //Called in the middle of Animation
+    private void ThrowAxe()
+    {
+        axeRigidBody.isKinematic = false;
+        axeRigidBody.transform.parent = null;
+        axe.transform.LookAt(throwDirection);
+        Vector3 direction = (throwDirection - axe.transform.position).normalized;
+        axeRigidBody.AddForce(direction * throwPower, ForceMode.Impulse);
+    }
+
     //Called after ThrowAxe event
     public void UpdateAxe()
     {
@@ -80,15 +90,5 @@ public class AxeThrow : MonoBehaviour
         input.throwAxe = false;
         animatorManager.SetAxeAim(false);
         animatorManager.SetAxeThrow(false);
-    }
-
-    //Called in the middle of Animation
-    private void ThrowAxe()
-    {
-        axeRigidBody.isKinematic = false;
-        axeRigidBody.transform.parent = null;
-        axe.transform.LookAt(throwDirection);
-        Vector3 direction = (throwDirection - axe.transform.position).normalized;
-        axeRigidBody.AddForce(direction * throwPower, ForceMode.Impulse);
     }
 }

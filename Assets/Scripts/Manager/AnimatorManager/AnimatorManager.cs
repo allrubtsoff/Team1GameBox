@@ -1,4 +1,3 @@
-using StarterAssets;
 using UnityEngine;
 
 public class AnimatorManager : MonoBehaviour
@@ -10,19 +9,11 @@ public class AnimatorManager : MonoBehaviour
     private readonly int axeThrow = Animator.StringToHash("AxeThrow");
     private readonly int axeAim = Animator.StringToHash("AxeAim");    
     private readonly int airAtack = Animator.StringToHash("AirAtack");
+    private readonly int animatorSpeed = Animator.StringToHash("Speed");
+    private readonly int grounded = Animator.StringToHash("Grounded");
 
     private const int AngleOfView = 60;
-
-    private StarterAssetsInputs playerInputs;
-    private ThirdPersonController playerController;
-    private bool isBackward;
-
-
-    private void Start()
-    {
-        playerInputs = animator.gameObject.GetComponent<StarterAssetsInputs>();
-        playerController = animator.gameObject.GetComponent<ThirdPersonController>();
-    }
+    private bool backward;
 
     public void SetAtack(bool value)
     {
@@ -39,6 +30,11 @@ public class AnimatorManager : MonoBehaviour
         animator.SetBool(axeAim, value);
     }
 
+    public bool isGrounded()
+    {
+        return animator.GetBool(grounded);
+    }
+
     public void SetAirAtack(bool value)
     {
         animator.SetBool(airAtack, value);
@@ -46,12 +42,14 @@ public class AnimatorManager : MonoBehaviour
 
     public void CheckBackwardRun()
     {
-
-        if (playerInputs.move != Vector2.zero && playerController.Grounded)
-        {       
-            isBackward = mouseManager.AngleBetweenMouseAndPlayer > AngleOfView;
-            if (isBackward)
+        if (animator.GetFloat(animatorSpeed) > 0  && isGrounded())
+        {
+            backward = mouseManager.AngleBetweenMouseAndPlayer > AngleOfView;
+            if (backward)
+            {
                 SetBackwardRun();
+            }
+
         }
     }
 

@@ -18,15 +18,16 @@ public class MousePositionManager : MonoBehaviour
         player = input.gameObject;
     }
 
-    void Update()
-    {
-        OnRaycastSystem();
-    }
-
-    //TODO
     private void CheckAngleBetweenMouseAndPlayer(Quaternion a, Quaternion b)
     {
         AngleBetweenMouseAndPlayer = Quaternion.Angle(a, b);
+    }
+
+    // MOUSEUPDATE
+    public Vector3 GetMousePosition()
+    {
+        OnRaycastSystem();
+        return MousePosition;
     }
 
     private Vector3 CalculateMousePosition()
@@ -47,6 +48,7 @@ public class MousePositionManager : MonoBehaviour
 
     public void LookAtMouseDirection() 
     {
+        GetMousePosition();
         player.GetComponent<ThirdPersonController>().isAtacking = true;
         var a = player.transform.rotation;
         Vector3 direction = new Vector3(MousePosition.x, player.transform.position.y, MousePosition.z);
