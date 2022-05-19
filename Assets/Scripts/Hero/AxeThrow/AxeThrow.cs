@@ -15,10 +15,12 @@ public class AxeThrow : MonoBehaviour
     private StarterAssetsInputs input;
     private Vector3 throwDirection;
     private bool isAxeThrow;
+    private Rigidbody axeRigidBody;
 
     void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
+        axeRigidBody = axe.GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -68,9 +70,6 @@ public class AxeThrow : MonoBehaviour
     public void UpdateAxe()
     {
         resetThrowAxeState();
-        this.axe = Instantiate(axe, hand.position, Quaternion.identity);
-        axe.transform.parent = hand;
-        // to reset player looking direction
         mouseManager.StopLookingAtMouseDirection();
         animatorManager.ResetBackwardRun();
     }
@@ -86,7 +85,6 @@ public class AxeThrow : MonoBehaviour
     //Called in the middle of Animation
     private void ThrowAxe()
     {
-        var axeRigidBody = axe.GetComponent<Rigidbody>();
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
         axe.transform.LookAt(throwDirection);
