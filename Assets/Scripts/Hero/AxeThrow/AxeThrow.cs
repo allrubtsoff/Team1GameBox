@@ -44,8 +44,8 @@ public class AxeThrow : MonoBehaviour
     private void ChangeState(bool isHold)
     {
         throwDirection = mouseManager.MousePosition;
-        animatorManager.CheckBackwardRun();
         mouseManager.LookAtMouseDirection();
+        animatorManager.CheckBackwardRun();
 
         if (isHold)
         {
