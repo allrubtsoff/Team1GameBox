@@ -10,13 +10,13 @@ public class MeleeAtack : MonoBehaviour
     [SerializeField] private MousePositionManager mousePositionManager;
     [SerializeField] private float atackTime;
 
-    private ThirdPersonController personController;
     private StarterAssetsInputs input;
+    private ThirdPersonController controller;
 
     private void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
-        personController = GetComponent<ThirdPersonController>();
+        controller = GetComponent<ThirdPersonController>();
     }
 
     void Update()
@@ -26,24 +26,19 @@ public class MeleeAtack : MonoBehaviour
 
     private void Atack()
     {
-        if (input.atack)
+        if (input.atack && controller.Grounded)
         {
             animatorManager.SetAtack(true);
-            LookAtMouseDirection();
+            animatorManager.CheckBackwardRun();
+            mousePositionManager.LookAtMouseDirection();
         }
-    }
-
-    private void LookAtMouseDirection()
-    {
-        personController.isAtacking = true;
-        Vector3 target = new Vector3(mousePositionManager.MousePosition.x, transform.position.y, mousePositionManager.MousePosition.z);
-        transform.LookAt(target);
     }
 
     //to reset player rotation
     private void resetRotationState()
     {
-        personController.isAtacking = false;
+        mousePositionManager.StopLookingAtMouseDirection();
+        animatorManager.ResetBackwardRun();
     }
 
     //to reset state in first frame of Atack animation by AnimationEvent

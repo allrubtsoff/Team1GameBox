@@ -42,9 +42,8 @@ public class AxeThrow : MonoBehaviour
     private void ChangeState(bool isHold)
     {
         throwDirection = mouseManager.MousePosition;
-
-        Vector3 target = new Vector3(throwDirection.x, transform.position.y, throwDirection.z);
-        transform.LookAt(target);
+        animatorManager.CheckBackwardRun();
+        mouseManager.LookAtMouseDirection();
 
         if (isHold)
         {
@@ -68,9 +67,20 @@ public class AxeThrow : MonoBehaviour
     //Called after ThrowAxe event
     public void UpdateAxe()
     {
+        resetThrowAxeState();
         this.axe = Instantiate(axe, hand.position, Quaternion.identity);
         axe.transform.parent = hand;
-        axe.transform.position = hand.position;
+        // to reset player looking direction
+        mouseManager.StopLookingAtMouseDirection();
+        animatorManager.ResetBackwardRun();
+    }
+
+    private void resetThrowAxeState()
+    {
+        input.isThrowAxePressed = false;
+        input.throwAxe = false;
+        animatorManager.SetAxeAim(false);
+        animatorManager.SetAxeThrow(false);
     }
 
     //Called in the middle of Animation
@@ -79,17 +89,8 @@ public class AxeThrow : MonoBehaviour
         var axeRigidBody = axe.GetComponent<Rigidbody>();
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
-        axe.GetComponent<AxeRotate>().Activated = true;
+        axe.transform.LookAt(throwDirection);
         Vector3 direction = (throwDirection - axe.transform.position).normalized;
         axeRigidBody.AddForce(direction * throwPower, ForceMode.Impulse);
-    }
-
-    //Called in the start of Animation
-    private void resetThrowAxeState()
-    {
-        input.isThrowAxePressed = false;
-        input.throwAxe = false;
-        animatorManager.SetAxeAim(false);
-        animatorManager.SetAxeThrow(false);
     }
 }
