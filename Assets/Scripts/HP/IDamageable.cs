@@ -1,5 +1,6 @@
 public interface IDamageable 
 {
-    float Hp { get; set; }
+    public float Hp { get; set; }
     void TakeDamage(float damage);
+    void CheckDeath();
 }
