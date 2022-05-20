@@ -2,16 +2,16 @@ using StarterAssets;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(MeleeAtack))]
 public class AxeThrow : MonoBehaviour
 {
     [SerializeField] private GameObject axe;
     [SerializeField] private Transform hand;
     [SerializeField] private float throwPower;
     [SerializeField] private float CoolDown;
-    [SerializeField] private AnimatorManager animatorManager;
-    [SerializeField] private MousePositionManager mouseManager;
 
-
+    private AnimatorManager animatorManager;
+    private MousePositionManager mouseManager;
     private StarterAssetsInputs input;
     private Vector3 throwDirection;
     private bool isAxeThrow;
@@ -21,6 +21,8 @@ public class AxeThrow : MonoBehaviour
     {
         input = GetComponent<StarterAssetsInputs>();
         axeRigidBody = axe.GetComponent<Rigidbody>();
+        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        mouseManager = GetComponent<MeleeAtack>().GetMouseManager();
     }
 
     private void Update()

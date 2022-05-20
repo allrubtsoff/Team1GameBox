@@ -7,7 +7,6 @@ public class MeleeAtack : MonoBehaviour
 {
     [SerializeField] private AnimatorManager animatorManager;
     [SerializeField] private MousePositionManager mousePositionManager;
-    [SerializeField] private float atackTime;
 
     private StarterAssetsInputs input;
 
@@ -44,4 +43,10 @@ public class MeleeAtack : MonoBehaviour
         input.atack = false;
         animatorManager.SetAtack(false);
     }
+
+    public AnimatorManager GetAnimatorManager() 
+        => this.animatorManager;
+    
+    public MousePositionManager GetMouseManager() 
+        => this.mousePositionManager;
 }

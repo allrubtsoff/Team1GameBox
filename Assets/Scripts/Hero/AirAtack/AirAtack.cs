@@ -2,10 +2,10 @@ using StarterAssets;
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(MeleeAtack))]
 public class AirAtack : MonoBehaviour
 {    
-    [SerializeField] private AnimatorManager animatorManager;
-
+    private AnimatorManager animatorManager;
     private StarterAssetsInputs inputs;
 
     public bool IsAirAtack { get { return !animatorManager.isGrounded() && inputs.atack; } }
@@ -15,6 +15,7 @@ public class AirAtack : MonoBehaviour
     void Start()
     {
         inputs = GetComponent<StarterAssetsInputs>();
+        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
     }
 
     void Update()
