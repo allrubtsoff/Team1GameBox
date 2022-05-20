@@ -27,13 +27,6 @@ public class AirAtack : MonoBehaviour
         if (IsAirAtack)
         {
             animatorManager.SetAirAtack(IsAirAtack);
-            if (CreateMarker != null)
-            {
-                //Ray ray = new Ray(transform.position, new Vector3(transform.position.x, transform.position.y -2f,transform.position.z));
-                //Debug.DrawRay(transform.position, new Vector3(transform.position.x,0, transform.position.z), Color.red, 10f);
-                //Physics.Raycast(ray, out RaycastHit raycastHit, 999f);
-                    CreateMarker(new Vector3(transform.position.x, 0, transform.position.z), 1f);
-            }
         }
         else
             ResetAirAtack();
@@ -41,9 +34,13 @@ public class AirAtack : MonoBehaviour
 
     private void ResetAirAtack()
     {
-        if (animatorManager.isGrounded())
+        if (animatorManager.GetAirAtack() && animatorManager.isGrounded())
         {
             animatorManager.SetAirAtack(false);
+            if (CreateMarker != null)
+            {
+                CreateMarker(new Vector3(transform.position.x, 0, transform.position.z) + transform.forward, 1f);
+            }
         }
     }
 }

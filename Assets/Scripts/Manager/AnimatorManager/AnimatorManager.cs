@@ -40,6 +40,11 @@ public class AnimatorManager : MonoBehaviour
         animator.SetBool(airAtack, value);
     }
 
+    public bool GetAirAtack()
+    {
+        return animator.GetBool(airAtack);
+    }
+
     public void CheckBackwardRun()
     {
         if (animator.GetFloat(animatorSpeed) > 0  && isGrounded())
@@ -49,7 +54,6 @@ public class AnimatorManager : MonoBehaviour
             {
                 SetBackwardRun();
             }
-
         }
     }
 
