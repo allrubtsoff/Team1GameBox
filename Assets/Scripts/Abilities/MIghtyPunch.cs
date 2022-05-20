@@ -11,7 +11,7 @@ public class MIghtyPunch : MonoBehaviour
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
     private Energy energy;
-    private GameObject aoe;
+    private GameObject marker;
 
     private bool isMightyPunchCooled = true;
 
@@ -45,9 +45,9 @@ public class MIghtyPunch : MonoBehaviour
     {
         energy.UseEnergy(configs.mightyPunchCost);
         //start animation
-        aoe = Instantiate(prefab,gameObject.transform);
+        marker = Instantiate(prefab,gameObject.transform);
         CircleDamage();
-        Destroy(aoe, 1f);
+        Destroy(marker, 1f);
         StartCoroutine(CoolDown());
     }
 
