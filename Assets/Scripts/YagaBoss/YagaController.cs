@@ -11,7 +11,6 @@ public class YagaController : YagaStateMachine
     [SerializeField] private AnimationClip _attackAnimation;
 
     private const float _lookHeight = 1f;
-    private const int _spellCount = 4;
 
     private float _markerDelay;
 
@@ -21,11 +20,7 @@ public class YagaController : YagaStateMachine
     private const int _castState = 3;
     private const int _callState = 4;
 
-    private int _lastSpell;
-    private const int _clowdSpell = 0;
-    private const int _multyConeSpell = 1;
-    private const int _pondSpell = 2;
-    private const int _ConesNPondSpell = 3;
+
 
 
 
