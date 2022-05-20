@@ -18,8 +18,6 @@ namespace StarterAssets
 		public bool throwAxe;
 		public bool dash;
 
-		public bool isThrowAxePressed { get; set; }
-
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -63,13 +61,6 @@ namespace StarterAssets
 
 		public void OnThrowAxe(InputValue value)
 		{
-			float val = value.Get<float>();
-
-			if (val <= InputSystem.settings.defaultButtonPressPoint)
-			{
-				isThrowAxePressed = true;
-			}
-
 			ThrowAxeInput(value.isPressed);
 		}
 

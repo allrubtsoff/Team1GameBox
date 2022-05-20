@@ -300,8 +300,8 @@
                 {
                     "name": "",
                     "id": "fe39a828-1955-4efa-bcd2-4bd9d0387ba8",
-                    "path": "<Keyboard>/r",
-                    "interactions": "Hold(duration=0.2),Press(behavior=2)",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "ThrowAxe",

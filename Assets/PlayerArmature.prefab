@@ -2685,7 +2685,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9212772854674117790}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2946,7 +2946,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorManager: {fileID: 0}
   mousePositionManager: {fileID: 0}
-  atackTime: 10
 --- !u!114 &4798104673400631611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2963,8 +2962,6 @@ MonoBehaviour:
   hand: {fileID: 3828567589526403836}
   throwPower: 40
   CoolDown: 5
-  animatorManager: {fileID: 0}
-  mouseManager: {fileID: 0}
 --- !u!114 &4798104673400631605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2977,4 +2974,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee75544d84cd3b459b425d7fa10efa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorManager: {fileID: 0}

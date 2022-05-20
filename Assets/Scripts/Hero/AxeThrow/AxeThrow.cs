@@ -32,32 +32,19 @@ public class AxeThrow : MonoBehaviour
 
     private void CheckState()
     {
-        if (!isAxeThrow)
-        {
-            //Called when R key is hold
-            if (input.throwAxe)
-                ChangeState(true);
-            //Called when R key is pressed
-            else if (input.isThrowAxePressed)
-                ChangeState(false);
+        if (!isAxeThrow && input.throwAxe) 
+        { 
+            ChangeState();
         }
     }
 
-    private void ChangeState(bool isHold)
+    private void ChangeState()
     {
         throwDirection = mouseManager.GetMousePosition();
         mouseManager.LookAtMouseDirection();
         animatorManager.CheckBackwardRun();
-
-        if (isHold)
-        {
-            animatorManager.SetAxeAim(true);
-        }
-        else
-        {
-            animatorManager.SetAxeThrow(true);
-            StartCoroutine(ThrowCoolDown());
-        }
+        animatorManager.SetAxeThrow(true);
+        StartCoroutine(ThrowCoolDown());
     }
 
     private IEnumerator ThrowCoolDown()
@@ -88,9 +75,7 @@ public class AxeThrow : MonoBehaviour
 
     private void resetThrowAxeState()
     {
-        input.isThrowAxePressed = false;
         input.throwAxe = false;
-        animatorManager.SetAxeAim(false);
         animatorManager.SetAxeThrow(false);
     }
 }
