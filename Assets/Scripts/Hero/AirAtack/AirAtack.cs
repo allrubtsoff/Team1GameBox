@@ -1,6 +1,5 @@
 using StarterAssets;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class AirAtack : MonoBehaviour
@@ -8,20 +7,19 @@ public class AirAtack : MonoBehaviour
     [SerializeField] private AnimatorManager animatorManager;
 
     private StarterAssetsInputs inputs;
-    private ThirdPersonController personController;
 
+    public bool IsAirAtack { get { return !animatorManager.isGrounded() && inputs.atack; } }
 
-    public bool IsAirAtack { get { return !personController.Grounded && inputs.atack;} }
+    public static event Action<Vector3, float> CreateMarker;
+
     void Start()
     {
         inputs = GetComponent<StarterAssetsInputs>();
-        personController = GetComponent<ThirdPersonController>();
     }
 
     void Update()
     {
         CheckAirAtack();
-        ResetAirAtack();
     }
 
     private void CheckAirAtack()
@@ -30,11 +28,19 @@ public class AirAtack : MonoBehaviour
         {
             animatorManager.SetAirAtack(IsAirAtack);
         }
+        else
+            ResetAirAtack();
     }
 
     private void ResetAirAtack()
     {
-        if (personController.Grounded)
-            animatorManager.SetAirAtack(false); ;
+        if (animatorManager.GetAirAtack() && animatorManager.isGrounded())
+        {
+            animatorManager.SetAirAtack(false);
+            if (CreateMarker != null)
+            {
+                CreateMarker(new Vector3(transform.position.x, 0, transform.position.z) + transform.forward, 1f);
+            }
+        }
     }
 }

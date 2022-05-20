@@ -9,6 +9,7 @@ public class MousePositionManager : MonoBehaviour
     
     private RaycastHit raycastHit;
     private GameObject player;
+    private ThirdPersonController playerController;
 
     public Vector3 MousePosition { get; set; }
     public float AngleBetweenMouseAndPlayer { get; set; }
@@ -16,17 +17,19 @@ public class MousePositionManager : MonoBehaviour
     private void Start()
     {
         player = input.gameObject;
+        playerController = player.GetComponent<ThirdPersonController>();
     }
 
-    void Update()
-    {
-        OnRaycastSystem();
-    }
-
-    //TODO
     private void CheckAngleBetweenMouseAndPlayer(Quaternion a, Quaternion b)
     {
         AngleBetweenMouseAndPlayer = Quaternion.Angle(a, b);
+    }
+
+    // MOUSEUPDATE
+    public Vector3 GetMousePosition()
+    {
+        OnRaycastSystem();
+        return MousePosition;
     }
 
     private Vector3 CalculateMousePosition()
@@ -47,7 +50,8 @@ public class MousePositionManager : MonoBehaviour
 
     public void LookAtMouseDirection() 
     {
-        player.GetComponent<ThirdPersonController>().isAtacking = true;
+        GetMousePosition();
+        playerController.isAtacking = true;
         var a = player.transform.rotation;
         Vector3 direction = new Vector3(MousePosition.x, player.transform.position.y, MousePosition.z);
         player.transform.LookAt(Vector3.Lerp(player.transform.position, direction, 1f));
@@ -57,6 +61,6 @@ public class MousePositionManager : MonoBehaviour
 
     public void StopLookingAtMouseDirection()
     {
-        player.GetComponent<ThirdPersonController>().isAtacking = false;
+        playerController.isAtacking = false;
     }
 }
