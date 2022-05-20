@@ -16,7 +16,7 @@ MonoBehaviour:
   magicKickCost: 0
   magicKickCooldown: 0
   magicKickRange: 0
-  mightyPunchDamage: 0
-  mightyPunchCost: 0
-  mightyPunchCooldown: 0
-  mightyPunchRange: 0
+  mightyPunchDamage: 10
+  mightyPunchCost: 10
+  mightyPunchCooldown: 5
+  mightyPunchRange: 5

@@ -6,12 +6,14 @@ using UnityEngine;
 public class MIghtyPunch : MonoBehaviour
 {
     [SerializeField] private PlayerAbilitiesConfigs configs;
+    [SerializeField] private GameObject prefab;
 
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
     private Energy energy;
+    private GameObject aoe;
 
-    private bool isMightyPunchCooled;
+    private bool isMightyPunchCooled = true;
 
     void Start()
     {
@@ -27,28 +29,46 @@ public class MIghtyPunch : MonoBehaviour
 
     private void CheckMightyPunch()
     {
-        if (playerInputs.mightyPunch && energy.CheckEnergyAvailable(configs.mightyPunchCost))
+        if (isMightyPunchAvailable())
         {
             Punch();
         }
     }
 
+    private bool isMightyPunchAvailable()
+    {
+        return playerInputs.mightyPunch && energy.CheckEnergyAvailable(configs.mightyPunchCost)
+            && isMightyPunchCooled && animatorManager.isGrounded();
+    }
+
     private void Punch()
     {
+        energy.UseEnergy(configs.mightyPunchCost);
         //start animation
-        //Damage Dealing logic
+        aoe = Instantiate(prefab,gameObject.transform);
+        CircleDamage();
+        Destroy(aoe, 1f);
         StartCoroutine(CoolDown());
     }
 
     private void CircleDamage()
     {
-
+        Collider[] enemies = Physics.OverlapSphere(transform.position, configs.mightyPunchRange, configs.enemyLayer);
+        if(enemies.Length > 0)
+            foreach (var enemie in enemies)
+            {
+                if (enemie.gameObject.TryGetComponent<Health>(out Health health))
+                {
+                    health.TakeDamage(configs.mightyPunchDamage);
+                }
+            }
     }
 
     private IEnumerator CoolDown()
     {
-        isMightyPunchCooled = false;    
+        isMightyPunchCooled = false;
         yield return new WaitForSeconds(configs.mightyPunchCooldown);
+        playerInputs.mightyPunch = false;
         isMightyPunchCooled = true;
     }
 }

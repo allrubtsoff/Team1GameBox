@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerAbilitiesConfigs : ScriptableObject
 {
+    public LayerMask enemyLayer;
+
     [Header("Magic Kick")]
     public float magicKickDamage;
     public float magicKickCost;
