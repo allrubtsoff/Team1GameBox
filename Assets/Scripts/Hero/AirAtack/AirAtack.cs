@@ -29,9 +29,9 @@ public class AirAtack : MonoBehaviour
             animatorManager.SetAirAtack(IsAirAtack);
             if (CreateMarker != null)
             {
-                Ray ray = new Ray(transform.position, new Vector3(transform.position.x, transform.position.y -2f,transform.position.z));
-                Debug.DrawRay(transform.position, new Vector3(transform.position.x,0, transform.position.z), Color.red, 10f);
-                Physics.Raycast(ray, out RaycastHit raycastHit, 999f);
+                //Ray ray = new Ray(transform.position, new Vector3(transform.position.x, transform.position.y -2f,transform.position.z));
+                //Debug.DrawRay(transform.position, new Vector3(transform.position.x,0, transform.position.z), Color.red, 10f);
+                //Physics.Raycast(ray, out RaycastHit raycastHit, 999f);
                     CreateMarker(new Vector3(transform.position.x, 0, transform.position.z), 1f);
             }
         }

@@ -2048,6 +2048,36 @@ MonoBehaviour:
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 1
+--- !u!1 &1314226414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1314226415}
+  m_Layer: 0
+  m_Name: AxePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1314226415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314226414}
+  m_LocalRotation: {x: -0.031061921, y: 0.9900444, z: -0.04849895, w: -0.12843294}
+  m_LocalPosition: {x: -0.007, y: -0.09, z: -0.076}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1837700271}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 5.97, y: -165.365, z: -2.827}
 --- !u!1001 &1402827283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2838,15 +2868,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839303210}
-  m_LocalRotation: {x: -0.36997938, y: 0.8139333, z: -0.21955056, w: -0.39041686}
-  m_LocalPosition: {x: 0.017930001, y: -0.093280345, z: -0.009523652}
+  m_LocalRotation: {x: -0.031061921, y: 0.9900444, z: -0.04849895, w: -0.12843294}
+  m_LocalPosition: {x: -0.007, y: -0.09, z: -0.076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 117753701}
   - {fileID: 267997988}
   m_Father: {fileID: 1837700271}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.97, y: -165.365, z: -2.827}
 --- !u!54 &1839303212
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2885,14 +2915,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1839303210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7820cf396ae7894abc812b3fae43c92, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dcf3c5d853f4aa4e91e745fc557a48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDestroyAfterCollision: 1
-  playersHand: {fileID: 1837700271}
-  xRotation: 40
-  yRotation: -142
-  zRotation: -34
+  timeToRelocateAfterCollision: 1
+  playersHand: {fileID: 1314226415}
 --- !u!1 &2114283753834967212
 GameObject:
   m_ObjectHideFlags: 0
