@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class YagaController : YagaStateMachine
 {
-    [SerializeField] public  Transform Target;
-    [SerializeField] public  float AttackDistance;
+    [SerializeField] public Transform Target;
+    [SerializeField] private SpellCaster _kettle;
+    [SerializeField] public float AttackDistance;
     [SerializeField] private float _attackCooldown;
-    [SerializeField] private AnimationClip attackAnimation;
+    [SerializeField] private AnimationClip _attackAnimation;
 
     private const float _lookHeight = 1f;
+    private const int _spellCount = 4;
 
     private float _markerDelay;
 
@@ -19,6 +21,14 @@ public class YagaController : YagaStateMachine
     private const int _castState = 3;
     private const int _callState = 4;
 
+    private int _lastSpell;
+    private const int _clowdSpell = 0;
+    private const int _multyConeSpell = 1;
+    private const int _pondSpell = 2;
+    private const int _ConesNPondSpell = 3;
+
+
+
     private bool _isAttacking;
     private bool _isAttackCooled;
 
@@ -27,11 +37,15 @@ public class YagaController : YagaStateMachine
     public int CurrentState { get; private set; }
     public float CastDealy { get; set; }
 
+    public bool IsAlive { get; set; }
+
     private void Start()
     {
         CurrentState = _idleState;
         _isAttackCooled = true;
-        _markerDelay = attackAnimation.length;
+        _markerDelay = _attackAnimation.length;
+        IsAlive = true;
+        StartCoroutine(SpellCaster());
     }
 
     private void Update()
@@ -43,26 +57,21 @@ public class YagaController : YagaStateMachine
                 playerPos.y = _lookHeight;
                 transform.LookAt(playerPos);
 
-
-
-                if (_isAttackCooled && Vector3.Distance(playerPos, transform.position) < AttackDistance)
-                {
-                    CurrentState = _attackState;
-                    _isAttackCooled = false;
-                }
                 break;
-            case _attackState:
-                if (!_isAttacking)
-                {
-                    _isAttacking = true;
+            //case _attackState:
+            //    if (!_isAttacking)
+            //    {
+            //        _isAttacking = true;
 
-                    if (CreateConeMarker != null)
-                        CreateConeMarker(transform.rotation, _markerDelay);
+            //        if (CreateConeMarker != null)
+            //            CreateConeMarker(transform.rotation, _markerDelay);
 
-                }
-                break;
+            //    }
+            //    break;
             case _castState:
-
+                Vector3 castPos = _kettle.transform.position;
+                castPos.y = _lookHeight;
+                transform.LookAt(castPos);
                 break;
 
             case _callState:
@@ -86,4 +95,21 @@ public class YagaController : YagaStateMachine
         yield return new WaitForSeconds(cooldownTime);
         _isAttackCooled = true;
     }
+
+    private IEnumerator SpellCaster()
+    {
+        yield return new WaitForSeconds(2f);
+        while (IsAlive)
+        {
+            if (_isAttackCooled && !_isAttacking)
+            {
+                _isAttackCooled = false;
+                CurrentState = _castState;
+
+            }
+        }
+        yield break;
+    }
+
+   
 }
