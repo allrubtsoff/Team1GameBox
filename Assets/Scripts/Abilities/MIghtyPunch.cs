@@ -1,18 +1,54 @@
+using StarterAssets;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Energy))]
 public class MIghtyPunch : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private PlayerAbilitiesConfigs configs;
+
+    private StarterAssetsInputs playerInputs;
+    private AnimatorManager animatorManager;
+    private Energy energy;
+
+    private bool isMightyPunchCooled;
+
     void Start()
     {
-        
+        playerInputs = GetComponent<StarterAssetsInputs>();
+        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        energy = GetComponent<Energy>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        CheckMightyPunch();
+    }
+
+    private void CheckMightyPunch()
+    {
+        if (playerInputs.mightyPunch && energy.CheckEnergyAvailable(configs.mightyPunchCost))
+        {
+            Punch();
+        }
+    }
+
+    private void Punch()
+    {
+        //start animation
+        //Damage Dealing logic
+        StartCoroutine(CoolDown());
+    }
+
+    private void CircleDamage()
+    {
+
+    }
+
+    private IEnumerator CoolDown()
+    {
+        isMightyPunchCooled = false;    
+        yield return new WaitForSeconds(configs.mightyPunchCooldown);
+        isMightyPunchCooled = true;
     }
 }

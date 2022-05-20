@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool interact;
 		public bool atack;
 		public bool throwAxe;
+		public bool mightyPunch;
 		public bool dash;
 
 		[Header("Movement Settings")]
@@ -64,6 +65,11 @@ namespace StarterAssets
 			ThrowAxeInput(value.isPressed);
 		}
 
+		public void OnMightyPunch(InputValue value)
+		{
+			MightyPunchInput(value.isPressed);
+		}
+
 		public void OnDash(InputValue value)
 		{
 			DashInput(value.isPressed);
@@ -108,6 +114,11 @@ namespace StarterAssets
 		public void ThrowAxeInput(bool newThrowAxeInputState)
 		{
 			throwAxe = newThrowAxeInputState;
+		}
+
+		public void MightyPunchInput(bool newMightyPunchInputState)
+		{
+			mightyPunch = newMightyPunchInputState;
 		}
 
 		public void DashInput(bool newDashState)
