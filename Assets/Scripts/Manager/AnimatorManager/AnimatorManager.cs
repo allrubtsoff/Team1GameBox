@@ -8,7 +8,8 @@ public class AnimatorManager : MonoBehaviour
     private readonly int atack = Animator.StringToHash("Atack");
     private readonly int axeThrow = Animator.StringToHash("AxeThrow"); 
     private readonly int airAtack = Animator.StringToHash("AirAtack");
-    private readonly int animatorSpeed = Animator.StringToHash("Speed");
+    private readonly int mightyPunch = Animator.StringToHash("MightyPunch");
+    private readonly int Speed = Animator.StringToHash("Speed");
     private readonly int grounded = Animator.StringToHash("Grounded");
 
     private const int AngleOfView = 90;
@@ -37,6 +38,11 @@ public class AnimatorManager : MonoBehaviour
         SetAtack(false);
     }
 
+    public void SetMightyPunch(bool value)
+    {
+        animator.SetBool(mightyPunch, value);
+    }
+
     public bool GetAirAtack()
     {
         return animator.GetBool(airAtack);
@@ -44,7 +50,7 @@ public class AnimatorManager : MonoBehaviour
 
     public void CheckBackwardRun()
     {
-        if (animator.GetFloat(animatorSpeed) > 0  && isGrounded())
+        if (animator.GetFloat(Speed) > 0  && isGrounded())
         {
             backward = mouseManager.GetAngleBetweenMouseAndPlayer() > AngleOfView;
             

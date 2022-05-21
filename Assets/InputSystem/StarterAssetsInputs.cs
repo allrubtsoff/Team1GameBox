@@ -29,7 +29,8 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			MoveInput(value.Get<Vector2>());
+			if(!mightyPunch)
+				MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)

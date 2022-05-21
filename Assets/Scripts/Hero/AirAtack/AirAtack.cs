@@ -1,5 +1,6 @@
 using StarterAssets;
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(MeleeAtack))]
@@ -42,6 +43,13 @@ public class AirAtack : MonoBehaviour
             {
                 CreateMarker(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z) + transform.forward, 1f);
             }
+            StartCoroutine(BlockThrowAxe());
         }
+    }
+
+    private IEnumerator BlockThrowAxe()
+    {
+        yield return new WaitForEndOfFrame();
+        inputs.throwAxe = false;
     }
 }

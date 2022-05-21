@@ -11,7 +11,6 @@ public class MIghtyPunch : MonoBehaviour
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
     private Energy energy;
-    private GameObject marker;
 
     private bool isMightyPunchCooled = true;
 
@@ -44,24 +43,17 @@ public class MIghtyPunch : MonoBehaviour
     private void Punch()
     {
         energy.UseEnergy(configs.mightyPunchCost);
-        //start animation
-        marker = Instantiate(prefab,gameObject.transform);
-        CircleDamage();
-        Destroy(marker, 1f);
+        StopMovement();
+        animatorManager.SetMightyPunch(true);
+        StartCoroutine(ShowPunchZone());
         StartCoroutine(CoolDown());
     }
 
-    private void CircleDamage()
+    private IEnumerator ShowPunchZone()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, configs.mightyPunchRange, configs.enemyLayer);
-        if(enemies.Length > 0)
-            foreach (var enemie in enemies)
-            {
-                if (enemie.gameObject.TryGetComponent<Health>(out Health health))
-                {
-                    health.TakeDamage(configs.mightyPunchDamage);
-                }
-            }
+        prefab.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        prefab.SetActive(false);
     }
 
     private IEnumerator CoolDown()
@@ -70,5 +62,16 @@ public class MIghtyPunch : MonoBehaviour
         yield return new WaitForSeconds(configs.mightyPunchCooldown);
         playerInputs.mightyPunch = false;
         isMightyPunchCooled = true;
+    }
+
+    private void StopMovement()
+    {
+        playerInputs.move = Vector2.zero;
+    }
+
+    public void ResetMightyPunch()
+    {
+        playerInputs.mightyPunch = false;
+        animatorManager.SetMightyPunch(false);
     }
 }
