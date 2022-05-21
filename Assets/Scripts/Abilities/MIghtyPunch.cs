@@ -24,6 +24,7 @@ public class MIghtyPunch : MonoBehaviour
     void Update()
     {
         CheckMightyPunch();
+        StopMovement();
     }
 
     private void CheckMightyPunch()
@@ -43,7 +44,6 @@ public class MIghtyPunch : MonoBehaviour
     private void Punch()
     {
         energy.UseEnergy(configs.mightyPunchCost);
-        StopMovement();
         animatorManager.SetMightyPunch(true);
         StartCoroutine(ShowPunchZone());
         StartCoroutine(CoolDown());
@@ -66,7 +66,8 @@ public class MIghtyPunch : MonoBehaviour
 
     private void StopMovement()
     {
-        playerInputs.move = Vector2.zero;
+        if(animatorManager.GetMightyPunch())
+            playerInputs.move = Vector2.zero;
     }
 
     public void ResetMightyPunch()

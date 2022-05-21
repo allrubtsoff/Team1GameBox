@@ -43,6 +43,11 @@ public class AnimatorManager : MonoBehaviour
         animator.SetBool(mightyPunch, value);
     }
 
+    public bool GetMightyPunch()
+    {
+        return animator.GetBool(mightyPunch);
+    }
+
     public bool GetAirAtack()
     {
         return animator.GetBool(airAtack);

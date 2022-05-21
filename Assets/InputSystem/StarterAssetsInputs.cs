@@ -29,8 +29,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			if(!mightyPunch)
-				MoveInput(value.Get<Vector2>());
+			MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
@@ -63,8 +62,7 @@ namespace StarterAssets
 
 		public void OnThrowAxe(InputValue value)
 		{
-			if(!mightyPunch)
-				ThrowAxeInput(value.isPressed);
+			ThrowAxeInput(value.isPressed);
 		}
 
 		public void OnMightyPunch(InputValue value)
