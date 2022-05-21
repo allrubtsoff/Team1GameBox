@@ -28,6 +28,6 @@ MonoBehaviour:
   bossSingleConeMarkerLength: 4
   bossSingleConeMarkerWidth: 4
   bossConeMarkerDamage: 10
-  bossMultyConeMarkerLength: 8
+  bossMultyConeMarkerLength: 10
   bossMultyConeMarkerWidth: 6
   bossMultyConeMarkerDamage: 10

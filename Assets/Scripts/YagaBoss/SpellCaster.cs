@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using StarterAssets;
 
 public class SpellCaster : MonoBehaviour
 {
     [SerializeField] private AttackMarkersController attackMarkers;
+
+    private Material material;
 
     private int _lastSpell;
     private const int _clowdSpell = 0;
@@ -13,7 +16,10 @@ public class SpellCaster : MonoBehaviour
 
     private const int _spellCount = 4;
 
-
+    private void Awake()
+    {
+        material = GetComponent<Renderer>().material;
+    }
 
     public void GetNewRandomSpell(ThirdPersonController controller ,float timeToDel)
     {
@@ -23,23 +29,29 @@ public class SpellCaster : MonoBehaviour
         switch (_lastSpell)
         {
             case _clowdSpell:
-                Debug.Log("Clowd Cast");
-                attackMarkers.CreateClowdSpell(controller, transform.position);
+                StartCoroutine(CloudCorutine(controller, timeToDel));
                 break;
             case _pondSpell:
-                Debug.Log("Pond Cast");
+                material.color = Color.blue;
                 attackMarkers.CreateBossPondSpell(transform.position, timeToDel);
                 break;
             case _ConesNPondSpell:
-                Debug.Log("Pond N Cones Cast");
+                material.color = Color.black;
                 attackMarkers.CreateBossPondSpell(transform.position, timeToDel);
                 attackMarkers.CreateMultyCones(transform.position, timeToDel);
                 break;
             case _multyConeSpell:
-                Debug.Log("Cones Cast");
+                material.color = Color.red;
                 attackMarkers.CreateMultyCones(transform.position, timeToDel);
                 break;
         }
+    }
+
+    private IEnumerator CloudCorutine( ThirdPersonController controller, float time)
+    {
+        material.color = Color.green;
+        yield return new WaitForSeconds(time);
+        attackMarkers.CreateClowdSpell(controller, transform.position);
     }
 
     private void ChanceOfCalling()
