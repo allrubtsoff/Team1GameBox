@@ -63,7 +63,8 @@ namespace StarterAssets
 
 		public void OnThrowAxe(InputValue value)
 		{
-			ThrowAxeInput(value.isPressed);
+			if(!mightyPunch)
+				ThrowAxeInput(value.isPressed);
 		}
 
 		public void OnMightyPunch(InputValue value)
