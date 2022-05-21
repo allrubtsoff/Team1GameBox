@@ -28,6 +28,11 @@ public class MarkerDamageScript : MonoBehaviour
         transform.localScale = new Vector3(width, length, 1);
     }
 
+    public void ConeResize(float width, float length)
+    {
+        transform.localScale = new Vector3(width, 1, length);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out ThirdPersonController thirdPersonController))
