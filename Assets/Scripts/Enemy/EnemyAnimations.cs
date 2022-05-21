@@ -12,7 +12,7 @@ public class EnemyAnimations : MonoBehaviour
     private int _animIDIdle;
     private int _animIDMove;
     private int _animIDAttack;
-    private int _animIDSpecialJump;
+    private int _animIDSpecial;
 
     private int _currAnimState;
     private const int _idleState = 0;
@@ -75,7 +75,7 @@ public class EnemyAnimations : MonoBehaviour
         _animIDIdle = Animator.StringToHash("Idle");
         _animIDMove = Animator.StringToHash("Move");
         _animIDAttack = Animator.StringToHash("Attack");
-        _animIDSpecialJump = Animator.StringToHash("Special");
+        _animIDSpecial = Animator.StringToHash("Special");
     }
 
     public void IdleState()
@@ -83,7 +83,7 @@ public class EnemyAnimations : MonoBehaviour
         _animator.SetBool(_animIDIdle, true);
         _animator.SetBool(_animIDMove, false);
         _animator.SetBool(_animIDAttack, false);
-        _animator.SetBool(_animIDSpecialJump, false);
+        _animator.SetBool(_animIDSpecial, false);
     }
 
     public void AttackState()
@@ -91,7 +91,7 @@ public class EnemyAnimations : MonoBehaviour
         _animator.SetBool(_animIDIdle, false);
         _animator.SetBool(_animIDMove, false);
         _animator.SetBool(_animIDAttack, true);
-        _animator.SetBool(_animIDSpecialJump, false);
+        _animator.SetBool(_animIDSpecial, false);
     }
 
     public void MoveState()
@@ -99,7 +99,7 @@ public class EnemyAnimations : MonoBehaviour
         _animator.SetBool(_animIDIdle, false);
         _animator.SetBool(_animIDMove, true);
         _animator.SetBool(_animIDAttack, false);
-        _animator.SetBool(_animIDSpecialJump, false);
+        _animator.SetBool(_animIDSpecial, false);
     }
 
     public void SpecialState()
@@ -107,7 +107,7 @@ public class EnemyAnimations : MonoBehaviour
         _animator.SetBool(_animIDIdle, false);
         _animator.SetBool(_animIDMove, false);
         _animator.SetBool(_animIDAttack, false);
-        _animator.SetBool(_animIDSpecialJump, true);
+        _animator.SetBool(_animIDSpecial, true);
     }
 
 }

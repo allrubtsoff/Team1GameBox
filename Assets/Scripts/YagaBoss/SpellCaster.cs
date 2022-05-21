@@ -1,9 +1,9 @@
 using UnityEngine;
+using StarterAssets;
 
 public class SpellCaster : MonoBehaviour
 {
-
-    [SerializeField] private AttackMarkersController attackMarkersController;
+    [SerializeField] private AttackMarkersController attackMarkers;
 
     private int _lastSpell;
     private const int _clowdSpell = 0;
@@ -15,7 +15,7 @@ public class SpellCaster : MonoBehaviour
 
 
 
-    public void GetNewRandomSpell()
+    public void GetNewRandomSpell(ThirdPersonController controller ,float timeToDel)
     {
         int r = Random.Range(0, _spellCount);
         while (r == _lastSpell) r = Random.Range(0, _spellCount);
@@ -23,22 +23,27 @@ public class SpellCaster : MonoBehaviour
         switch (_lastSpell)
         {
             case _clowdSpell:
-
+                Debug.Log("Clowd Cast");
+                attackMarkers.CreateClowdSpell(controller, transform.position);
                 break;
             case _pondSpell:
-
+                Debug.Log("Pond Cast");
+                attackMarkers.CreateBossPondSpell(transform.position, timeToDel);
                 break;
             case _ConesNPondSpell:
-
+                Debug.Log("Pond N Cones Cast");
+                attackMarkers.CreateBossPondSpell(transform.position, timeToDel);
+                attackMarkers.CreateMultyCones(transform.position, timeToDel);
                 break;
             case _multyConeSpell:
-
+                Debug.Log("Cones Cast");
+                attackMarkers.CreateMultyCones(transform.position, timeToDel);
                 break;
         }
     }
 
     private void ChanceOfCalling()
     {
-        //шанс дополнительного вызова ракет\избы\саммона
+        
     }
 }
