@@ -17,14 +17,13 @@ public class MIghtyPunch : MonoBehaviour
     void Start()
     {
         playerInputs = GetComponent<StarterAssetsInputs>();
-        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        animatorManager = GetComponent<AnimatorManager>();
         energy = GetComponent<Energy>();
     }
 
     void Update()
     {
         CheckMightyPunch();
-        StopMovement();
     }
 
     private void CheckMightyPunch()
@@ -33,6 +32,7 @@ public class MIghtyPunch : MonoBehaviour
         {
             Punch();
         }
+        StopMovement();
     }
 
     private bool isMightyPunchAvailable()

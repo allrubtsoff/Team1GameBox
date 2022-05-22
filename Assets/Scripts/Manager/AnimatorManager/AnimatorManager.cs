@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AnimatorManager : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private MousePositionManager mouseManager;
+    private MousePositionManager mouseManager;
+    private Animator animator;
 
     private readonly int atack = Animator.StringToHash("Atack");
     private readonly int axeThrow = Animator.StringToHash("AxeThrow"); 
@@ -14,6 +14,12 @@ public class AnimatorManager : MonoBehaviour
 
     private const int AngleOfView = 90;
     private bool backward;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        mouseManager = GetComponent<MeleeAtack>().GetMouseManager();
+    }
 
     public void SetAtack(bool value)
     {

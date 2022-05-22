@@ -16,7 +16,7 @@ public class AirAtack : MonoBehaviour
     void Start()
     {
         inputs = GetComponent<StarterAssetsInputs>();
-        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        animatorManager = GetComponent<AnimatorManager>();
     }
 
     void Update()

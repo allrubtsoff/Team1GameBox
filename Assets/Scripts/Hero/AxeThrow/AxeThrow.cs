@@ -21,7 +21,7 @@ public class AxeThrow : MonoBehaviour
     {
         input = GetComponent<StarterAssetsInputs>();
         axeRigidBody = axe.GetComponent<Rigidbody>();
-        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        animatorManager = GetComponent<AnimatorManager>();
         mouseManager = GetComponent<MeleeAtack>().GetMouseManager();
     }
 
