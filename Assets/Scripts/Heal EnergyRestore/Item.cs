@@ -1,19 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Item : MonoBehaviour, IPickable
+public class Item : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    [SerializeField] private Sprite itemSprite;
+    [SerializeField] private float hpRestore;
+    [SerializeField] private float energyRestore;
+
+    public Sprite ItemSprite { get { return itemSprite; }  }
+
+    private Health playersHealth;
+    private Energy playersEnergy;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.GetComponent<StarterAssets.StarterAssetsInputs>() != null)
+        if (other.gameObject.TryGetComponent<Inventory>(out Inventory inventory))
         {
-            PickUp();
+            Debug.Log("Item picked");
+            PickUp(inventory);
+            playersHealth = other.GetComponent<Health>();
+            playersEnergy = other.GetComponent<Energy>();
         }
     }
 
-    public void PickUp()
+    public void PickUp(Inventory inventory)
     {
-        // типа добавили в интвентарь в свободный слот если есть, если нет то так и лежим
+        inventory.AddItem(this);
+    }
+
+    public void Use()
+    {
+        playersHealth.RestoreHealth(hpRestore);
+        playersEnergy.RestoreEnergy(energyRestore);
     }
 }

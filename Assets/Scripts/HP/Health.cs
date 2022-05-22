@@ -10,6 +10,11 @@ public class Health : MonoBehaviour, IDamageable
         Hp = hp;
     }
 
+    public void RestoreHealth(float amount)
+    {
+        Hp += amount;
+    }
+
     public void TakeDamage(float damage)
     {
         Hp -= damage;
