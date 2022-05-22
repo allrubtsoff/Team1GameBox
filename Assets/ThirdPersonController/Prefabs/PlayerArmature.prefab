@@ -1307,10 +1307,6 @@ GameObject:
   - component: {fileID: 252300005}
   - component: {fileID: 252300006}
   - component: {fileID: 252300008}
-  - component: {fileID: 6814201234075677027}
-  - component: {fileID: 1698547831655072944}
-  - component: {fileID: 3619075083981022800}
-  - component: {fileID: 4040755675115965526}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -1455,6 +1451,7 @@ MonoBehaviour:
   interact: 0
   atack: 0
   throwAxe: 0
+  mightyPunch: 0
   dash: 0
   analogMovement: 0
   cursorLocked: 0
@@ -1586,7 +1583,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorManager: {fileID: 0}
   mousePositionManager: {fileID: 0}
-  atackTime: 10
 --- !u!114 &252300006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1603,8 +1599,6 @@ MonoBehaviour:
   hand: {fileID: 8626512282341172403}
   throwPower: 40
   CoolDown: 5
-  animatorManager: {fileID: 0}
-  mouseManager: {fileID: 0}
 --- !u!114 &252300008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1617,68 +1611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee75544d84cd3b459b425d7fa10efa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorManager: {fileID: 0}
---- !u!114 &6814201234075677027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c829e6decfe97b468424ec063f7b6c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashSpeed: 20
-  dashTime: 0.1
-  dashCooldown: 2
---- !u!114 &1698547831655072944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c735d90423c91634ca08c837d9ea0152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorManager: {fileID: 0}
-  mousePositionManager: {fileID: 0}
-  atackTime: 10
---- !u!114 &3619075083981022800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 321c3f0cc981bfc48a6edd7e1f0b1e31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axe: {fileID: 1839303210}
-  hand: {fileID: 8626512282341172403}
-  throwPower: 40
-  CoolDown: 5
-  animatorManager: {fileID: 0}
-  mouseManager: {fileID: 0}
---- !u!114 &4040755675115965526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ee75544d84cd3b459b425d7fa10efa8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorManager: {fileID: 0}
 --- !u!1 &4523139366846529165
 GameObject:
   m_ObjectHideFlags: 0
