@@ -38,10 +38,14 @@ public class UiManager : MonoBehaviour
         hpBar.fillAmount = health.Hp / 100;
         energyBar.fillAmount = energy.CurrentEnergy / 100;
         var items = inventory.GetItems();
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i] != null)
-                    Slots[i].sprite = items[i].ItemSprite;
-            }
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] != null)
+                Slots[i].sprite = items[i].ItemSprite;
+        }
+        if (items.Count < 2)
+        {
+
+        }
     }
 }

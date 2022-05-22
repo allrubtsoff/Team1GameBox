@@ -4,6 +4,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private Sprite commonInventorySlotIcon;
+    public Sprite CommonSlotImage { get { return commonInventorySlotIcon; }  }
 
     private List<Item> items = new List<Item>();
 
@@ -23,7 +24,7 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(int slotId)
     {
-        if (items[slotId] != null)
+        if (items.Count >= slotId+1 && items[slotId] != null)
         {
             Item usedItem = items[slotId];
             usedItem.Use();
