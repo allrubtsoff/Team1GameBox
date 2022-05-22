@@ -18,6 +18,7 @@ namespace StarterAssets
 		public bool throwAxe;
 		public bool mightyPunch;
 		public bool dash;
+		public bool inventory;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -70,6 +71,11 @@ namespace StarterAssets
 		{
 			MightyPunchInput(value.isPressed);
 		}
+		
+		public void OnInventoryPunch(InputValue value)
+		{
+			InventoryInput(value.isPressed);
+		}
 
 		public void OnDash(InputValue value)
 		{
@@ -120,6 +126,11 @@ namespace StarterAssets
 		public void MightyPunchInput(bool newMightyPunchInputState)
 		{
 			mightyPunch = newMightyPunchInputState;
+		}
+		
+		public void InventoryInput(bool newInventoryInputState)
+		{
+			inventory = newInventoryInputState;
 		}
 
 		public void DashInput(bool newDashState)

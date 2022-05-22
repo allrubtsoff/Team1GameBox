@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
@@ -16,7 +15,6 @@ public class Item : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<Inventory>(out Inventory inventory))
         {
-            Debug.Log("Item picked");
             PickUp(inventory);
             playersHealth = other.GetComponent<Health>();
             playersEnergy = other.GetComponent<Energy>();

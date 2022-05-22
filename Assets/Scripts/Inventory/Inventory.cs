@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private List<Item> items = new List<Item>(2);
+    [SerializeField] private Sprite commonInventorySlotIcon;
+
+    private List<Item> items = new List<Item>();
 
     public void AddItem(Item item)
     {
