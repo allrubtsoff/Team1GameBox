@@ -20,9 +20,9 @@ public class AttackMarkersConfigs : ScriptableObject
     public float bossPondMarkerSize = 3f;
     public int bossPondMarkerDamage = 10;
     [Space(5)]
-    public float bossRayMarkerLength = 6f;
-    public float bossRayMarkerWidth = 2f;
-    public int bossRayMarkerDamage = 10;
+    public float bossRayMarkerLength = 30f;
+    public float bossRayMarkerWidth = 4f;
+    public int bossRayMarkerDamage = 0;
     [Space(5)]
     public float bossSingleConeMarkerLength = 3f;
     public float bossSingleConeMarkerWidth = 4f;

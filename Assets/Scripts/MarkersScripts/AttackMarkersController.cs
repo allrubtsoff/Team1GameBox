@@ -12,7 +12,7 @@ public class AttackMarkersController : MonoBehaviour
     [SerializeField] private GameObject rayMarkerPrefab;
     [SerializeField] private GameObject coneMarkerPrefab;
 
-    private const float yPosCorrection = 0.02f;
+    private const float yPosCorrection = 0.01f;
     private const int multyConesCount = 3;
     private const float k_Angle = 120f;
 
@@ -36,6 +36,9 @@ public class AttackMarkersController : MonoBehaviour
         => StartCoroutine(ClowdSpellCorutine(controller, pos));
     public void CreateBossPondSpell(Vector3 pos, float timeToDel)
         => StartCoroutine(BossPondCorutine(pos, timeToDel));
+    public void CreateHutRaySpell(Vector3 pos, Vector3 target, float timeToDel)
+        => StartCoroutine(BossRayCorutine(pos, target, timeToDel));
+
     private Material MaterialSetAlfa(Material material, Color color)
     {
         Color newAlfa = new Color(0, 0, 0, alfaValue);
@@ -45,6 +48,7 @@ public class AttackMarkersController : MonoBehaviour
 
     private IEnumerator PondCorutine(Vector3 pos, float timeToDel)
     {
+        pos.y = yPosCorrection;
         GameObject pond = Instantiate(pondMarkerPrefab, pos, Quaternion.identity);
         float delay = timeToDel / 3;
         var pondScript = pond.GetComponent<MarkerDamageScript>();
@@ -78,6 +82,27 @@ public class AttackMarkersController : MonoBehaviour
         MaterialSetAlfa(rayMaterial, Color.red);
         yield return new WaitForSeconds(delay);
         rayMarkScript.TryToHit(markersConfigs.rayMarkerDamage);
+        Destroy(rayMark);
+    }
+
+    private IEnumerator BossRayCorutine(Vector3 pos, Vector3 target, float timeToDel)
+    {
+        pos.y = yPosCorrection;
+        target.y = pos.y;
+        GameObject rayMark = Instantiate(rayMarkerPrefab, pos, Quaternion.identity);
+        rayMark.transform.LookAt(target);
+        rayMark.transform.Rotate(90, rayMark.transform.rotation.y, rayMark.transform.rotation.z);
+        float delay = timeToDel / 3;
+        var rayMarkScript = rayMark.GetComponent<MarkerDamageScript>();
+        var rayMaterial = rayMark.transform.GetChild(0).GetComponent<Renderer>().material;
+        rayMarkScript.RayResize(markersConfigs.bossRayMarkerWidth, markersConfigs.bossRayMarkerLength);
+        MaterialSetAlfa(rayMaterial, Color.green);
+        yield return new WaitForSeconds(delay);
+        MaterialSetAlfa(rayMaterial, Color.yellow);
+        yield return new WaitForSeconds(delay);
+        MaterialSetAlfa(rayMaterial, Color.red);
+        yield return new WaitForSeconds(delay);
+        rayMarkScript.TryToHit(markersConfigs.bossRayMarkerDamage);
         Destroy(rayMark);
     }
 

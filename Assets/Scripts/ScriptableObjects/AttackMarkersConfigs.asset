@@ -22,12 +22,12 @@ MonoBehaviour:
   bossClowdMarkerLifetime: 6
   bossPondMarkerSize: 10
   bossPondMarkerDamage: 10
-  bossRayMarkerLength: 20
+  bossRayMarkerLength: 40
   bossRayMarkerWidth: 5
   bossRayMarkerDamage: 10
-  bossSingleConeMarkerLength: 4
+  bossSingleConeMarkerLength: 5
   bossSingleConeMarkerWidth: 4
   bossConeMarkerDamage: 10
-  bossMultyConeMarkerLength: 10
+  bossMultyConeMarkerLength: 15
   bossMultyConeMarkerWidth: 6
   bossMultyConeMarkerDamage: 10

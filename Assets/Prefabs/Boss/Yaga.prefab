@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 8847994372289558533}
+  _castSpeed: 0.7
 --- !u!1 &8847994372228513091
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +251,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8847994372289558532}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.68, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -273,5 +274,5 @@ MonoBehaviour:
   Target: {fileID: 0}
   _kettle: {fileID: 0}
   AttackDistance: 6
-  _attackCooldown: 3
-  _attackAnimation: {fileID: 7400000, guid: b0ce0ceb840b96a4fa90389950380ec1, type: 2}
+  _attackCooldown: 5
+  _markerDelay: 2

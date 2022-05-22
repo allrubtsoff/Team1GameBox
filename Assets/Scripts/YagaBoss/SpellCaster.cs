@@ -2,11 +2,14 @@ using System.Collections;
 using UnityEngine;
 using StarterAssets;
 
+[RequireComponent(typeof(YagaSummons))]
 public class SpellCaster : MonoBehaviour
 {
     [SerializeField] private AttackMarkersController attackMarkers;
+    [Range(0, 1), SerializeField] private float _summonChance = 0.5f;
 
     private Material material;
+    private YagaSummons summons;
 
     private int _lastSpell;
     private const int _clowdSpell = 0;
@@ -19,6 +22,7 @@ public class SpellCaster : MonoBehaviour
     private void Awake()
     {
         material = GetComponent<Renderer>().material;
+        summons = GetComponent<YagaSummons>();
     }
 
     public void GetNewRandomSpell(ThirdPersonController controller ,float timeToDel)
@@ -30,10 +34,12 @@ public class SpellCaster : MonoBehaviour
         {
             case _clowdSpell:
                 StartCoroutine(CloudCorutine(controller, timeToDel));
+                ChanceOfSummon(controller, timeToDel);
                 break;
             case _pondSpell:
                 material.color = Color.blue;
                 attackMarkers.CreateBossPondSpell(transform.position, timeToDel);
+                ChanceOfSummon(controller, timeToDel);
                 break;
             case _ConesNPondSpell:
                 material.color = Color.black;
@@ -43,6 +49,7 @@ public class SpellCaster : MonoBehaviour
             case _multyConeSpell:
                 material.color = Color.red;
                 attackMarkers.CreateMultyCones(transform.position, timeToDel);
+                ChanceOfSummon(controller, timeToDel);
                 break;
         }
     }
@@ -54,8 +61,12 @@ public class SpellCaster : MonoBehaviour
         attackMarkers.CreateClowdSpell(controller, transform.position);
     }
 
-    private void ChanceOfCalling()
+    private void ChanceOfSummon(ThirdPersonController controller, float timeToDel)
     {
-        
+        float r = Random.value;
+        if (r < _summonChance)
+        {
+            summons.GetNewRandomSummon(controller, timeToDel);
+        }
     }
 }
