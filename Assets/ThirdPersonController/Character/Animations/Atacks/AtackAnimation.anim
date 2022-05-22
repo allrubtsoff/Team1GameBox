@@ -45976,7 +45976,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.6
+  - time: 0.96666664
     functionName: resetRotationState
     data: 
     objectReferenceParameter: {fileID: 0}

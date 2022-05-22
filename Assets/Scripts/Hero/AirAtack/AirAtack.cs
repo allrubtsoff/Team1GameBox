@@ -1,11 +1,12 @@
 using StarterAssets;
 using System;
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(MeleeAtack))]
 public class AirAtack : MonoBehaviour
 {    
-    [SerializeField] private AnimatorManager animatorManager;
-
+    private AnimatorManager animatorManager;
     private StarterAssetsInputs inputs;
 
     public bool IsAirAtack { get { return !animatorManager.isGrounded() && inputs.atack; } }
@@ -15,6 +16,7 @@ public class AirAtack : MonoBehaviour
     void Start()
     {
         inputs = GetComponent<StarterAssetsInputs>();
+        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
     }
 
     void Update()
@@ -39,8 +41,15 @@ public class AirAtack : MonoBehaviour
             animatorManager.SetAirAtack(false);
             if (CreateMarker != null)
             {
-                CreateMarker(new Vector3(transform.position.x, 0, transform.position.z) + transform.forward, 1f);
+                CreateMarker(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z) + transform.forward, 1f);
             }
+            StartCoroutine(BlockThrowAxe());
         }
+    }
+
+    private IEnumerator BlockThrowAxe()
+    {
+        yield return new WaitForEndOfFrame();
+        inputs.throwAxe = false;
     }
 }

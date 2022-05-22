@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MightyPunch",
+                    "type": "Button",
+                    "id": "c3192115-e4b5-4f9b-bf03-7556aadafb2d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -244,28 +253,6 @@
                 },
                 {
                     "name": "",
-                    "id": "dc65b89f-9bd3-43fb-92af-d0d87ba5faa4",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e400dfcc-173a-421f-81ef-3ff9d560e15c",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -289,10 +276,10 @@
                 {
                     "name": "",
                     "id": "04d2a5d0-a26a-46b2-8fd7-59800cc0779b",
-                    "path": "<Keyboard>/leftAlt",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -300,8 +287,8 @@
                 {
                     "name": "",
                     "id": "fe39a828-1955-4efa-bcd2-4bd9d0387ba8",
-                    "path": "<Keyboard>/r",
-                    "interactions": "Hold(duration=0.2),Press(behavior=2)",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "ThrowAxe",
@@ -316,6 +303,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ba8d5ca-155a-4f53-ad5b-06d3deab472b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "MightyPunch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

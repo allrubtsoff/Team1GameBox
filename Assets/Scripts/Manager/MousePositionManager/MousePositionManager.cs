@@ -10,8 +10,8 @@ public class MousePositionManager : MonoBehaviour
     private RaycastHit raycastHit;
     private GameObject player;
     private ThirdPersonController playerController;
+    private Vector3 MousePosition;
 
-    public Vector3 MousePosition { get; set; }
     public float AngleBetweenMouseAndPlayer { get; set; }
 
     private void Start()
@@ -20,9 +20,14 @@ public class MousePositionManager : MonoBehaviour
         playerController = player.GetComponent<ThirdPersonController>();
     }
 
-    private void CheckAngleBetweenMouseAndPlayer(Quaternion a, Quaternion b)
+    public float GetAngleBetweenMouseAndPlayer()
     {
-        AngleBetweenMouseAndPlayer = Quaternion.Angle(a, b);
+        Vector2 vector = player.GetComponent<StarterAssets.StarterAssetsInputs>().move;
+        var second = new Vector3(player.transform.position.x, 0, player.transform.position.z) + new Vector3(vector.x, player.transform.position.y, vector.y);
+        Vector3 targetDir = second - player.transform.position;
+        float angle = Vector3.Angle(targetDir, player.transform.forward);
+        AngleBetweenMouseAndPlayer = angle;
+        return angle;
     }
 
     // MOUSEUPDATE
@@ -52,11 +57,9 @@ public class MousePositionManager : MonoBehaviour
     {
         GetMousePosition();
         playerController.isAtacking = true;
-        var a = player.transform.rotation;
         Vector3 direction = new Vector3(MousePosition.x, player.transform.position.y, MousePosition.z);
         player.transform.LookAt(Vector3.Lerp(player.transform.position, direction, 1f));
-        var b = player.transform.rotation;
-        CheckAngleBetweenMouseAndPlayer(a,b);
+        GetAngleBetweenMouseAndPlayer();
     }
 
     public void StopLookingAtMouseDirection()

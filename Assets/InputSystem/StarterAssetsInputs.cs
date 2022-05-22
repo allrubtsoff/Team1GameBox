@@ -16,9 +16,8 @@ namespace StarterAssets
 		public bool interact;
 		public bool atack;
 		public bool throwAxe;
+		public bool mightyPunch;
 		public bool dash;
-
-		public bool isThrowAxePressed { get; set; }
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -30,7 +29,8 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			MoveInput(value.Get<Vector2>());
+			if(!mightyPunch)
+				MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
@@ -63,14 +63,13 @@ namespace StarterAssets
 
 		public void OnThrowAxe(InputValue value)
 		{
-			float val = value.Get<float>();
+			if(!mightyPunch)
+				ThrowAxeInput(value.isPressed);
+		}
 
-			if (val <= InputSystem.settings.defaultButtonPressPoint)
-			{
-				isThrowAxePressed = true;
-			}
-
-			ThrowAxeInput(value.isPressed);
+		public void OnMightyPunch(InputValue value)
+		{
+			MightyPunchInput(value.isPressed);
 		}
 
 		public void OnDash(InputValue value)
@@ -117,6 +116,11 @@ namespace StarterAssets
 		public void ThrowAxeInput(bool newThrowAxeInputState)
 		{
 			throwAxe = newThrowAxeInputState;
+		}
+
+		public void MightyPunchInput(bool newMightyPunchInputState)
+		{
+			mightyPunch = newMightyPunchInputState;
 		}
 
 		public void DashInput(bool newDashState)

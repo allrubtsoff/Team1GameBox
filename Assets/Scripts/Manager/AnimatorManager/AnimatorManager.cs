@@ -6,28 +6,24 @@ public class AnimatorManager : MonoBehaviour
     [SerializeField] private MousePositionManager mouseManager;
 
     private readonly int atack = Animator.StringToHash("Atack");
-    private readonly int axeThrow = Animator.StringToHash("AxeThrow");
-    private readonly int axeAim = Animator.StringToHash("AxeAim");    
+    private readonly int axeThrow = Animator.StringToHash("AxeThrow"); 
     private readonly int airAtack = Animator.StringToHash("AirAtack");
-    private readonly int animatorSpeed = Animator.StringToHash("Speed");
+    private readonly int mightyPunch = Animator.StringToHash("MightyPunch");
+    private readonly int Speed = Animator.StringToHash("Speed");
     private readonly int grounded = Animator.StringToHash("Grounded");
 
-    private const int AngleOfView = 60;
+    private const int AngleOfView = 90;
     private bool backward;
 
     public void SetAtack(bool value)
     {
         animator.SetBool(atack, value);
+        SetAxeThrow(false);
     }
 
     public void SetAxeThrow(bool value)
     {
         animator.SetBool(axeThrow, value);
-    }
-
-    public void SetAxeAim(bool value)
-    {
-        animator.SetBool(axeAim, value);
     }
 
     public bool isGrounded()
@@ -38,6 +34,13 @@ public class AnimatorManager : MonoBehaviour
     public void SetAirAtack(bool value)
     {
         animator.SetBool(airAtack, value);
+        SetAxeThrow(false);
+        SetAtack(false);
+    }
+
+    public void SetMightyPunch(bool value)
+    {
+        animator.SetBool(mightyPunch, value);
     }
 
     public bool GetAirAtack()
@@ -47,9 +50,10 @@ public class AnimatorManager : MonoBehaviour
 
     public void CheckBackwardRun()
     {
-        if (animator.GetFloat(animatorSpeed) > 0  && isGrounded())
+        if (animator.GetFloat(Speed) > 0  && isGrounded())
         {
-            backward = mouseManager.AngleBetweenMouseAndPlayer > AngleOfView;
+            backward = mouseManager.GetAngleBetweenMouseAndPlayer() > AngleOfView;
+            
             if (backward)
             {
                 SetBackwardRun();

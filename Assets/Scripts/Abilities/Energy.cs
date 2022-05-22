@@ -1,20 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Energy : MonoBehaviour
 {
     [SerializeField] private float energy;
 
-    void Start()
+    public bool CheckEnergyAvailable(float abilitiyCost)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return energy >= abilitiyCost;
     }
 
     public void UseEnergy(float cost) 

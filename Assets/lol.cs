@@ -10,8 +10,8 @@ public class lol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = mousepos.MousePosition;
-        transform.position = player.transform.position +  player.transform.forward;
-        //Debug.Log(Vector3.Angle(transform.position, mousepos.MousePosition));   
+        Vector2 vector = player.GetComponent<StarterAssets.StarterAssetsInputs>().move;
+        transform.position = new Vector3( player.transform.position.x,0,player.transform.position.z)+ new Vector3(vector.x, player.transform.position.y, vector.y);
+        //transform.position = player.transform.position +  player.transform.forward;
     }
 }

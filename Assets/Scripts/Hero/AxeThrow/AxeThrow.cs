@@ -2,16 +2,16 @@ using StarterAssets;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(MeleeAtack))]
 public class AxeThrow : MonoBehaviour
 {
     [SerializeField] private GameObject axe;
     [SerializeField] private Transform hand;
     [SerializeField] private float throwPower;
     [SerializeField] private float CoolDown;
-    [SerializeField] private AnimatorManager animatorManager;
-    [SerializeField] private MousePositionManager mouseManager;
 
-
+    private AnimatorManager animatorManager;
+    private MousePositionManager mouseManager;
     private StarterAssetsInputs input;
     private Vector3 throwDirection;
     private bool isAxeThrow;
@@ -21,6 +21,8 @@ public class AxeThrow : MonoBehaviour
     {
         input = GetComponent<StarterAssetsInputs>();
         axeRigidBody = axe.GetComponent<Rigidbody>();
+        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        mouseManager = GetComponent<MeleeAtack>().GetMouseManager();
     }
 
     private void Update()
@@ -30,32 +32,19 @@ public class AxeThrow : MonoBehaviour
 
     private void CheckState()
     {
-        if (!isAxeThrow)
-        {
-            //Called when R key is hold
-            if (input.throwAxe)
-                ChangeState(true);
-            //Called when R key is pressed
-            else if (input.isThrowAxePressed)
-                ChangeState(false);
+        if (!isAxeThrow && input.throwAxe) 
+        { 
+            ChangeState();
         }
     }
 
-    private void ChangeState(bool isHold)
+    private void ChangeState()
     {
         throwDirection = mouseManager.GetMousePosition();
         mouseManager.LookAtMouseDirection();
         animatorManager.CheckBackwardRun();
-
-        if (isHold)
-        {
-            animatorManager.SetAxeAim(true);
-        }
-        else
-        {
-            animatorManager.SetAxeThrow(true);
-            StartCoroutine(ThrowCoolDown());
-        }
+        animatorManager.SetAxeThrow(true);
+        StartCoroutine(ThrowCoolDown());
     }
 
     private IEnumerator ThrowCoolDown()
@@ -86,9 +75,7 @@ public class AxeThrow : MonoBehaviour
 
     private void resetThrowAxeState()
     {
-        input.isThrowAxePressed = false;
         input.throwAxe = false;
-        animatorManager.SetAxeAim(false);
         animatorManager.SetAxeThrow(false);
     }
 }
