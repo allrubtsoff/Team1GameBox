@@ -3,7 +3,6 @@ using UnityEngine;
 public class Health : MonoBehaviour, IDamageable
 {
     [SerializeField] private float hp;
-    [SerializeField] private LayerMask _layerMask;
     public float Hp { get; set; }
 
     private void Start()
@@ -17,13 +16,10 @@ public class Health : MonoBehaviour, IDamageable
         Hp = Mathf.Min(Hp, hp);
     }
 
-    public void TakeDamage(float damage, LayerMask mask)
+    public void TakeDamage(float damage)
     {
-        if (_layerMask == mask)
-        {
-            Hp -= damage;
-            CheckDeath();
-        }
+        Hp -= damage;
+        CheckDeath();
     }
 
     public void CheckDeath()
