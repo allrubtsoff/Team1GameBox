@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using StarterAssets;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,12 +11,34 @@ public class Inventory : MonoBehaviour
 
     private readonly int maxInventorySlots = 2;
     private Item[] inventory;
+    private StarterAssetsInputs playerInputs;
 
     public static event Action<int,Item,bool> UpdateUI;
 
     private void Start()
     {
         inventory = new Item[maxInventorySlots];
+        playerInputs = GetComponent<StarterAssetsInputs>();
+    }
+
+    private void Update()
+    {
+        CheckInventoryUse();
+    }
+
+    private void CheckInventoryUse()
+    {
+        if (playerInputs.inventoryFirstSlot)
+        {
+
+            UseItem(0);
+            playerInputs.inventoryFirstSlot = false;
+        }
+        else if (playerInputs.inventorySecondSlot)
+        {
+            UseItem(1);
+            playerInputs.inventorySecondSlot = false;
+        }
     }
 
     public bool AddItem(Item item)
