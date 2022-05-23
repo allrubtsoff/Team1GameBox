@@ -2,6 +2,7 @@ using StarterAssets;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(MeleeAtack))]
 public class AxeThrow : MonoBehaviour
@@ -9,7 +10,8 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private GameObject axe;
     [SerializeField] private Transform hand;
     [SerializeField] private float throwPower;
-    [SerializeField] private float CoolDown;
+    [SerializeField] private float coolDown;
+    [SerializeField] private UnityEvent axeThrowEvent;
 
     private AnimatorManager animatorManager;
     private MousePositionManager mouseManager;
@@ -17,8 +19,6 @@ public class AxeThrow : MonoBehaviour
     private Vector3 throwDirection;
     private bool isAxeThrow;
     private Rigidbody axeRigidBody;
-
-    public static event Action<float> UpdateUI;
 
     void Start()
     {
@@ -36,10 +36,16 @@ public class AxeThrow : MonoBehaviour
     private void CheckState()
     {
         if (!isAxeThrow && input.throwAxe) 
-        {   if (UpdateUI != null)
-                UpdateUI.Invoke(CoolDown);
+        {
+            TryUpdateUi();
             ChangeState();
         }
+    }
+
+    private void TryUpdateUi()
+    {
+        if (axeThrowEvent != null)
+            axeThrowEvent.Invoke();
     }
 
     private void ChangeState()
@@ -54,7 +60,7 @@ public class AxeThrow : MonoBehaviour
     private IEnumerator ThrowCoolDown()
     {
         isAxeThrow = true;
-        yield return new WaitForSeconds(CoolDown);
+        yield return new WaitForSeconds(coolDown);
         resetThrowAxeState();
         isAxeThrow = false;
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +10,14 @@ public class Inventory : MonoBehaviour
     private List<Item> inventory = new List<Item>();
     private readonly int maxInventorySlots = 2;
 
+    public static event Action<int,Item,bool> UpdateUI;
+
     public bool AddItem(Item item)
     {
         if(inventory.Count <= maxInventorySlots)
         {
             HideObject(item);
+            TryUpdateUI(inventory.Count,item,false);
             inventory.Add(item);
         }
         return inventory.Count <= maxInventorySlots;
@@ -21,7 +25,13 @@ public class Inventory : MonoBehaviour
 
     private void HideObject(Item item)
     {
-        item.gameObject.SetActive(false);  
+        item.gameObject.SetActive(false);
+    }
+
+    private void TryUpdateUI(int slotId, Item item, bool isUsed)
+    {
+        if (UpdateUI != null)
+            UpdateUI(slotId,item,isUsed);
     }
 
     public void UseItem(int slotId)
@@ -30,7 +40,8 @@ public class Inventory : MonoBehaviour
         {
             Item usedItem = inventory[slotId];
             usedItem.Use();
-            inventory.Remove(inventory[slotId]);
+            TryUpdateUI(slotId, usedItem, true);
+            inventory.Remove(usedItem);
         }
     }
 

@@ -10,46 +10,29 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image mightyPunchImage;
     [SerializeField] private Image axeThrowImage;
     [SerializeField] private Image[] Slots = new Image[2];
-
+    [SerializeField] private Sprite emptyInventorySprite;
 
     [Header("Player")]
     [SerializeField] private GameObject player;
 
-    private Inventory inventory;
-
-
     private void OnEnable()
     {
-        AxeThrow.UpdateUI += AxeThrowCooldownSprite;
-        MIghtyPunch.UpdateUI += MightyPunchCooldownSprite;
+        Inventory.UpdateUI += UpdateInventorySlotSprite;
     }
+
     private void OnDisable()
     {
-        AxeThrow.UpdateUI -= AxeThrowCooldownSprite;
-        MIghtyPunch.UpdateUI -= MightyPunchCooldownSprite;
+        Inventory.UpdateUI -= UpdateInventorySlotSprite;
     }
 
-    private void Start()
+    public void UpdateInventorySlotSprite(int slotId, Item item, bool itemUsed)
     {
-        inventory = player.GetComponent<Inventory>();
+        if (itemUsed)
+            Slots[slotId].sprite = emptyInventorySprite;
+        else
+            Slots[slotId].sprite = item.ItemSprite;
     }
 
-    private void Update()
-    {
-        CheckStates();
-    }
-
-    private void CheckStates()
-    {
-        var invent = inventory.GetItems();
-        for (int i = 0; i < invent.Count; i++)
-        {
-            if (invent[i] != null)
-                Slots[i].sprite = invent[i].ItemSprite;
-            else
-                Slots[i].sprite = inventory.CommonSlotImage;
-        }
-    }
 
     public void CheckHpBar(float hpValue)
     {

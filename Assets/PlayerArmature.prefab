@@ -2674,6 +2674,8 @@ GameObject:
   - component: {fileID: 4416926083347132229}
   - component: {fileID: 4416926083347132230}
   - component: {fileID: 3812771554279255935}
+  - component: {fileID: 4416926083347132240}
+  - component: {fileID: 4416926083347132241}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -2821,6 +2823,7 @@ MonoBehaviour:
   throwAxe: 0
   mightyPunch: 0
   dash: 0
+  inventory: 0
   analogMovement: 0
   cursorLocked: 0
   cursorInputForLook: 0
@@ -2965,7 +2968,22 @@ MonoBehaviour:
   axe: {fileID: 4798104671829357047}
   hand: {fileID: 3828567589526403836}
   throwPower: 40
-  CoolDown: 5
+  coolDown: 2
+  axeThrowEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: AxeThrowCooldownSprite
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4798104673400631605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2978,6 +2996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee75544d84cd3b459b425d7fa10efa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configs: {fileID: 11400000, guid: 57dd49d133fd59743b32d275a9701359, type: 2}
 --- !u!114 &4416926083347132229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,6 +3024,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configs: {fileID: 11400000, guid: 57dd49d133fd59743b32d275a9701359, type: 2}
   prefab: {fileID: 3936894704625625254}
+  mightyPunchEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: MightyPunchCooldownSprite
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: CheckEnergyBar
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 10
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3812771554279255935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3017,6 +3063,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d1d6e6cfafb6c4fbf07b1e5352270a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4416926083347132240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212772854674117790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24b2d75529dc1d44aca2a932d1275c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commonInventorySlotIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &4416926083347132241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212772854674117790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89280019563a6e74aacee967af984e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100
 --- !u!1001 &4798104672782448279
 PrefabInstance:
   m_ObjectHideFlags: 0

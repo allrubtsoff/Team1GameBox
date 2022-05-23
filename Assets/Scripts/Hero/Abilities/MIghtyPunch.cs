@@ -2,20 +2,20 @@ using StarterAssets;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Energy))]
 public class MIghtyPunch : MonoBehaviour
 {
     [SerializeField] private PlayerAbilitiesConfigs configs;
     [SerializeField] private GameObject prefab;
+    [SerializeField] private UnityEvent mightyPunchEvent;
 
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
     private Energy energy;
 
     private bool isMightyPunchCooled = true;
-
-    public static Action<float> UpdateUI;
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class MIghtyPunch : MonoBehaviour
         if (isMightyPunchAvailable())
         {
             Punch();
-            UpdateUI(configs.mightyPunchCooldown);
+            TryUpdateUI();
         }
         StopMovement();
     }
@@ -43,6 +43,12 @@ public class MIghtyPunch : MonoBehaviour
     {
         return playerInputs.mightyPunch && energy.CheckEnergyAvailable(configs.mightyPunchCost)
             && isMightyPunchCooled && animatorManager.isGrounded();
+    }
+
+    private void TryUpdateUI()
+    {
+        if (mightyPunchEvent != null)
+            mightyPunchEvent.Invoke();
     }
 
     private void Punch()
