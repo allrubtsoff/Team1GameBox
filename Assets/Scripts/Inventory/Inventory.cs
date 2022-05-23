@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,20 +8,26 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Sprite commonInventorySlotIcon;
     public Sprite CommonSlotImage { get { return commonInventorySlotIcon; } }
 
-    private List<Item> inventory = new List<Item>();
     private readonly int maxInventorySlots = 2;
+    private Item[] inventory;
 
     public static event Action<int,Item,bool> UpdateUI;
 
+    private void Start()
+    {
+        inventory = new Item[maxInventorySlots];
+    }
+
     public bool AddItem(Item item)
     {
-        if(inventory.Count <= maxInventorySlots)
+        var slotId = Array.IndexOf(inventory, null);
+        if ( slotId != -1)
         {
             HideObject(item);
-            TryUpdateUI(inventory.Count,item,false);
-            inventory.Add(item);
+            TryUpdateUI(slotId,item,false);
+            inventory[slotId] = item;
         }
-        return inventory.Count <= maxInventorySlots;
+        return inventory.Length <= maxInventorySlots;
     }
 
     private void HideObject(Item item)
@@ -36,17 +43,17 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(int slotId)
     {
-        if (inventory.Count >= slotId+1 && inventory[slotId] != null)
+        if (inventory[slotId]  != null)
         {
             Item usedItem = inventory[slotId];
             usedItem.Use();
             TryUpdateUI(slotId, usedItem, true);
-            inventory.Remove(usedItem);
+            inventory[slotId] = null;
         }
     }
 
     public List<Item> GetItems()
     {
-        return inventory;
+        return inventory.ToList();
     }
 }

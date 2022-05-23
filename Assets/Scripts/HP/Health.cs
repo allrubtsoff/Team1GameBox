@@ -13,6 +13,7 @@ public class Health : MonoBehaviour, IDamageable
     public void RestoreHealth(float amount)
     {
         Hp += amount;
+        Hp = Mathf.Min(Hp, hp);
     }
 
     public void TakeDamage(float damage)

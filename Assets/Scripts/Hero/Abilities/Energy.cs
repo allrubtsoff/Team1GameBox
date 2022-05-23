@@ -11,7 +11,7 @@ public class Energy : MonoBehaviour
     }
     public bool CheckEnergyAvailable(float abilitiyCost)
     {
-        return energy >= abilitiyCost;
+        return CurrentEnergy >= abilitiyCost;
     }
 
     public void UseEnergy(float cost) 
@@ -22,5 +22,6 @@ public class Energy : MonoBehaviour
     public void RestoreEnergy(float value)
     {
         CurrentEnergy += value;
+        CurrentEnergy = Mathf.Min(CurrentEnergy, energy);
     }
 }

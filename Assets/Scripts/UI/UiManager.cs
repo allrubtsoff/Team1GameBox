@@ -34,14 +34,14 @@ public class UiManager : MonoBehaviour
     }
 
 
-    public void CheckHpBar(float hpValue)
+    public void CheckHpBar()
     {
-        hpBar.fillAmount = hpValue / 100;
+        hpBar.fillAmount = player.GetComponent<Health>().Hp / 100;
     }
     
-    public void CheckEnergyBar(float energyValue)
+    public void CheckEnergyBar()
     {
-        energyBar.fillAmount = energyValue / 100;
+        energyBar.fillAmount = player.GetComponent<Energy>().CurrentEnergy / 100;
     }
 
     public void AxeThrowCooldownSprite(float cooldown)
