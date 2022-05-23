@@ -5,6 +5,7 @@ public class AxeReturn: MonoBehaviour
 {
     [SerializeField] private float timeToRelocateAfterCollision;
     [SerializeField] private Transform playersHand;
+    [SerializeField] private LayerMask playersLayer;
 
     private Rigidbody rigidBody;
 
@@ -15,7 +16,7 @@ public class AxeReturn: MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Environment")
+        if (collision.gameObject.layer != playersLayer)
         {
             rigidBody.isKinematic = true;
             StartCoroutine(ReturnAxe());

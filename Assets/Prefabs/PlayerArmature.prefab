@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 599346133}
   - component: {fileID: 599346136}
   - component: {fileID: 599346135}
-  - component: {fileID: 599346134}
   m_Layer: 8
   m_Name: CommonAxe
   m_TagString: Untagged
@@ -145,20 +144,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &599346134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599346132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dcf3c5d853f4aa4e91e745fc557a48b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToRelocateAfterCollision: 1
-  playersHand: {fileID: 4798104672314587954}
 --- !u!1 &2016185276
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +240,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  _damageTo:
+    serializedVersion: 2
+    m_Bits: 0
+  hitRadius: 0
+  hitDistance: 0
+  countToDamage: 0
 --- !u!65 &2016185278
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1711,6 +1702,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToRelocateAfterCollision: 1
   playersHand: {fileID: 4798104672314587954}
+  playersLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &4798104672314587955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,6 +1912,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  _damageTo:
+    serializedVersion: 2
+    m_Bits: 0
+  hitRadius: 0
+  hitDistance: 0
+  countToDamage: 0
 --- !u!65 &4798104673412131066
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3092,7 +3092,8 @@ MonoBehaviour:
   throwAxe: 0
   mightyPunch: 0
   dash: 0
-  inventory: 0
+  inventoryFirstSlot: 0
+  inventorySecondSlot: 0
   analogMovement: 0
   cursorLocked: 0
   cursorInputForLook: 0
@@ -3237,7 +3238,7 @@ MonoBehaviour:
   axe: {fileID: 4798104671829357047}
   hand: {fileID: 3828567589526403836}
   throwPower: 40
-  coolDown: 2
+  configs: {fileID: 0}
   axeThrowEvent:
     m_PersistentCalls:
       m_Calls:
@@ -3373,6 +3374,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &4798104672782448279
 PrefabInstance:
   m_ObjectHideFlags: 0

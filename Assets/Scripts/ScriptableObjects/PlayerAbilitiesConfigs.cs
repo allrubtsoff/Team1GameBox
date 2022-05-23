@@ -9,6 +9,10 @@ public class PlayerAbilitiesConfigs : ScriptableObject
 {
     public LayerMask enemyLayer;
 
+    [Header("Axe Throw")]
+    public float axeThrowDmg;
+    public float axeThrowCooldown;
+
     [Header("Air Atack")]
     public float airAtackDamage;
     public float airAtackCost;
