@@ -29,6 +29,5 @@ public class AxeReturn: MonoBehaviour
         gameObject.transform.parent = playersHand;
         gameObject.transform.localPosition = new Vector3(0, 0, 0);
         gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        gameObject.SetActive(true);
     }
 }

@@ -2,6 +2,7 @@ using StarterAssets;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(MeleeAtack))]
 public class AirAtack : MonoBehaviour
@@ -14,6 +15,8 @@ public class AirAtack : MonoBehaviour
     private bool isAirAtackCooled = true;
 
     public bool IsAirAtack { get { return !animatorManager.isGrounded() && inputs.atack; } }
+
+    public UnityEvent UpdateUI;
 
     public static event Action<Vector3, float> CreateMarker;
 
@@ -47,6 +50,7 @@ public class AirAtack : MonoBehaviour
     {
         if (animatorManager.GetAirAtack() && animatorManager.isGrounded())
         {
+            UpdateUI.Invoke();
             animatorManager.SetAirAtack(false);
             if (CreateMarker != null)
             {

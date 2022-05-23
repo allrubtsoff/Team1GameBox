@@ -68,6 +68,7 @@ public class AxeThrow : MonoBehaviour
     //Called in the middle of Animation
     private void ThrowAxe()
     {
+        axe.SetActive(true);
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
         axe.transform.LookAt(throwDirection);
