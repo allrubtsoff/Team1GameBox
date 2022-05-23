@@ -17,14 +17,17 @@ MonoBehaviour:
   rayMarkerLength: 6
   rayMarkerWidth: 2
   rayMarkerDamage: 10
-  coneMarkerLength: 3
-  coneMarkerWidth: 4
-  coneMarkerDamage: 10
-  bossJumpMarkerSize: 3
-  bossJumpMarkerDamage: 10
-  bossRayMarkerLength: 6
-  bossRayMarkerWidth: 2
+  bossClowdMarkerSize: 4
+  bossClowdMarkerSpeed: 2.5
+  bossClowdMarkerLifetime: 6
+  bossPondMarkerSize: 10
+  bossPondMarkerDamage: 10
+  bossRayMarkerLength: 40
+  bossRayMarkerWidth: 5
   bossRayMarkerDamage: 10
-  bossConeMarkerLength: 3
-  bossConeMarkerWidth: 4
+  bossSingleConeMarkerLength: 5
+  bossSingleConeMarkerWidth: 4
   bossConeMarkerDamage: 10
+  bossMultyConeMarkerLength: 15
+  bossMultyConeMarkerWidth: 6
+  bossMultyConeMarkerDamage: 10

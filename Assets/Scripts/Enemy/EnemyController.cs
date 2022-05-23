@@ -105,7 +105,10 @@ public class EnemyController : EnemyStateMachine
 
     private void Update()
     {
-        EnemyBehaviour();
+        if (Target != null)
+        {
+            EnemyBehaviour();
+        }
     }
 
     private void EnemyBehaviour()

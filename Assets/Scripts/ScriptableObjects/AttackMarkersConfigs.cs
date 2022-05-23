@@ -11,17 +11,25 @@ public class AttackMarkersConfigs : ScriptableObject
     public float rayMarkerLength = 6f;
     public float rayMarkerWidth = 2f;
     public int rayMarkerDamage = 10;
-    public float coneMarkerLength = 3f;
-    public float coneMarkerWidth = 4f;
-    public int coneMarkerDamage = 10;
 
     [Header("Boss")]
-    public float bossJumpMarkerSize = 3f;
-    public int bossJumpMarkerDamage = 10;
-    public float bossRayMarkerLength = 6f;
-    public float bossRayMarkerWidth = 2f;
-    public int bossRayMarkerDamage = 10;
-    public float bossConeMarkerLength = 3f;
-    public float bossConeMarkerWidth = 4f;
+    public float bossClowdMarkerSize = 3f;
+    public float bossClowdMarkerSpeed = 3f;
+    public float bossClowdMarkerLifetime = 6f;
+    [Space(5)]
+    public float bossPondMarkerSize = 3f;
+    public int bossPondMarkerDamage = 10;
+    [Space(5)]
+    public float bossRayMarkerLength = 30f;
+    public float bossRayMarkerWidth = 4f;
+    public int bossRayMarkerDamage = 0;
+    [Space(5)]
+    public float bossSingleConeMarkerLength = 3f;
+    public float bossSingleConeMarkerWidth = 4f;
     public int bossConeMarkerDamage = 10;
+    [Space(5)]
+    public float bossMultyConeMarkerLength = 3f;
+    public float bossMultyConeMarkerWidth = 4f;
+    public int bossMultyConeMarkerDamage = 10;
+
 }
