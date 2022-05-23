@@ -5,10 +5,13 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     [SerializeField] private float damage;
+    [SerializeField] private LayerMask _damageTo;
+    [SerializeField] private float hitRadius;
+    [SerializeField] private float hitDistance;
+    [SerializeField] private int countToDamage;
 
-    private void OnTriggerEnter(Collider other)
+    public void AttackSphereCast()
     {
-<<<<<<< HEAD
         float height = 1;
         Vector3 rayPos = new Vector3(transform.position.x, height , transform.position.z);
         Ray ray = new Ray(rayPos, transform.forward);
@@ -23,9 +26,18 @@ public class DamageDealer : MonoBehaviour
                 }
             }
         } 
-=======
-        if (other.TryGetComponent<Health>(out Health health))
-            health.TakeDamage(damage);
->>>>>>> parent of def3c50 (Damage SphereCast)
     }
+
+    private void OnDrawGizmos()
+    {
+        float height = transform.position.y + transform.localScale.y;
+        Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
+        Ray ray = new Ray(rayPos, transform.forward);
+        RaycastHit[] hits = new RaycastHit[countToDamage];
+        if (Physics.SphereCastNonAlloc(ray, hitRadius, hits, hitDistance, _damageTo) > 0)
+        {
+           
+        }
+    }
+
 }
