@@ -15,6 +15,7 @@ public class GiantChargeState : EnemyStates
 
     public override IEnumerator CurrentState()
     {
+        _enemyController.Agent.velocity = Vector3.zero;
         Vector3 lastPlayerPos = _enemyController.Target.position;
         Vector3 markerTarget = new Vector3(lastPlayerPos.x, lastPlayerPos.y + yPlayerCorrection, lastPlayerPos.z);
         float deleteTime = _enemyController.EnemiesConfigs.giantSpecialAttackDelay +
@@ -22,6 +23,7 @@ public class GiantChargeState : EnemyStates
         markerTarget.y += yMarkerCorrection;
         CreateMarker(_enemyController.transform.position, markerTarget, deleteTime);
         _enemyController.Agent.SetDestination(_enemyController.Target.position);
+        _enemyController.Agent.isStopped = true;
         yield return new WaitForSeconds(_enemyController.EnemiesConfigs.giantSpecialAttackDelay);
         _enemyController.StartSpecialAttack();
     }

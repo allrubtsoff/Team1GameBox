@@ -305,7 +305,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 300
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -328,8 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
   EnemiesConfigs: {fileID: 11400000, guid: 27a95c0492d17d74fadb6425e9c5ea24, type: 2}
-  _isLikho: 0
-  _isCyberGiant: 1
+  _enemyType: 1
   _specialAttack: {fileID: 7400000, guid: e8b06e9612c70d24796465ffd523df04, type: 2}
 --- !u!114 &3761463602285258528
 MonoBehaviour:

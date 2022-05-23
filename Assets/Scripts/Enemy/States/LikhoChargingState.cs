@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class LikhoChargingState : EnemyStates
 {
@@ -20,12 +21,13 @@ public class LikhoChargingState : EnemyStates
         float deleteTime = _enemyController.EnemiesConfigs.likhoSpecialAttackDelay +
                             _enemyController.SpecialAnimLength;
         CreateMarker(markerTarget, deleteTime);
-        _enemyController.Agent.isStopped = true;
-        _enemyController.Agent.SetDestination(lastPlayerPos);
-        float newSpeed = Vector3.Distance(_enemyController.Agent.destination, _enemyController.transform.position) /
-                                                                    _enemyController.SpecialAnimLength;
-        _enemyController.Agent.speed = newSpeed;
+        _enemyController.Agent.enabled = false;
+        float lookHeight = _enemyController.transform.localScale.y;
+        markerTarget.y = lookHeight;
+        _enemyController.transform.LookAt(markerTarget);
+        _enemyController.TmpTarget = markerTarget;
         yield return new WaitForSeconds(_enemyController.EnemiesConfigs.likhoSpecialAttackDelay);
+        _enemyController.transform.DOMove(markerTarget, _enemyController.DOMoveSpeed);
         _enemyController.StartSpecialAttack();
     }
 }
