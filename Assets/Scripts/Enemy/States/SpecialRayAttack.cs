@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpecialRayAttack : MonoBehaviour
+public class SpecialRayAttack : EnemyStates
 {
-    // Start is called before the first frame update
-    void Start()
+    public SpecialRayAttack(EnemyController enemyController) : base(enemyController)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override IEnumerator CurrentState()
     {
-        
+        _enemyController.Agent.isStopped = false;
+        yield break;
     }
 }

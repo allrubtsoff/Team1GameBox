@@ -9,9 +9,15 @@ public class SpecialJumpAttack : EnemyStates
     {
     }
 
+    private const float minDistance = 0.5f;
+
     public override IEnumerator CurrentState()
     {
-        _enemyController.Agent.isStopped = false;
+        if (Vector3.Distance(_enemyController.TmpTarget, _enemyController.transform.position) < minDistance)
+        {
+            _enemyController.IsSpecialJumping = false;
+            _enemyController.Agent.enabled = true;
+        }
         yield break;
     }
 }

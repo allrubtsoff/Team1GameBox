@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpMarkerSize: 3
   jumpMarkerDamage: 10
-  rayMarkerLength: 6
+  rayMarkerLength: 8
   rayMarkerWidth: 2
   rayMarkerDamage: 10
   bossClowdMarkerSize: 4
