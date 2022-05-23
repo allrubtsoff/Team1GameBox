@@ -13,17 +13,16 @@ public class Item : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Inventory>(out Inventory inventory))
+        if (other.gameObject.TryGetComponent<Inventory>(out Inventory inventory) && PickUp(inventory))
         {
-            PickUp(inventory);
-            playersHealth = other.GetComponent<Health>();
-            playersEnergy = other.GetComponent<Energy>();
+                playersHealth = other.GetComponent<Health>();
+                playersEnergy = other.GetComponent<Energy>();
         }
     }
 
-    public void PickUp(Inventory inventory)
+    public bool PickUp(Inventory inventory)
     {
-        inventory.AddItem(this);
+        return inventory.AddItem(this);
     }
 
     public void Use()

@@ -4,17 +4,19 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private Sprite commonInventorySlotIcon;
-    public Sprite CommonSlotImage { get { return commonInventorySlotIcon; }  }
+    public Sprite CommonSlotImage { get { return commonInventorySlotIcon; } }
 
-    private List<Item> items = new List<Item>();
+    private List<Item> inventory = new List<Item>();
+    private readonly int maxInventorySlots = 2;
 
-    public void AddItem(Item item)
+    public bool AddItem(Item item)
     {
-        if(items.Count < 3)
+        if(inventory.Count <= maxInventorySlots)
         {
             HideObject(item);
-            items.Add(item);
+            inventory.Add(item);
         }
+        return inventory.Count <= maxInventorySlots;
     }
 
     private void HideObject(Item item)
@@ -24,16 +26,16 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(int slotId)
     {
-        if (items.Count >= slotId+1 && items[slotId] != null)
+        if (inventory.Count >= slotId+1 && inventory[slotId] != null)
         {
-            Item usedItem = items[slotId];
+            Item usedItem = inventory[slotId];
             usedItem.Use();
-            items.Remove(items[slotId]);
+            inventory.Remove(inventory[slotId]);
         }
     }
 
     public List<Item> GetItems()
     {
-        return items;
+        return inventory;
     }
 }

@@ -1,4 +1,5 @@
 using StarterAssets;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ public class AxeThrow : MonoBehaviour
     private bool isAxeThrow;
     private Rigidbody axeRigidBody;
 
+    public static event Action<float> UpdateUI;
+
     void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
@@ -33,7 +36,8 @@ public class AxeThrow : MonoBehaviour
     private void CheckState()
     {
         if (!isAxeThrow && input.throwAxe) 
-        { 
+        {   if (UpdateUI != null)
+                UpdateUI.Invoke(CoolDown);
             ChangeState();
         }
     }

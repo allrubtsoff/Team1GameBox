@@ -1,4 +1,5 @@
 using StarterAssets;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class MIghtyPunch : MonoBehaviour
     private Energy energy;
 
     private bool isMightyPunchCooled = true;
+
+    public static Action<float> UpdateUI;
 
     void Start()
     {
@@ -31,6 +34,7 @@ public class MIghtyPunch : MonoBehaviour
         if (isMightyPunchAvailable())
         {
             Punch();
+            UpdateUI(configs.mightyPunchCooldown);
         }
         StopMovement();
     }

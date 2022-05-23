@@ -16,16 +16,22 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject player;
 
     private Inventory inventory;
-    private Health health;
-    private Energy energy;
-    private MIghtyPunch punch;
+
+
+    private void OnEnable()
+    {
+        AxeThrow.UpdateUI += AxeThrowCooldownSprite;
+        MIghtyPunch.UpdateUI += MightyPunchCooldownSprite;
+    }
+    private void OnDisable()
+    {
+        AxeThrow.UpdateUI -= AxeThrowCooldownSprite;
+        MIghtyPunch.UpdateUI -= MightyPunchCooldownSprite;
+    }
 
     private void Start()
     {
         inventory = player.GetComponent<Inventory>();
-        health = player.GetComponent<Health>();
-        energy = player.GetComponent<Energy>();
-        punch = player.GetComponent<MIghtyPunch>();
     }
 
     private void Update()
@@ -35,17 +41,53 @@ public class UiManager : MonoBehaviour
 
     private void CheckStates()
     {
-        hpBar.fillAmount = health.Hp / 100;
-        energyBar.fillAmount = energy.CurrentEnergy / 100;
-        var items = inventory.GetItems();
-        for (int i = 0; i < items.Count; i++)
+        var invent = inventory.GetItems();
+        for (int i = 0; i < invent.Count; i++)
         {
-            if (items[i] != null)
-                Slots[i].sprite = items[i].ItemSprite;
+            if (invent[i] != null)
+                Slots[i].sprite = invent[i].ItemSprite;
+            else
+                Slots[i].sprite = inventory.CommonSlotImage;
         }
-        if (items.Count < 2)
-        {
+    }
 
+    public void CheckHpBar(float hpValue)
+    {
+        hpBar.fillAmount = hpValue / 100;
+    }
+    
+    public void CheckEnergyBar(float energyValue)
+    {
+        energyBar.fillAmount = energyValue / 100;
+    }
+
+    public void AxeThrowCooldownSprite(float cooldown)
+    {
+        StartCoroutine(UpdateAxeThrowCooldownSprite(cooldown));
+    }
+    
+    private IEnumerator UpdateAxeThrowCooldownSprite(float cooldown)
+    {
+        axeThrowImage.fillAmount = 0;
+        for (float i=0; i<cooldown;i+=Time.deltaTime)
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+            axeThrowImage.fillAmount = i / cooldown;
+        }
+    }
+    
+    public void MightyPunchCooldownSprite(float cooldown)
+    {
+        StartCoroutine(UpdateMightyPunchCooldownSprite(cooldown));
+    }
+
+    private IEnumerator UpdateMightyPunchCooldownSprite(float cooldown)
+    {
+        mightyPunchImage.fillAmount = 0;
+        for (float i = 0; i < cooldown; i += Time.deltaTime)
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+            mightyPunchImage.fillAmount = i / cooldown;
         }
     }
 }

@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5535c33b1f71224faab151f95be643e, type: 3}
   m_Name: PlayerAbilitiesConfigs
   m_EditorClassIdentifier: 
-  magicKickDamage: 0
-  magicKickCost: 0
-  magicKickCooldown: 0
-  magicKickRange: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  airAtackDamage: 10
+  airAtackCost: 10
+  airAtackCooldown: 5
+  airAtackRange: 3
   mightyPunchDamage: 10
   mightyPunchCost: 10
   mightyPunchCooldown: 5
