@@ -3,19 +3,25 @@ using UnityEngine;
 public class Energy : MonoBehaviour
 {
     [SerializeField] private float energy;
+    public float CurrentEnergy { get; set; }
 
+    private void Start()
+    {
+        CurrentEnergy = energy;
+    }
     public bool CheckEnergyAvailable(float abilitiyCost)
     {
-        return energy >= abilitiyCost;
+        return CurrentEnergy >= abilitiyCost;
     }
 
     public void UseEnergy(float cost) 
     {
-        energy -= cost;
+        CurrentEnergy -= cost;
     }
 
     public void RestoreEnergy(float value)
     {
-        energy += value;
+        CurrentEnergy += value;
+        CurrentEnergy = Mathf.Min(CurrentEnergy, energy);
     }
 }

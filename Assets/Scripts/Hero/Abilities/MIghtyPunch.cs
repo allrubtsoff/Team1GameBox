@@ -1,12 +1,15 @@
 using StarterAssets;
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Energy))]
 public class MIghtyPunch : MonoBehaviour
 {
     [SerializeField] private PlayerAbilitiesConfigs configs;
     [SerializeField] private GameObject prefab;
+    [SerializeField] private UnityEvent mightyPunchEvent;
 
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
@@ -17,7 +20,7 @@ public class MIghtyPunch : MonoBehaviour
     void Start()
     {
         playerInputs = GetComponent<StarterAssetsInputs>();
-        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        animatorManager = GetComponent<AnimatorManager>();
         energy = GetComponent<Energy>();
     }
 
@@ -31,7 +34,9 @@ public class MIghtyPunch : MonoBehaviour
         if (isMightyPunchAvailable())
         {
             Punch();
+            TryUpdateUI();
         }
+        StopMovement();
     }
 
     private bool isMightyPunchAvailable()
@@ -40,10 +45,15 @@ public class MIghtyPunch : MonoBehaviour
             && isMightyPunchCooled && animatorManager.isGrounded();
     }
 
+    private void TryUpdateUI()
+    {
+        if (mightyPunchEvent != null)
+            mightyPunchEvent.Invoke();
+    }
+
     private void Punch()
     {
         energy.UseEnergy(configs.mightyPunchCost);
-        StopMovement();
         animatorManager.SetMightyPunch(true);
         StartCoroutine(ShowPunchZone());
         StartCoroutine(CoolDown());
@@ -66,7 +76,8 @@ public class MIghtyPunch : MonoBehaviour
 
     private void StopMovement()
     {
-        playerInputs.move = Vector2.zero;
+        if(animatorManager.GetMightyPunch())
+            playerInputs.move = Vector2.zero;
     }
 
     public void ResetMightyPunch()

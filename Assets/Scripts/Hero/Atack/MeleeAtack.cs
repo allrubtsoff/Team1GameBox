@@ -1,18 +1,19 @@
 using StarterAssets;
 using UnityEngine;
 
-[RequireComponent(typeof(StarterAssetsInputs))]
+[RequireComponent(typeof(StarterAssetsInputs),typeof(AnimatorManager))]
 
 public class MeleeAtack : MonoBehaviour
 {
-    [SerializeField] private AnimatorManager animatorManager;
     [SerializeField] private MousePositionManager mousePositionManager;
 
     private StarterAssetsInputs input;
+    private AnimatorManager animatorManager;
 
     private void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
+        animatorManager = GetComponent<AnimatorManager>();
     }
 
     void Update()
@@ -43,9 +44,6 @@ public class MeleeAtack : MonoBehaviour
         input.atack = false;
         animatorManager.SetAtack(false);
     }
-
-    public AnimatorManager GetAnimatorManager() 
-        => this.animatorManager;
     
     public MousePositionManager GetMouseManager() 
         => this.mousePositionManager;
