@@ -1,14 +1,16 @@
 Shader "Custom/FadeShader"
 {
-    Properties{
+    Properties
+    {
         _Color("Main Color", Color) = (1,1,1,1)
-        _MainTex("Base (RGB) Trans (A)", 2D) = "white" {}
+        _MainTex("Base (RGB) Trans (A)", 2D) = "black" {}
         _Alpha("Alpha",  Range(0,1)) = 1.0
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Metallic("Metallic", Range(0,1)) = 0.0
     }
 
-        SubShader{
+        SubShader
+        {
             Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
             LOD 200
             Blend SrcAlpha OneMinusSrcAlpha
@@ -21,11 +23,13 @@ Shader "Custom/FadeShader"
             float _Alpha;
             float _Metallic, _Glossiness;
 
-            struct Input {
+            struct Input 
+            {
                 float2 uv_MainTex;
             };
 
-            void surf(Input IN, inout SurfaceOutputStandard o) {
+            void surf(Input IN, inout SurfaceOutputStandard o) 
+            {
                 // Albedo comes from a texture tinted by color
                 fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
                 o.Albedo = c.rgb;
@@ -36,8 +40,6 @@ Shader "Custom/FadeShader"
             }
             ENDCG
         }
-
-            // enable shadow casting
-
-                Fallback "Diffuse"
+         // enable shadow casting
+         Fallback "Diffuse"
 }
