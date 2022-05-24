@@ -32,6 +32,8 @@ public class PlayerSounds : MonoBehaviour
     [Space(5)]
     [SerializeField] private AudioClip[] stepsArray;
     [Space(5)]
+    [SerializeField] private AudioClip[] jumpArray;
+    [Space(5)]
     [SerializeField] private AudioClip[] swingsArray;
     [Space(5)]
     [SerializeField] private AudioClip[] throwArray;
@@ -69,7 +71,13 @@ public class PlayerSounds : MonoBehaviour
         footSteps.clip = stepsArray[r];
         footSteps.Play();
     }
-    public void PlaySwordSound()
+    public void PlayJumpSound()
+    {
+        int r = Random.Range(0, jumpArray.Length);
+        jumpSound.clip = jumpArray[r];
+        jumpSound.Play();
+    }
+        public void PlaySwordSound()
     {
         int r = Random.Range(0, swingsArray.Length);
         swingAttack.clip = swingsArray[r];
