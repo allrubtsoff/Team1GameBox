@@ -49,7 +49,7 @@ public class CullingManager : MonoBehaviour
             positions.Add(unit.transform.position);
         }
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(mouseManager.GetMousePosition()), out RaycastHit hit, 100, m_layerMask) && m_includeMouse)
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(mouseManager.GetMousePosition()), out RaycastHit hit, 999f, m_layerMask) && m_includeMouse)
         {
             Vector3 mousePos = hit.point;
             if (!positions.Contains(mousePos))
@@ -87,7 +87,6 @@ public class CullingManager : MonoBehaviour
                 }
             }
         }
-
         return occludingObjects;
     }
 
