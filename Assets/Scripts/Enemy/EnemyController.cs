@@ -7,7 +7,7 @@ public class EnemyController : EnemyStateMachine
 {
     [SerializeField] public Transform Target;
     [SerializeField] public EnemiesConfigs EnemiesConfigs;
-    [Range(0.1f,5),SerializeField] public float DOMoveSpeed = 0.7f;
+    [Range(0.1f, 5), SerializeField] public float DOMoveSpeed = 0.7f;
     [Header("EnemyType")]
     [SerializeField] private EnemyType _enemyType;
     [SerializeField] private float _maxSpecialMoveDistance = 7f;
@@ -39,6 +39,7 @@ public class EnemyController : EnemyStateMachine
     private bool _isSpecialAttacking;
     private bool _isSpecialAttackCooled;
 
+    public bool IsAlive { get; set; }
     public NavMeshAgent Agent { get; set; }
     public Vector3 TmpTarget { get; set; }
     public float TmpSpeed { get; set; }
@@ -47,6 +48,8 @@ public class EnemyController : EnemyStateMachine
     public bool IsSpecialJumping { get; set; }
     public float SpecialAnimLength { get; private set; }
     public void SpecialIsFinished() => _isSpecialAttacking = false;
+
+
 
     private bool CanDoSpecialDistance(float maxSpecialDistance)
     {
@@ -92,6 +95,7 @@ public class EnemyController : EnemyStateMachine
         _isSpecialAttackCooled = true;
         _isCharging = false;
         _isSpecialAttacking = false;
+        IsAlive = true;
     }
 
     private void Update()
@@ -102,8 +106,21 @@ public class EnemyController : EnemyStateMachine
         }
     }
 
+    public void Revive()
+    {
+        IsAlive = true;
+        CurrState = _idleState;
+        GetComponent<Health>().Revive();
+    }
+
     private void EnemyBehaviour()
     {
+
+        if (!IsAlive)
+        {
+            CurrState = _deadState;
+            StopAllCoroutines();
+        }
 
         switch (_enemyType)
         {
@@ -266,7 +283,7 @@ public class EnemyController : EnemyStateMachine
 
                 break;
             case _deadState:
-
+                
                 break;
         }
 
@@ -284,7 +301,15 @@ public class EnemyController : EnemyStateMachine
     public void SetIsAttacking(bool isAttacking)
     {
         _isAttaking = isAttacking;
-        if (_isAttaking == false && _enemyType != EnemyType.Normal && 
+        if (isAttacking == false)
+        {
+            Vector3 lastPlayerPos = Target.position;
+            lastPlayerPos.y = yPlayerCorrection;
+            transform.LookAt(lastPlayerPos);
+
+        }
+
+        if (_isAttaking == false && _enemyType != EnemyType.Normal &&
                                     CanDoSpecialDistance(_maxSpecialMoveDistance))
         {
             SpecialAttackChance();

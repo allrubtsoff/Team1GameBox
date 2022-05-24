@@ -18,11 +18,13 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         Inventory.UpdateUI += UpdateInventorySlotSprite;
+        Health.HPChanged += CheckHpBar;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         Inventory.UpdateUI -= UpdateInventorySlotSprite;
+        Health.HPChanged -= CheckHpBar;
     }
 
     public void UpdateInventorySlotSprite(int slotId, Item item, bool itemUsed)
@@ -33,10 +35,11 @@ public class UiManager : MonoBehaviour
             Slots[slotId].sprite = item.ItemSprite;
     }
 
-
     public void CheckHpBar()
     {
         hpBar.fillAmount = player.GetComponent<Health>().Hp / 100;
+        Debug.Log("hpBarChanged");
+
     }
     
     public void CheckEnergyBar()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7903379515334972411}
   - component: {fileID: 2378488261371149779}
   - component: {fileID: 3543352397699536211}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EnemyController: {fileID: 7729486799591362589}
   m_Shooter: {fileID: 3761463602285258528}
+  m_DamageDealer: {fileID: 1980173214}
 --- !u!1 &4348137518985375948
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7812066077130866050}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +175,7 @@ GameObject:
   - component: {fileID: 281701529203360605}
   - component: {fileID: 8570773025386895240}
   - component: {fileID: 6481421756231012855}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +270,9 @@ GameObject:
   - component: {fileID: 7485823396193866268}
   - component: {fileID: 7729486799591362589}
   - component: {fileID: 3761463602285258528}
-  m_Layer: 0
+  - component: {fileID: 1980173215}
+  - component: {fileID: 1980173214}
+  m_Layer: 6
   m_Name: Giant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +331,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
   EnemiesConfigs: {fileID: 11400000, guid: 27a95c0492d17d74fadb6425e9c5ea24, type: 2}
+  DOMoveSpeed: 0.7
   _enemyType: 1
+  _maxSpecialMoveDistance: 7
   _specialAttack: {fileID: 7400000, guid: e8b06e9612c70d24796465ffd523df04, type: 2}
 --- !u!114 &3761463602285258528
 MonoBehaviour:
@@ -345,3 +350,38 @@ MonoBehaviour:
   bullet: {fileID: 398065097370666156, guid: be962be87292fbb4caa58b83cbed63f4, type: 3}
   shootPosition: {fileID: 7812066077130866050}
   bulletSpeed: 3
+--- !u!114 &1980173215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699334395585826986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89280019563a6e74aacee967af984e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hp: 50
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &1980173214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699334395585826986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12898c6839c5b124fa7d04b46141d742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 6
+  _damageTo:
+    serializedVersion: 2
+    m_Bits: 8
+  hitRadius: 1
+  hitDistance: 1
+  countToDamage: 5
