@@ -14,6 +14,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private GameObject player;
+    [SerializeField] PlayerAbilitiesConfigs configs;
 
     private void OnEnable()
     {
@@ -47,33 +48,33 @@ public class UiManager : MonoBehaviour
         energyBar.fillAmount = player.GetComponent<Energy>().CurrentEnergy / 100;
     }
 
-    public void AxeThrowCooldownSprite(float cooldown)
+    public void AxeThrowCooldownSprite()
     {
-        StartCoroutine(UpdateAxeThrowCooldownSprite(cooldown));
+        StartCoroutine(UpdateAxeThrowCooldownSprite());
     }
     
-    private IEnumerator UpdateAxeThrowCooldownSprite(float cooldown)
+    private IEnumerator UpdateAxeThrowCooldownSprite()
     {
         axeThrowImage.fillAmount = 0;
-        for (float i=0; i<cooldown;i+=Time.deltaTime)
+        for (float i=0; i<configs.axeThrowCooldown;i+=Time.deltaTime)
         {
             yield return new WaitForSeconds(Time.deltaTime);
-            axeThrowImage.fillAmount = i / cooldown;
+            axeThrowImage.fillAmount = i / configs.axeThrowCooldown;
         }
     }
     
-    public void MightyPunchCooldownSprite(float cooldown)
+    public void MightyPunchCooldownSprite()
     {
-        StartCoroutine(UpdateMightyPunchCooldownSprite(cooldown));
+        StartCoroutine(UpdateMightyPunchCooldownSprite());
     }
 
-    private IEnumerator UpdateMightyPunchCooldownSprite(float cooldown)
+    private IEnumerator UpdateMightyPunchCooldownSprite()
     {
         mightyPunchImage.fillAmount = 0;
-        for (float i = 0; i < cooldown; i += Time.deltaTime)
+        for (float i = 0; i < configs.mightyPunchCooldown; i += Time.deltaTime)
         {
             yield return new WaitForSeconds(Time.deltaTime);
-            mightyPunchImage.fillAmount = i / cooldown;
+            mightyPunchImage.fillAmount = i / configs.mightyPunchCooldown;
         }
     }
 }

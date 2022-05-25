@@ -10,7 +10,7 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private GameObject axe;
     [SerializeField] private Transform hand;
     [SerializeField] private float throwPower;
-    [SerializeField] private float coolDown;
+    [SerializeField] private PlayerAbilitiesConfigs configs;
     [SerializeField] private UnityEvent axeThrowEvent;
 
     private AnimatorManager animatorManager;
@@ -60,7 +60,7 @@ public class AxeThrow : MonoBehaviour
     private IEnumerator ThrowCoolDown()
     {
         isAxeThrow = true;
-        yield return new WaitForSeconds(coolDown);
+        yield return new WaitForSeconds(configs.axeThrowCooldown);
         resetThrowAxeState();
         isAxeThrow = false;
     }
