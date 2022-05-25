@@ -9,11 +9,15 @@ public class PlayerAbilitiesConfigs : ScriptableObject
 {
     public LayerMask enemyLayer;
 
-    [Header("Magic Kick")]
-    public float magicKickDamage;
-    public float magicKickCost;
-    public float magicKickCooldown;
-    public float magicKickRange;
+    [Header("Axe Throw")]
+    public float axeThrowDmg;
+    public float axeThrowCooldown;
+
+    [Header("Air Atack")]
+    public float airAtackDamage;
+    public float airAtackCost;
+    public float airAtackCooldown;
+    public float airAtackRange;
 
     [Header("Mighty Punch")]
     public float mightyPunchDamage;

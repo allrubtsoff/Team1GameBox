@@ -1,6 +1,8 @@
 using StarterAssets;
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(MeleeAtack))]
 public class AxeThrow : MonoBehaviour
@@ -8,7 +10,8 @@ public class AxeThrow : MonoBehaviour
     [SerializeField] private GameObject axe;
     [SerializeField] private Transform hand;
     [SerializeField] private float throwPower;
-    [SerializeField] private float CoolDown;
+    [SerializeField] private PlayerAbilitiesConfigs configs;
+    [SerializeField] private UnityEvent axeThrowEvent;
 
     private AnimatorManager animatorManager;
     private MousePositionManager mouseManager;
@@ -21,7 +24,7 @@ public class AxeThrow : MonoBehaviour
     {
         input = GetComponent<StarterAssetsInputs>();
         axeRigidBody = axe.GetComponent<Rigidbody>();
-        animatorManager = GetComponent<MeleeAtack>().GetAnimatorManager();
+        animatorManager = GetComponent<AnimatorManager>();
         mouseManager = GetComponent<MeleeAtack>().GetMouseManager();
     }
 
@@ -33,9 +36,16 @@ public class AxeThrow : MonoBehaviour
     private void CheckState()
     {
         if (!isAxeThrow && input.throwAxe) 
-        { 
+        {
+            TryUpdateUi();
             ChangeState();
         }
+    }
+
+    private void TryUpdateUi()
+    {
+        if (axeThrowEvent != null)
+            axeThrowEvent.Invoke();
     }
 
     private void ChangeState()
@@ -50,7 +60,7 @@ public class AxeThrow : MonoBehaviour
     private IEnumerator ThrowCoolDown()
     {
         isAxeThrow = true;
-        yield return new WaitForSeconds(CoolDown);
+        yield return new WaitForSeconds(configs.axeThrowCooldown);
         resetThrowAxeState();
         isAxeThrow = false;
     }
@@ -58,6 +68,7 @@ public class AxeThrow : MonoBehaviour
     //Called in the middle of Animation
     private void ThrowAxe()
     {
+        axe.SetActive(true);
         axeRigidBody.isKinematic = false;
         axeRigidBody.transform.parent = null;
         axe.transform.LookAt(throwDirection);

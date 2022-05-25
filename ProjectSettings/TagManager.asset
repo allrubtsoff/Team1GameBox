@@ -6,19 +6,20 @@ TagManager:
   tags:
   - CinemachineTarget
   - Environment
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - PostProcessing
   - Not in Reflection
-  - 
-  - 
+  - CustomPass
+  - Cullable
   - 
   - 
   - 

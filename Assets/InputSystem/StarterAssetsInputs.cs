@@ -18,6 +18,8 @@ namespace StarterAssets
 		public bool throwAxe;
 		public bool mightyPunch;
 		public bool dash;
+		public bool inventoryFirstSlot;
+		public bool inventorySecondSlot;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -29,8 +31,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			if(!mightyPunch)
-				MoveInput(value.Get<Vector2>());
+			MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
@@ -63,13 +64,24 @@ namespace StarterAssets
 
 		public void OnThrowAxe(InputValue value)
 		{
-			if(!mightyPunch)
+			if(TryGetComponent<AnimatorManager>(out AnimatorManager animatorManager) && !animatorManager.GetMightyPunch())
 				ThrowAxeInput(value.isPressed);
 		}
 
 		public void OnMightyPunch(InputValue value)
 		{
+			if(TryGetComponent<AnimatorManager>(out AnimatorManager animatorManager) && animatorManager.isGrounded())
 			MightyPunchInput(value.isPressed);
+		}
+		
+		public void OnInventoryFirstSlot(InputValue value)
+		{
+			InventoryFirstSlotInput(value.isPressed);
+		}		
+		
+		public void OnInventorySecondSlot(InputValue value)
+		{
+			InventorySecondSlotInput(value.isPressed);
 		}
 
 		public void OnDash(InputValue value)
@@ -121,6 +133,16 @@ namespace StarterAssets
 		public void MightyPunchInput(bool newMightyPunchInputState)
 		{
 			mightyPunch = newMightyPunchInputState;
+		}
+		
+		public void InventoryFirstSlotInput(bool newInventoryFirstSlotInputState)
+		{
+			inventoryFirstSlot = newInventoryFirstSlotInputState;
+		}
+
+		public void InventorySecondSlotInput(bool newInventorySecondSlotInputState)
+		{
+			inventorySecondSlot = newInventorySecondSlotInputState;
 		}
 
 		public void DashInput(bool newDashState)

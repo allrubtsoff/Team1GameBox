@@ -1,25 +1,27 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class EnemyController : EnemyStateMachine
 {
-
     [SerializeField] public Transform Target;
     [SerializeField] public EnemiesConfigs EnemiesConfigs;
+    [Range(0.1f, 5), SerializeField] public float DOMoveSpeed = 0.7f;
     [Header("EnemyType")]
-    [SerializeField] private bool _isLikho;
-    [SerializeField] private bool _isCyberGiant;
+    [SerializeField] private EnemyType _enemyType;
+    [SerializeField] private float _maxSpecialMoveDistance = 7f;
     [Header("SpecialAttackAnimation")]
     [Tooltip("Special Animation of your enemy type")]
     [SerializeField] private AnimationClip _specialAttack;
+    private CapsuleCollider _capsule;
     private enum EnemyType
     {
         Likho,
         CyberGiant,
         Normal
     }
-    private int _enemyType;
+
 
     private const int _idleState = 0;
     private const int _moveState = 1;
@@ -31,7 +33,6 @@ public class EnemyController : EnemyStateMachine
     private const float yPlayerCorrection = 1f;
 
     private float _stopDistanceCorrection = 0.3f;
-
     private float _specialChance;
     private float _cooldownTime;
 
@@ -40,18 +41,29 @@ public class EnemyController : EnemyStateMachine
     private bool _isSpecialAttacking;
     private bool _isSpecialAttackCooled;
 
-
-
+    public bool IsAlive { get; set; }
     public NavMeshAgent Agent { get; set; }
+    public Vector3 TmpTarget { get; set; }
+    public float TmpSpeed { get; set; }
     public int CurrState { get; private set; }
     public bool DoSpecial { get; set; }
+    public bool IsSpecialJumping { get; set; }
     public float SpecialAnimLength { get; private set; }
     public void SpecialIsFinished() => _isSpecialAttacking = false;
 
 
+
+    private bool CanDoSpecialDistance(float maxSpecialDistance)
+    {
+        if (Vector3.Distance(transform.position, Target.position) > maxSpecialDistance)
+        {
+            return true;
+        }
+        else return false;
+    }
+
     private void Start()
     {
-        EnemyTypeSet();
         EnemyPresetsOnType();
     }
 
@@ -61,67 +73,103 @@ public class EnemyController : EnemyStateMachine
 
         switch (_enemyType)
         {
-            case (int)EnemyType.Likho:
+            case EnemyType.Likho:
                 Agent.speed = EnemiesConfigs.likhoSpeed;
                 Agent.stoppingDistance = EnemiesConfigs.likhoStoppingDistance;
                 _specialChance = EnemiesConfigs.likhoSpecialAttackChance;
                 _cooldownTime = EnemiesConfigs.likhoSpecialAttackCooldownTime;
                 break;
-            case (int)EnemyType.CyberGiant:
+            case EnemyType.CyberGiant:
                 Agent.speed = EnemiesConfigs.giantSpeed;
                 Agent.stoppingDistance = EnemiesConfigs.giantStoppingDistance;
                 _specialChance = EnemiesConfigs.giantSpecialAttackChance;
                 _cooldownTime = EnemiesConfigs.giantSpecialAttackCooldownTime;
                 break;
-            case (int)EnemyType.Normal:
+            case EnemyType.Normal:
                 Agent.speed = EnemiesConfigs.normalSpeed;
                 Agent.stoppingDistance = EnemiesConfigs.normalStoppingDistance;
                 break;
         }
-
+        _capsule = GetComponent<CapsuleCollider>();
         _stopDistanceCorrection += Agent.stoppingDistance;
         CurrState = _idleState;
         SpecialAnimLength = _specialAttack.length;
         _isSpecialAttackCooled = true;
         _isCharging = false;
         _isSpecialAttacking = false;
-    }
-
-    private void EnemyTypeSet()
-    {
-        if (_isLikho)
-        {
-            _enemyType = (int)EnemyType.Likho;
-        }
-        else if (_isCyberGiant)
-        {
-            _enemyType = (int)EnemyType.CyberGiant;
-        }
-        else
-        {
-            _enemyType = (int)EnemyType.Normal;
-        }
+        IsAlive = true;
     }
 
     private void Update()
     {
-        EnemyBehaviour();
+        if (Target != null)
+        {
+            EnemyBehaviour();
+        }
+    }
+
+    public void Revive()
+    {
+        IsAlive = true;
+        Agent.enabled = true;
+        _capsule.enabled = false;
+        CurrState = _idleState;
+        GetComponent<Health>().Revive();
     }
 
     private void EnemyBehaviour()
     {
 
+        if (!IsAlive)
+        {
+            CurrState = _deadState;
+            StopAllCoroutines();
+        }
+
         switch (_enemyType)
         {
-            case (int)EnemyType.Likho:
+            case EnemyType.Likho:
                 LikhoControll();
                 break;
-            case (int)EnemyType.CyberGiant:
+            case EnemyType.CyberGiant:
                 GiantControll();
                 break;
-            case (int)EnemyType.Normal:
-                Agent.speed = EnemiesConfigs.normalSpeed;
-                Agent.stoppingDistance = EnemiesConfigs.normalStoppingDistance;
+            case EnemyType.Normal:
+                NormalControll();
+                break;
+        }
+    }
+
+    private void NormalControll()
+    {
+        float distanceToTarget = Vector3.Distance(transform.position, Target.position);
+
+        switch (CurrState)
+        {
+            case _idleState:
+                if (distanceToTarget <= EnemiesConfigs.likhoReactDistance)
+                {
+                    CurrState = _moveState;
+                }
+                SetState(new IdleState(this));
+                break;
+            case _moveState:
+                SetState(new MoveState(this));
+                if (distanceToTarget <= _stopDistanceCorrection)
+                {
+                    CurrState = _attackState;
+                }
+                break;
+            case _attackState:
+                SetState(new AttackState(this));
+                if (distanceToTarget >= Agent.stoppingDistance && !_isAttaking)
+                {
+                    CurrState = _moveState;
+                }
+                break;
+            case _deadState:
+                _capsule.enabled = false;
+                Agent.enabled = false;
                 break;
         }
     }
@@ -155,7 +203,7 @@ public class EnemyController : EnemyStateMachine
                 SetState(new AttackState(this));
 
                 Vector3 lastPlayerPos = Target.position;
-                lastPlayerPos.y += yPlayerCorrection;
+                lastPlayerPos.y = yPlayerCorrection;
                 transform.LookAt(lastPlayerPos);
 
                 if (distanceToTarget >= Agent.stoppingDistance && !_isAttaking)
@@ -168,31 +216,24 @@ public class EnemyController : EnemyStateMachine
                 if (!_isCharging)
                 {
                     _isCharging = true;
+                    SetState(new GiantChargeState(this));
 
-                    switch (_enemyType)
-                    {
-                        case (int)EnemyType.Likho:
-                            SetState(new LikhoChargingState(this));
-                            break;
-                        case (int)EnemyType.CyberGiant:
-                            SetState(new GiantChargeState(this));
-                            break;
-                    }
                 }
                 break;
             case _specialState:
 
-                SetState(new SpecialJumpAttack(this));
-
+                SetState(new SpecialRayAttack(this));
+                Agent.velocity = Vector3.zero;
                 if (!_isSpecialAttacking)
                 {
-                    Agent.velocity = Vector3.zero;
+
                     CurrState = _moveState;
                 }
 
                 break;
             case _deadState:
-
+                _capsule.enabled = false;
+                Agent.enabled = false;
                 break;
         }
     }
@@ -240,9 +281,7 @@ public class EnemyController : EnemyStateMachine
 
                 SetState(new SpecialJumpAttack(this));
 
-                float newDistance = Vector3.Distance(transform.position, Agent.destination);
-
-                if (!_isSpecialAttacking)
+                if (!_isSpecialAttacking && Agent.enabled)
                 {
                     Agent.velocity = Vector3.zero;
                     CurrState = _moveState;
@@ -250,15 +289,35 @@ public class EnemyController : EnemyStateMachine
 
                 break;
             case _deadState:
-
+                _capsule.enabled = false;
+                Agent.enabled = false;
                 break;
         }
+
+        if (IsSpecialJumping)
+        {
+            JumpMove(TmpTarget, TmpSpeed);
+        }
+    }
+
+    public void JumpMove(Vector3 target, float speed)
+    {
+        transform.DOMove(target, speed);
     }
 
     public void SetIsAttacking(bool isAttacking)
     {
         _isAttaking = isAttacking;
-        if (_isAttaking == false)
+        if (isAttacking == false)
+        {
+            Vector3 lastPlayerPos = Target.position;
+            lastPlayerPos.y = yPlayerCorrection;
+            transform.LookAt(lastPlayerPos);
+
+        }
+
+        if (_isAttaking == false && _enemyType != EnemyType.Normal &&
+                                    CanDoSpecialDistance(_maxSpecialMoveDistance))
         {
             SpecialAttackChance();
         }
