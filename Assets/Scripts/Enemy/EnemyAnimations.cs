@@ -8,6 +8,8 @@ public class EnemyAnimations : MonoBehaviour
     [SerializeField] private EnemyController m_EnemyController;
     [SerializeField] private EnemyShooter m_Shooter;
     [SerializeField] private DamageDealer m_DamageDealer;
+    [Space(10)]
+    [SerializeField] private float _attackAnimationSpeed = 1f;
 
     private Animator _animator;
     private int _animIDIdle;
@@ -26,7 +28,8 @@ public class EnemyAnimations : MonoBehaviour
 
     private bool _isDead;
 
-    public void Shoot() => m_Shooter.Shoot(m_EnemyController.Target.position);
+    public void Shoot() 
+        => m_Shooter.Shoot(m_EnemyController.Target.position, m_EnemyController.EnemiesConfigs.giantDamage);
     public void SpecialFinished() => m_EnemyController.SpecialIsFinished();
     public void TrySpecial() => m_EnemyController.SpecialAttackChance();
     public void StartAttackEvent() => m_EnemyController.SetIsAttacking(true);
@@ -36,7 +39,7 @@ public class EnemyAnimations : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-
+        _animator.SetFloat("AttackSpeed",_attackAnimationSpeed);
         AssignAnimationsIDs();
     }
 

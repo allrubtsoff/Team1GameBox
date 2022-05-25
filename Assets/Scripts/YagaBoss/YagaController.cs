@@ -11,7 +11,6 @@ public class YagaController : MonoBehaviour
     [SerializeField] private float _attackCooldown;
     [SerializeField] private float _markerDelay;
     private ThirdPersonController _controller;
-    private Health _health;
 
     private const float _lookHeight = 1f;
     private const float _cycleDelay = 0.5f;
@@ -37,7 +36,6 @@ public class YagaController : MonoBehaviour
     private void Start()
     {
         _controller = Target.GetComponent<ThirdPersonController>();
-        _health = GetComponent<Health>();
         CurrentState = _idleState;
         _isAttackCooled = true;
         _attackCounter = 0;
@@ -47,12 +45,10 @@ public class YagaController : MonoBehaviour
 
     private void Update()
     {
-        if (_health.Hp == 0)
+        if (!IsAlive)
         {
-            IsAlive = false;
             CurrentState = _deadState;
         }
-
 
         switch (CurrentState)
         {
@@ -83,9 +79,7 @@ public class YagaController : MonoBehaviour
                 castPos.y = _lookHeight;
                 transform.LookAt(castPos);
                 break;
-
             case _deadState:
-                Debug.Log("YagaDied");
                 break;
         }
     }
@@ -97,7 +91,11 @@ public class YagaController : MonoBehaviour
         {
             StartCoroutine(AttackCooling(_attackCooldown));
         }
-        CurrentState = _idleState;
+        if (IsAlive)
+        {
+            CurrentState = _idleState;
+
+        }
     }
 
     private IEnumerator AttackCooling(float cooldownTime)

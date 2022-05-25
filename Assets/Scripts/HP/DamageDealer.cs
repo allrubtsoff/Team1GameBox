@@ -24,7 +24,9 @@ public class DamageDealer : MonoBehaviour
                 if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
                 {
                     damageable.TakeDamage(damage, _damageTo);
+#if(UNITY_EDITOR)
                     Debug.Log("hit " + hit.transform.name);
+#endif
                 }
             }
         }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5840848923336789199}
   - component: {fileID: 7971023169152705469}
   - component: {fileID: -9179955751997747998}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ConeMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

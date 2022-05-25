@@ -21,6 +21,7 @@ public class YagaAnimations : MonoBehaviour
     private const int _castState = 3;
 
     private bool _isDead;
+    public void StateFinished() => _controller.ChangeState();
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class YagaAnimations : MonoBehaviour
 
         AssignAnimationsIDs();
         _animator.SetFloat("CastSpeed", _castSpeed);
+        _isDead = false;
     }
 
     private void Update()
@@ -38,7 +40,6 @@ public class YagaAnimations : MonoBehaviour
 
     }
 
-    public void StateFinished() => _controller.ChangeState();
 
     private void StateSwitcher()
     {
@@ -92,9 +93,9 @@ public class YagaAnimations : MonoBehaviour
     public void DeadState()
     {
         _animator.SetBool(_animIDIdle, false);
-        _animator.SetBool(_animIDCast, true);
+        _animator.SetBool(_animIDCast, false);
         _animator.SetBool(_animIDConeAttack, false);
-            if (!_isDead)
+        if (!_isDead)
         {
             _animator.SetTrigger(_animIDDeath);
             _isDead = true;

@@ -14,12 +14,14 @@ public class EnemyController : EnemyStateMachine
     [Header("SpecialAttackAnimation")]
     [Tooltip("Special Animation of your enemy type")]
     [SerializeField] private AnimationClip _specialAttack;
+    private CapsuleCollider _capsule;
     private enum EnemyType
     {
         Likho,
         CyberGiant,
         Normal
     }
+
 
     private const int _idleState = 0;
     private const int _moveState = 1;
@@ -88,7 +90,7 @@ public class EnemyController : EnemyStateMachine
                 Agent.stoppingDistance = EnemiesConfigs.normalStoppingDistance;
                 break;
         }
-
+        _capsule = GetComponent<CapsuleCollider>();
         _stopDistanceCorrection += Agent.stoppingDistance;
         CurrState = _idleState;
         SpecialAnimLength = _specialAttack.length;
@@ -109,6 +111,8 @@ public class EnemyController : EnemyStateMachine
     public void Revive()
     {
         IsAlive = true;
+        Agent.enabled = true;
+        _capsule.enabled = false;
         CurrState = _idleState;
         GetComponent<Health>().Revive();
     }
@@ -163,8 +167,9 @@ public class EnemyController : EnemyStateMachine
                     CurrState = _moveState;
                 }
                 break;
-
             case _deadState:
+                _capsule.enabled = false;
+                Agent.enabled = false;
                 break;
         }
     }
@@ -218,16 +223,17 @@ public class EnemyController : EnemyStateMachine
             case _specialState:
 
                 SetState(new SpecialRayAttack(this));
-
+                Agent.velocity = Vector3.zero;
                 if (!_isSpecialAttacking)
                 {
-                    Agent.velocity = Vector3.zero;
+
                     CurrState = _moveState;
                 }
 
                 break;
             case _deadState:
-
+                _capsule.enabled = false;
+                Agent.enabled = false;
                 break;
         }
     }
@@ -283,7 +289,8 @@ public class EnemyController : EnemyStateMachine
 
                 break;
             case _deadState:
-                
+                _capsule.enabled = false;
+                Agent.enabled = false;
                 break;
         }
 
