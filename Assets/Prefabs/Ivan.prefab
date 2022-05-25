@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 2016185280}
   - component: {fileID: 2016185279}
   - component: {fileID: 2016185278}
+  - component: {fileID: 8886789830651814214}
   m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
@@ -259,6 +260,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000004, y: 1.0000002, z: 1.0000005}
   m_Center: {x: -0.0000009536743, y: -0.00000047683716, z: 0.0000019073486}
+--- !u!114 &8886789830651814214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016185276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89280019563a6e74aacee967af984e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hp: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &163858541589695325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,6 +1846,7 @@ GameObject:
   - component: {fileID: 4798104673412131064}
   - component: {fileID: 4798104673412131061}
   - component: {fileID: 4798104673412131066}
+  - component: {fileID: 7181443725510928688}
   m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
@@ -1931,6 +1949,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000004, y: 1.0000002, z: 1.0000005}
   m_Center: {x: -0.0000009536743, y: -0.00000047683716, z: 0.0000019073486}
+--- !u!114 &7181443725510928688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798104673412131070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89280019563a6e74aacee967af984e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hp: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4839053095197725464
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,7 +2981,7 @@ GameObject:
   - component: {fileID: 4416926083347132241}
   - component: {fileID: 4416926083347132228}
   m_Layer: 3
-  m_Name: PlayerArmature
+  m_Name: Ivan
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3374,7 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89280019563a6e74aacee967af984e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  _hp: 0
   _layerMask:
     serializedVersion: 2
     m_Bits: 8
