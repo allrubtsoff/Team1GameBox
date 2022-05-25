@@ -50,13 +50,13 @@ public class AirAtack : MonoBehaviour
     {
         if (animatorManager.GetAirAtack() && animatorManager.isGrounded())
         {
+            energy.UseEnergy(configs.airAtackCost);
             UpdateUI.Invoke();
             animatorManager.SetAirAtack(false);
             if (CreateMarker != null)
             {
                 CreateMarker(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z) + transform.forward, 1f);
             }
-            energy.UseEnergy(configs.airAtackCost);
             StartCoroutine(BlockThrowAxe());
             StartCoroutine(CoolDown());
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Item : MonoBehaviour
 {
@@ -6,10 +7,12 @@ public class Item : MonoBehaviour
     [SerializeField] private float hpRestore;
     [SerializeField] private float energyRestore;
 
-    public Sprite ItemSprite { get { return itemSprite; }  }
-
     private Health playersHealth;
     private Energy playersEnergy;
+
+    public UnityEvent UpdateUi;
+
+    public Sprite ItemSprite { get { return itemSprite; }  }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,5 +32,6 @@ public class Item : MonoBehaviour
     {
         playersHealth.RestoreHealth(hpRestore);
         playersEnergy.RestoreEnergy(energyRestore);
+        UpdateUi.Invoke();
     }
 }
