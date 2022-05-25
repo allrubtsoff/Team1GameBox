@@ -203,7 +203,7 @@ public class EnemyController : EnemyStateMachine
                 SetState(new AttackState(this));
 
                 Vector3 lastPlayerPos = Target.position;
-                lastPlayerPos.y = yPlayerCorrection;
+                lastPlayerPos.y = transform.position.y;
                 transform.LookAt(lastPlayerPos);
 
                 if (distanceToTarget >= Agent.stoppingDistance && !_isAttaking)
@@ -311,7 +311,7 @@ public class EnemyController : EnemyStateMachine
         if (isAttacking == false)
         {
             Vector3 lastPlayerPos = Target.position;
-            lastPlayerPos.y = yPlayerCorrection;
+            lastPlayerPos.y = transform.position.y;
             transform.LookAt(lastPlayerPos);
 
         }

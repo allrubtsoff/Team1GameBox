@@ -39,7 +39,6 @@ public class UiManager : MonoBehaviour
     public void CheckHpBar()
     {
         hpBar.fillAmount = player.GetComponent<Health>().Hp / 100;
-        Debug.Log("hpBarChanged");
 
     }
     
