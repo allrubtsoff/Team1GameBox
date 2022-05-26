@@ -1010,6 +1010,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2016185279, guid: 91c687c4626af4c4799542635206a26c, type: 3}
+      propertyPath: _damageTo.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936894704625625254, guid: 91c687c4626af4c4799542635206a26c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926083347132230, guid: 91c687c4626af4c4799542635206a26c, type: 3}
+      propertyPath: _mask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 4416926083347132241, guid: 91c687c4626af4c4799542635206a26c, type: 3}
       propertyPath: _hp
       value: 100
@@ -1018,6 +1030,10 @@ PrefabInstance:
       propertyPath: mousePositionManager
       value: 
       objectReference: {fileID: 741409602}
+    - target: {fileID: 7331354362262365710, guid: 91c687c4626af4c4799542635206a26c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8399645091220033060, guid: 91c687c4626af4c4799542635206a26c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1066,29 +1082,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ivan
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8886789830651814214, guid: 91c687c4626af4c4799542635206a26c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 91c687c4626af4c4799542635206a26c, type: 3}
---- !u!1 &1809391775 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2016185276, guid: 91c687c4626af4c4799542635206a26c, type: 3}
-  m_PrefabInstance: {fileID: 1809391774}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1809391776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809391775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89280019563a6e74aacee967af984e84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 0
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &1859568853 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4701095037354869645, guid: 699940b01453a654681a9321cfac8fdd, type: 3}

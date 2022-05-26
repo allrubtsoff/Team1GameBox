@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Energy))]
 public class MIghtyPunch : MonoBehaviour
@@ -10,10 +11,16 @@ public class MIghtyPunch : MonoBehaviour
     [SerializeField] private PlayerAbilitiesConfigs configs;
     [SerializeField] private GameObject prefab;
     [SerializeField] private UnityEvent mightyPunchEvent;
+    [Space (20)]
+    [SerializeField] private LayerMask _mask;
+    [SerializeField] private float hitRadius = 1.5f;
+    [SerializeField] private float hitDistance = 1.5f;
+    [SerializeField] private int countToDamage = 10;
 
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
     private Energy energy;
+    private PunchDamage punch;
 
     private bool isMightyPunchCooled = true;
 
@@ -22,6 +29,7 @@ public class MIghtyPunch : MonoBehaviour
         playerInputs = GetComponent<StarterAssetsInputs>();
         animatorManager = GetComponent<AnimatorManager>();
         energy = GetComponent<Energy>();
+        punch = prefab.GetComponent<PunchDamage>();
     }
 
     void Update()
@@ -59,6 +67,32 @@ public class MIghtyPunch : MonoBehaviour
         StartCoroutine(CoolDown());
     }
 
+    public void Kick()
+    {
+        float height = transform.position.y + transform.localScale.y;
+        Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
+        Ray ray = new Ray(rayPos, transform.forward);
+        RaycastHit[] hits = new RaycastHit[countToDamage];
+        if (Physics.SphereCastNonAlloc(ray, hitRadius, hits, hitDistance, _mask) > 0)
+        {
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+                {
+
+                    Debug.Log($"Kick {hit.transform.name}");
+                    damageable.TakeDamage(configs.mightyPunchDamage, _mask);
+                    Vector3 pushVector = hit.transform.position - transform.position;
+                    hit.transform.GetComponent<NavMeshAgent>().velocity = pushVector.normalized * configs.mightyPunchForce;
+#if (UNITY_EDITOR)
+                    Debug.Log("hit " + hit.transform.name);
+#endif
+                }
+            }
+        }
+
+    }
+
     private IEnumerator ShowPunchZone()
     {
         prefab.SetActive(true);
@@ -76,7 +110,7 @@ public class MIghtyPunch : MonoBehaviour
 
     private void StopMovement()
     {
-        if(animatorManager.GetMightyPunch())
+        if (animatorManager.GetMightyPunch())
             playerInputs.move = Vector2.zero;
     }
 
