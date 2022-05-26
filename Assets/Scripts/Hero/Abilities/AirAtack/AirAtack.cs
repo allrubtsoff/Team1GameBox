@@ -9,7 +9,6 @@ using UnityEngine.AI;
 public class AirAtack : MonoBehaviour
 {
     [SerializeField] private PlayerAbilitiesConfigs configs;
-    [SerializeField] private LayerMask _mask;
 
     private AnimatorManager animatorManager;
     private StarterAssetsInputs inputs;
@@ -72,13 +71,13 @@ public class AirAtack : MonoBehaviour
         Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
         Ray ray = new Ray(rayPos, transform.forward);
         RaycastHit[] hits = new RaycastHit[hitCount];
-        if (Physics.SphereCastNonAlloc(ray, configs.airAtackRange, hits, 0, _mask) > 0)
+        if (Physics.SphereCastNonAlloc(ray, configs.airAtackRange, hits, 0, configs.enemyLayer) > 0)
         {
             foreach (RaycastHit hit in hits)
             {
                 if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
                 {
-                    damageable.TakeDamage(configs.mightyPunchDamage, _mask);
+                    damageable.TakeDamage(configs.mightyPunchDamage, configs.enemyLayer);
                     Vector3 pushVector = hit.transform.position - transform.position;
                     hit.transform.GetComponent<NavMeshAgent>().velocity = pushVector.normalized * configs.mightyPunchForce;
 #if (UNITY_EDITOR)

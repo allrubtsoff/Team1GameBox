@@ -45,7 +45,7 @@ public class EnemyController : EnemyStateMachine
     public NavMeshAgent Agent { get; set; }
     public Vector3 TmpTarget { get; set; }
     public float TmpSpeed { get; set; }
-    public int CurrState { get; private set; }
+    public int CurrState { get; set; }
     public bool DoSpecial { get; set; }
     public bool IsSpecialJumping { get; set; }
     public float SpecialAnimLength { get; private set; }
@@ -298,6 +298,14 @@ public class EnemyController : EnemyStateMachine
         {
             JumpMove(TmpTarget, TmpSpeed);
         }
+    }
+
+    public void Agressive() => StartCoroutine(SetToMoveState());
+
+    private IEnumerator SetToMoveState()
+    {
+        yield return new WaitForSeconds(0.3f);
+        CurrState = _moveState;
     }
 
     public void JumpMove(Vector3 target, float speed)

@@ -12,7 +12,6 @@ public class MIghtyPunch : MonoBehaviour
     [SerializeField] private GameObject prefab;
     [SerializeField] private UnityEvent mightyPunchEvent;
     [Space (20)]
-    [SerializeField] private LayerMask _mask;
     [SerializeField] private float hitRadius = 1.5f;
     [SerializeField] private float hitDistance = 1.5f;
     [SerializeField] private int countToDamage = 10;
@@ -73,19 +72,19 @@ public class MIghtyPunch : MonoBehaviour
         Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
         Ray ray = new Ray(rayPos, transform.forward);
         RaycastHit[] hits = new RaycastHit[countToDamage];
-        if (Physics.SphereCastNonAlloc(ray, hitRadius, hits, hitDistance, _mask) > 0)
+        if (Physics.SphereCastNonAlloc(ray, hitRadius, hits, hitDistance, configs.enemyLayer) > 0)
         {
             foreach (RaycastHit hit in hits)
             {
                 if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
                 {
 
-                    Debug.Log($"Kick {hit.transform.name}");
-                    damageable.TakeDamage(configs.mightyPunchDamage, _mask);
+
+                    damageable.TakeDamage(configs.mightyPunchDamage, configs.enemyLayer);
                     Vector3 pushVector = hit.transform.position - transform.position;
                     hit.transform.GetComponent<NavMeshAgent>().velocity = pushVector.normalized * configs.mightyPunchForce;
 #if (UNITY_EDITOR)
-                    Debug.Log("hit " + hit.transform.name);
+                    Debug.Log($"Kick {hit.transform.name}");
 #endif
                 }
             }
