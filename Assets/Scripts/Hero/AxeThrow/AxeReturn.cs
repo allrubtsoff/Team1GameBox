@@ -21,6 +21,7 @@ public class AxeReturn : MonoBehaviour
     {
         if (collision.gameObject.layer != playersLayer)
         {
+            Debug.Log("AXEEEEEEEEEEEEEEE"+collision.gameObject.name);
             rigidBody.isKinematic = true;
             StartCoroutine(ReturnAxe());
         }
