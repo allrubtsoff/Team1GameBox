@@ -50,7 +50,7 @@ public class AttackMarkersController : MonoBehaviour
 
     private IEnumerator PondCorutine(Vector3 pos, float timeToDel)
     {
-        pos.y = _yPosCorrection;
+        pos.y += _yPosCorrection;
         GameObject pond = Instantiate(_pondMarkerPrefab, pos, Quaternion.identity);
         float delay = timeToDel / 3;
         var pondScript = pond.GetComponent<MarkerDamageScript>();
@@ -68,7 +68,7 @@ public class AttackMarkersController : MonoBehaviour
 
     private IEnumerator RayCorutine(Vector3 pos, Vector3 target, float timeToDel)
     {
-        pos.y = _yPosCorrection;
+        pos.y += _yPosCorrection;
         target.y = pos.y;
         GameObject rayMark = Instantiate(_rayMarkerPrefab, pos, Quaternion.identity);
         rayMark.transform.LookAt(target);
@@ -89,7 +89,7 @@ public class AttackMarkersController : MonoBehaviour
 
     private IEnumerator BossRayCorutine(Vector3 pos, Vector3 target, float timeToDel)
     {
-        pos.y = _yPosCorrection;
+        pos.y += _yPosCorrection;
         target.y = pos.y;
         GameObject rayMark = Instantiate(_rayMarkerPrefab, pos, Quaternion.identity);
         rayMark.transform.LookAt(target);
@@ -110,7 +110,7 @@ public class AttackMarkersController : MonoBehaviour
 
     private IEnumerator ConeCorutine(Vector3 pos, Vector3 target, float timeToDel)
     {
-        pos.y = _yPosCorrection;
+        pos.y += _yPosCorrection;
         target.y = pos.y;
         GameObject cone = Instantiate(_coneMarkerPrefab, pos, Quaternion.identity);
         cone.transform.LookAt(target);
