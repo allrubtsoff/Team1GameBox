@@ -28,7 +28,9 @@ public class UnlockSystemManager : MonoBehaviour
 
     public void TryUnlock()
     {
-        if ( IsEnoughtItems(counter))
+        counter++;
+
+        if ( IsEnoughtItems())
         {
             if (airAtack.enabled == false)
                 airAtack.enabled = true;
@@ -36,12 +38,10 @@ public class UnlockSystemManager : MonoBehaviour
                 mightyPunch.enabled = true;
             counter = 0;
         }
-        else
-            counter++;
     }
 
-    private bool IsEnoughtItems(int itemsCount)
+    private bool IsEnoughtItems()
     {
-        return countOfItemsToUnlock >= itemsCount;
+        return counter >= countOfItemsToUnlock;
     }
 }
