@@ -1051,6 +1051,10 @@ PrefabInstance:
       propertyPath: enemyLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 4798104673400631605, guid: 91c687c4626af4c4799542635206a26c, type: 3}
+      propertyPath: _mask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 4798104673400631608, guid: 91c687c4626af4c4799542635206a26c, type: 3}
       propertyPath: mousePositionManager
       value: 

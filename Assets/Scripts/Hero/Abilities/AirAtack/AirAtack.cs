@@ -3,11 +3,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(MeleeAtack))]
 public class AirAtack : MonoBehaviour
 {
     [SerializeField] private PlayerAbilitiesConfigs configs;
+    [SerializeField] private LayerMask _mask;
 
     private AnimatorManager animatorManager;
     private StarterAssetsInputs inputs;
@@ -19,6 +21,7 @@ public class AirAtack : MonoBehaviour
     public UnityEvent UpdateUI;
 
     public static event Action<Vector3, float> CreateMarker;
+    private const int hitCount = 15;
 
     void Start()
     {
@@ -53,14 +56,38 @@ public class AirAtack : MonoBehaviour
             energy.UseEnergy(configs.airAtackCost);
             UpdateUI.Invoke();
             animatorManager.SetAirAtack(false);
+            AirHit();
             if (CreateMarker != null)
             {
-                CreateMarker(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z) + transform.forward, 1f);
+                CreateMarker(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z) + transform.forward, 0.1f);
             }
             StartCoroutine(BlockThrowAxe());
             StartCoroutine(CoolDown());
         }
     }
+
+    private void AirHit()
+    {
+        float height = transform.position.y + transform.localScale.y;
+        Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
+        Ray ray = new Ray(rayPos, transform.forward);
+        RaycastHit[] hits = new RaycastHit[hitCount];
+        if (Physics.SphereCastNonAlloc(ray, configs.airAtackRange, hits, 0, _mask) > 0)
+        {
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+                {
+                    damageable.TakeDamage(configs.mightyPunchDamage, _mask);
+                    Vector3 pushVector = hit.transform.position - transform.position;
+                    hit.transform.GetComponent<NavMeshAgent>().velocity = pushVector.normalized * configs.mightyPunchForce;
+#if (UNITY_EDITOR)
+                    Debug.Log($"AirHit {hit.transform.name}");
+#endif
+                }
+            }
+        }
+    } 
 
     private IEnumerator CoolDown()
     {
