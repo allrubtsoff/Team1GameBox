@@ -22,7 +22,6 @@ public class Health : MonoBehaviour, IDamageable
         {
             _isPlayer = true;
         }
-
     }
 
     public void RestoreHealth(float amount)

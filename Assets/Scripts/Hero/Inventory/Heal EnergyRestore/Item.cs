@@ -3,7 +3,6 @@ using UnityEngine.Events;
 
 public abstract class Item : MonoBehaviour
 {
-    [SerializeField] private Sprite itemSprite;
     [SerializeField] private float hpRestore;
     [SerializeField] private float energyRestore;
 
@@ -11,8 +10,6 @@ public abstract class Item : MonoBehaviour
     private Energy playersEnergy;
 
     public UnityEvent UpdateUi;
-
-    public Sprite ItemSprite { get { return itemSprite; }  }
 
     private void OnTriggerEnter(Collider other)
     {
