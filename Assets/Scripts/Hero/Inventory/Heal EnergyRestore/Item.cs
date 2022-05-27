@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +10,7 @@ public abstract class Item : MonoBehaviour
     private Health playersHealth;
     private Energy playersEnergy;
 
-    public UnityEvent UpdateUi;
+    public static Action UpdateUi;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,7 +30,7 @@ public abstract class Item : MonoBehaviour
     {
         playersHealth.RestoreHealth(hpRestore);
         playersEnergy.RestoreEnergy(energyRestore);
-        UpdateUi.Invoke();
+        UpdateUi?.Invoke();
         Destroy(this, 1f);
     }
 }

@@ -26,12 +26,16 @@ public class UiManager : MonoBehaviour
     {
         Inventory.UpdateUI += UpdateInventorySprite;
         Health.HPChanged += CheckHpBar;
+        Item.UpdateUi += CheckHpBar;
+        Item.UpdateUi += CheckEnergyBar;
     }
 
     private void OnDestroy()
     {
         Inventory.UpdateUI -= UpdateInventorySprite;
         Health.HPChanged -= CheckHpBar;
+        Item.UpdateUi -= CheckHpBar;
+        Item.UpdateUi -= CheckEnergyBar;
     }
 
     public void UpdateInventorySprite(int dimensionIndex, int slotIndex, bool itemUsed)
