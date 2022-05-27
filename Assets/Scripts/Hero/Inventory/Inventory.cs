@@ -49,14 +49,14 @@ public class Inventory : MonoBehaviour
     public bool AddItem<T>(T item) where T : Item
     {
         var dimensionIndex = GetItemType<T>(item);
-        if (dimensionIndex != -1)
+        var emptySlot = FindFirstEmptySlot(dimensionIndex);
+        if (emptySlot != -1)
         {
-            var slotId = FindFirstEmptySlot(dimensionIndex);
             HideObject(item);
-            TryUpdateUI(dimensionIndex, dimensionIndex, false);
-            inventory[dimensionIndex, slotId] = item;
+            TryUpdateUI(dimensionIndex, emptySlot, false);
+            inventory[dimensionIndex, emptySlot] = item;
         }
-        return FindFirstEmptySlot(dimensionIndex) > 0;
+        return emptySlot != -1;
     }
 
     private int GetItemType<T>(T item) where T : Item
@@ -71,10 +71,15 @@ public class Inventory : MonoBehaviour
 
     private int FindFirstEmptySlot(int dimensionIndex)
     {
-        for(int i=0; i < inventory.GetLength(dimensionIndex); i++)
+        if (dimensionIndex > -1)
         {
-            if (inventory[dimensionIndex, i] == null)
-                return i;
+            var length = countOfItemsInSlot;
+            for (int i = 0; i < length; i++)
+            {
+                Debug.Log(inventory.GetLength(dimensionIndex));
+                if (inventory[dimensionIndex, i] == null)
+                    return i;
+            }
         }
         return -1;
     }
@@ -104,7 +109,7 @@ public class Inventory : MonoBehaviour
 
     private int FindLastItemInInventory(int dimensionIndex)
     {
-        for (int i = inventory.GetLength(dimensionIndex) -1; i > -1; i--)
+        for (int i = countOfItemsInSlot -1; i > -1; i--)
         {
             if (inventory[dimensionIndex, i] != null)
                 return i;

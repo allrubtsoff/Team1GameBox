@@ -3308,6 +3308,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commonInventorySlotIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  maxInventorySlots: 2
+  countOfItemsInSlot: 5
 --- !u!114 &4416926083347132241
 MonoBehaviour:
   m_ObjectHideFlags: 0
