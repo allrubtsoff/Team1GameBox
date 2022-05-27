@@ -1,5 +1,4 @@
 using StarterAssets;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +10,7 @@ public class MIghtyPunch : MonoBehaviour
     [SerializeField] private PlayerAbilitiesConfigs configs;
     [SerializeField] private GameObject prefab;
     [SerializeField] private UnityEvent mightyPunchEvent;
+
     [Space (20)]
     [SerializeField] private LayerMask _mask;
     [SerializeField] private float hitRadius = 1.5f;
@@ -20,16 +20,20 @@ public class MIghtyPunch : MonoBehaviour
     private StarterAssetsInputs playerInputs;
     private AnimatorManager animatorManager;
     private Energy energy;
-    private PunchDamage punch;
+    private MousePositionManager mouseMangaer;
+    private ThirdPersonController playerController;
 
+    private float sprintSpeed;
     private bool isMightyPunchCooled = true;
 
     void Start()
     {
         playerInputs = GetComponent<StarterAssetsInputs>();
         animatorManager = GetComponent<AnimatorManager>();
+        mouseMangaer = GetComponent<MeleeAtack>().GetMouseManager();
+        playerController = GetComponent<ThirdPersonController>();
         energy = GetComponent<Energy>();
-        punch = prefab.GetComponent<PunchDamage>();
+        sprintSpeed = playerController.SprintSpeed;
     }
 
     void Update()
@@ -53,44 +57,13 @@ public class MIghtyPunch : MonoBehaviour
             && isMightyPunchCooled && animatorManager.isGrounded();
     }
 
-    private void TryUpdateUI()
-    {
-        if (mightyPunchEvent != null)
-            mightyPunchEvent.Invoke();
-    }
-
     private void Punch()
     {
         energy.UseEnergy(configs.mightyPunchCost);
+        mouseMangaer.LookAtMouseDirection();
         animatorManager.SetMightyPunch(true);
         StartCoroutine(ShowPunchZone());
         StartCoroutine(CoolDown());
-    }
-
-    public void Kick()
-    {
-        float height = transform.position.y + transform.localScale.y;
-        Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
-        Ray ray = new Ray(rayPos, transform.forward);
-        RaycastHit[] hits = new RaycastHit[countToDamage];
-        if (Physics.SphereCastNonAlloc(ray, hitRadius, hits, hitDistance, _mask) > 0)
-        {
-            foreach (RaycastHit hit in hits)
-            {
-                if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
-                {
-
-                    Debug.Log($"Kick {hit.transform.name}");
-                    damageable.TakeDamage(configs.mightyPunchDamage, _mask);
-                    Vector3 pushVector = hit.transform.position - transform.position;
-                    hit.transform.GetComponent<NavMeshAgent>().velocity = pushVector.normalized * configs.mightyPunchForce;
-#if (UNITY_EDITOR)
-                    Debug.Log("hit " + hit.transform.name);
-#endif
-                }
-            }
-        }
-
     }
 
     private IEnumerator ShowPunchZone()
@@ -108,15 +81,46 @@ public class MIghtyPunch : MonoBehaviour
         isMightyPunchCooled = true;
     }
 
+    private void TryUpdateUI()
+    {
+        if (mightyPunchEvent != null)
+            mightyPunchEvent.Invoke();
+    }
+
+    public void Kick()
+    {
+        float height = transform.position.y + transform.localScale.y;
+        Vector3 rayPos = new Vector3(transform.position.x, height, transform.position.z);
+        Ray ray = new Ray(rayPos, transform.forward);
+        RaycastHit[] hits = new RaycastHit[countToDamage];
+        if (Physics.SphereCastNonAlloc(ray, hitRadius, hits, hitDistance, _mask) > 0)
+        {
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+                {
+                    damageable.TakeDamage(configs.mightyPunchDamage, _mask);
+                    Vector3 pushVector = hit.transform.position - transform.position;
+                    hit.transform.GetComponent<NavMeshAgent>().velocity = pushVector.normalized * configs.mightyPunchForce;
+#if (UNITY_EDITOR)
+                    Debug.Log("hit " + hit.transform.name);
+#endif
+                }
+            }
+        }
+    }
+
     private void StopMovement()
     {
         if (animatorManager.GetMightyPunch())
-            playerInputs.move = Vector2.zero;
+            playerController.SprintSpeed = 0;
     }
 
     public void ResetMightyPunch()
     {
+        mouseMangaer.StopLookingAtMouseDirection();
         playerInputs.mightyPunch = false;
         animatorManager.SetMightyPunch(false);
+        playerController.SprintSpeed = sprintSpeed;
     }
 }
