@@ -23,7 +23,7 @@ public class Item : MonoBehaviour
         }
     }
 
-    public bool PickUp(Inventory inventory)
+    private bool PickUp(Inventory inventory)
     {
         return inventory.AddItem(this);
     }
