@@ -1717,11 +1717,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcf3c5d853f4aa4e91e745fc557a48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configs: {fileID: 0}
   timeToRelocateAfterCollision: 1
   playersHand: {fileID: 4798104672314587954}
   playersLayer:
     serializedVersion: 2
     m_Bits: 8
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4798104672314587955
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,6 +3306,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   configs: {fileID: 11400000, guid: 57dd49d133fd59743b32d275a9701359, type: 2}
+  _mask:
+    serializedVersion: 2
+    m_Bits: 0
   UpdateUI:
     m_PersistentCalls:
       m_Calls:
@@ -3371,6 +3378,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _mask:
+    serializedVersion: 2
+    m_Bits: 0
+  hitRadius: 1.5
+  hitDistance: 1.5
+  countToDamage: 10
 --- !u!114 &3812771554279255935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3424,7 +3437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12898c6839c5b124fa7d04b46141d742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 15
+  damage: 10
   _damageTo:
     serializedVersion: 2
     m_Bits: 64
