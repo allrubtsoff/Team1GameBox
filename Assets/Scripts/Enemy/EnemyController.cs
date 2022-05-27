@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using System;
 
 public class EnemyController : EnemyStateMachine
 {
@@ -21,7 +22,7 @@ public class EnemyController : EnemyStateMachine
         CyberGiant,
         Normal
     }
-
+    private int deathActionCounter = 0;
 
     private const int _idleState = 0;
     private const int _moveState = 1;
@@ -51,7 +52,7 @@ public class EnemyController : EnemyStateMachine
     public float SpecialAnimLength { get; private set; }
     public void SpecialIsFinished() => _isSpecialAttacking = false;
 
-
+    public static Action EnemyDeathAction;
 
     private bool CanDoSpecialDistance(float maxSpecialDistance)
     {
@@ -124,6 +125,11 @@ public class EnemyController : EnemyStateMachine
         {
             CurrState = _deadState;
             StopAllCoroutines();
+            if (deathActionCounter == 0)
+            {
+                deathActionCounter++;
+                EnemyDeathAction?.Invoke();
+            }
         }
 
         switch (_enemyType)

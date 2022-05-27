@@ -6,6 +6,7 @@ using StarterAssets;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private DeathArena deathArena;
     [SerializeField] private ThirdPersonController _controller;
     [SerializeField] private List<Enemy> bossMinions;
     [SerializeField] private List<Enemy> arenaMinions;
@@ -100,6 +101,7 @@ public class EnemySpawner : MonoBehaviour
             }
             else
             {
+                deathArena.EnemiesAlive++;
                 var enemyController = enemiesOnArena[i].GetComponent<EnemyController>();
                 enemyController.Target = _controller.transform;
                 enemiesOnArena[i].transform.position = point;
@@ -136,15 +138,6 @@ public class EnemySpawner : MonoBehaviour
                 enemiesOnBossScene[i].transform.position = point;
                 enemiesOnBossScene[i].SetActive(true);
             }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out CharacterController controller))
-        {
-        Debug.Log(other.transform.name);
-            ArenaSummon();
         }
     }
 }

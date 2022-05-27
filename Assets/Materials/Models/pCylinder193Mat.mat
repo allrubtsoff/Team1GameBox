@@ -140,7 +140,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_4cdb94903b3749c5a22abd74273f10f9: 0.1
+    - Vector1_4cdb94903b3749c5a22abd74273f10f9: 0.24
     - Vector1_69FF1E96: 0.5
     - Vector1_b183d1de26fc44c29110ff79106e774c: 2.98
     - Vector1_e6c7d43508f44f60a7912469a51bc326: 0.05
@@ -256,7 +256,7 @@ Material:
     - _TransparentDepthPrepassEnable: 0
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
-    - _TransparentZWrite: 0
+    - _TransparentZWrite: 1
     - _UVBase: 0
     - _UVDetail: 0
     - _UVEmissive: 0
@@ -266,11 +266,11 @@ Material:
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     m_Colors:
     - Color_37370F93: {r: 1024, g: 0, b: 0, a: 0}
-    - Color_d7d072613e414554bf7e3ee747305546: {r: 0, g: 2.3856373, b: 2.79544, a: 0}
-    - Vector2_4288242cc3004a61bcd084f61834b0f6: {r: 1, g: 1, b: 1, a: 1}
+    - Color_d7d072613e414554bf7e3ee747305546: {r: 0, g: 2.076818, b: 2.433572, a: 0}
+    - Vector2_4288242cc3004a61bcd084f61834b0f6: {r: 10, g: 10, b: 1, a: 1}
     - Vector2_83566144: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_B5917231: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_cad218feebbc4b038b554365d6d86e35: {r: 10, g: 13, b: 0, a: 0}
