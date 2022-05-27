@@ -13,8 +13,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image axeThrowImage;
 
     [Header("Inentory")]
-    [SerializeField] private Image[] HealPotionSlots = new Image[5];
-    [SerializeField] private Image[] EnergyPotionSlots = new Image[5];
+    [SerializeField] private Image[] HealPotionSlots;
+    [SerializeField] private Image[] EnergyPotionSlots;
     [SerializeField] private Sprite emptyInventorySprite;
     [SerializeField] private Sprite fullInventorySprite;
 

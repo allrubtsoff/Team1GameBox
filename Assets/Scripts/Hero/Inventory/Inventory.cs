@@ -93,7 +93,7 @@ public class Inventory : MonoBehaviour
     public void UseItem(int dimensionIndex)
     {
         var lastItemInInventory = FindLastItemInInventory(dimensionIndex);
-        if (inventory[dimensionIndex, lastItemInInventory] != null)
+        if (lastItemInInventory != -1)
         {
             var usedItem = inventory[dimensionIndex, lastItemInInventory];
             usedItem.Use();
