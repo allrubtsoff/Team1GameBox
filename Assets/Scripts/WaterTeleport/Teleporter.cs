@@ -8,9 +8,9 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float damage;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.TryGetComponent<ThirdPersonController>(out ThirdPersonController playerController))
+        if (other.transform.TryGetComponent<ThirdPersonController>(out ThirdPersonController playerController))
         {
             StartCoroutine(TelerportToSafePosition(playerController.transform));
         }

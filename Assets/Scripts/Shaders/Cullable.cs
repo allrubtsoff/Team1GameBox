@@ -45,12 +45,6 @@ public class Cullable : MonoBehaviour
     {
         // grab the renderer's material and set the current alpha 
         m_mat = GetComponent<Renderer>().material;
-        
-        for(int i=0;i < m_mat.shader.GetPropertyCount();i++)
-        {
-            Debug.Log(m_mat.shader.GetPropertyName(i));
-        }   
-        
         m_currentAlpha = m_fadeFrom;
     }
 
