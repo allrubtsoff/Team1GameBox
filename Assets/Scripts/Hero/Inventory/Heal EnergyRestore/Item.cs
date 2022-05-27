@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
     [SerializeField] private Sprite itemSprite;
     [SerializeField] private float hpRestore;
@@ -18,8 +18,8 @@ public class Item : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<Inventory>(out Inventory inventory) && PickUp(inventory))
         {
-                playersHealth = other.GetComponent<Health>();
-                playersEnergy = other.GetComponent<Energy>();
+            playersHealth = other.GetComponent<Health>();
+            playersEnergy = other.GetComponent<Energy>();
         }
     }
 
@@ -28,10 +28,11 @@ public class Item : MonoBehaviour
         return inventory.AddItem(this);
     }
 
-    public void Use()
+    public virtual void Use()
     {
         playersHealth.RestoreHealth(hpRestore);
         playersEnergy.RestoreEnergy(energyRestore);
         UpdateUi.Invoke();
+        Destroy(this, 1f);
     }
 }

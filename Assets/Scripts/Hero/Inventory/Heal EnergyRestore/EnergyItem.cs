@@ -1,5 +1,5 @@
 
-public class HealthItem : Item
+public class EnergyItem : Item
 {
     public override void Use()
     {
