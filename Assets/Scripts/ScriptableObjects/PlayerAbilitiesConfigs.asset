@@ -17,11 +17,11 @@ MonoBehaviour:
     m_Bits: 64
   axeThrowDmg: 1
   axeThrowCooldown: 1
-  airAtackDamage: 30
+  airAtackDamage: 50
   airAtackCost: 10
   airAtackCooldown: 5
   airAtackRange: 2
-  mightyPunchDamage: 25
+  mightyPunchDamage: 5
   mightyPunchCost: 10
   mightyPunchCooldown: 5
   mightyPunchRange: 5
