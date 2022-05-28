@@ -20,8 +20,9 @@ public class PlayerAbilitiesConfigs : ScriptableObject
     public float airAtackRange;
 
     [Header("Mighty Punch")]
-    public float mightyPunchDamage;
+    public int mightyPunchDamage;
     public float mightyPunchCost;
     public float mightyPunchCooldown;
     public float mightyPunchRange;
+    public float mightyPunchForce;
 }

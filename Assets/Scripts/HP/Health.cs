@@ -22,7 +22,6 @@ public class Health : MonoBehaviour, IDamageable
         {
             _isPlayer = true;
         }
-
     }
 
     public void RestoreHealth(float amount)
@@ -35,7 +34,7 @@ public class Health : MonoBehaviour, IDamageable
     {
         if (_layerMask == mask)
         {
-            Debug.Log("Damaged");
+            Debug.Log($"Damaged {gameObject.name}");
             Hp -= damage;
             CheckDeath();
 
