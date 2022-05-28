@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -17,18 +18,19 @@ public class AxeReturn : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.layer != playersLayer)
+        if (other.gameObject.layer != playersLayer)
         {
+            Debug.Log("AXEEEEEEEEEEEEEEE" + other.gameObject.name);
+            Debug.DrawLine(transform.position, playersHand.position, Color.blue, 10f);
             rigidBody.isKinematic = true;
+            if (other.transform.TryGetComponent(out IDamageable damageable) && counter == 0)
+            {
+                counter++;
+                damageable.TakeDamage(configs.axeThrowDmg, enemyLayer);
+            }
             StartCoroutine(ReturnAxe());
-        }
-        if (collision.transform.TryGetComponent(out IDamageable damageable) && counter ==0)
-        {
-            counter++;
-            damageable.TakeDamage(configs.axeThrowDmg, enemyLayer);
-            gameObject.SetActive(false);
         }
     }
 

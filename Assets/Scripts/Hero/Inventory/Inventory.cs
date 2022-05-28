@@ -1,23 +1,29 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private Sprite commonInventorySlotIcon;
-    public Sprite CommonSlotImage { get { return commonInventorySlotIcon; } }
+    [SerializeField] private int maxInventorySlots;
+    [SerializeField] private int countOfItemsInSlot;
 
-    private readonly int maxInventorySlots = 2;
-    private Item[] inventory;
+    private Item[,] inventory;
     private StarterAssetsInputs playerInputs;
 
-    public static event Action<int,Item,bool> UpdateUI;
+    public Sprite CommonSlotImage { get { return commonInventorySlotIcon; } }
+
+    public static event Action<int, int, bool> UpdateUI;
+
+    enum ItemType
+    {
+        HealthPotion = 0,
+        EnergyPotion = 1
+    }
 
     private void Start()
     {
-        inventory = new Item[maxInventorySlots];
+        inventory = new Item[maxInventorySlots, countOfItemsInSlot];
         playerInputs = GetComponent<StarterAssetsInputs>();
     }
 
@@ -30,7 +36,6 @@ public class Inventory : MonoBehaviour
     {
         if (playerInputs.inventoryFirstSlot)
         {
-
             UseItem(0);
             playerInputs.inventoryFirstSlot = false;
         }
@@ -41,42 +46,74 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool AddItem(Item item)
+    public bool AddItem<T>(T item) where T : Item
     {
-        var slotId = Array.IndexOf(inventory, null);
-        if ( slotId != -1)
+        var dimensionIndex = GetItemType<T>(item);
+        var emptySlot = FindFirstEmptySlot(dimensionIndex);
+        if (emptySlot != -1)
         {
             HideObject(item);
-            TryUpdateUI(slotId,item,false);
-            inventory[slotId] = item;
+            TryUpdateUI(dimensionIndex, emptySlot, false);
+            inventory[dimensionIndex, emptySlot] = item;
         }
-        return inventory.Length <= maxInventorySlots;
+        return emptySlot != -1;
     }
 
-    private void HideObject(Item item)
+    private int GetItemType<T>(T item) where T : Item
+    {
+        if (item.TryGetComponent<HealthItem>(out HealthItem healthItem))
+            return (int) ItemType.HealthPotion;
+        else if (item.TryGetComponent<EnergyItem>(out EnergyItem energyItem))
+            return (int) ItemType.EnergyPotion;
+        else
+            return -1;
+    }
+
+    private int FindFirstEmptySlot(int dimensionIndex)
+    {
+        if (dimensionIndex > -1)
+        {
+            var length = countOfItemsInSlot;
+            for (int i = 0; i < length; i++)
+            {
+                Debug.Log(inventory.GetLength(dimensionIndex));
+                if (inventory[dimensionIndex, i] == null)
+                    return i;
+            }
+        }
+        return -1;
+    }
+
+    private void HideObject<T>(T item) where T : Item
     {
         item.gameObject.SetActive(false);
     }
 
-    private void TryUpdateUI(int slotId, Item item, bool isUsed)
+    private void TryUpdateUI(int dimensionIndex, int slotId, bool isUsed)
     {
         if (UpdateUI != null)
-            UpdateUI(slotId,item,isUsed);
-    }
+            UpdateUI(dimensionIndex, slotId, isUsed);
+    } 
 
-    public void UseItem(int slotId)
+    public void UseItem(int dimensionIndex)
     {
-        if (inventory[slotId]  != null)
+        var lastItemInInventory = FindLastItemInInventory(dimensionIndex);
+        if (lastItemInInventory != -1)
         {
-            Item usedItem = inventory[slotId];
+            var usedItem = inventory[dimensionIndex, lastItemInInventory];
             usedItem.Use();
-            TryUpdateUI(slotId, usedItem, true);
-            inventory[slotId] = null;
+            TryUpdateUI(dimensionIndex, lastItemInInventory, true);
+            inventory[dimensionIndex, lastItemInInventory] = null;
         }
     }
 
-    public List<Item> GetItems()
+    private int FindLastItemInInventory(int dimensionIndex)
     {
-        return inventory.ToList();
+        for (int i = countOfItemsInSlot -1; i > -1; i--)
+        {
+            if (inventory[dimensionIndex, i] != null)
+                return i;
+        }
+        return -1;
     }
 }

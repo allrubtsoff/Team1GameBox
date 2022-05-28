@@ -4,13 +4,19 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    [Header("Sprites")]
+    [Header("Hp/Energy Bar")]
     [SerializeField] private Image hpBar;
     [SerializeField] private Image energyBar;
+
+    [Header("Abilities")]
     [SerializeField] private Image mightyPunchImage;
     [SerializeField] private Image axeThrowImage;
-    [SerializeField] private Image[] Slots = new Image[2];
+
+    [Header("Inentory")]
+    [SerializeField] private Image[] HealPotionSlots;
+    [SerializeField] private Image[] EnergyPotionSlots;
     [SerializeField] private Sprite emptyInventorySprite;
+    [SerializeField] private Sprite fullInventorySprite;
 
     [Header("Player")]
     [SerializeField] private GameObject player;
@@ -18,28 +24,48 @@ public class UiManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Inventory.UpdateUI += UpdateInventorySlotSprite;
+        Inventory.UpdateUI += UpdateInventorySprite;
         Health.HPChanged += CheckHpBar;
+        Item.UpdateUi += CheckHpBar;
+        Item.UpdateUi += CheckEnergyBar;
     }
 
     private void OnDestroy()
     {
-        Inventory.UpdateUI -= UpdateInventorySlotSprite;
+        Inventory.UpdateUI -= UpdateInventorySprite;
         Health.HPChanged -= CheckHpBar;
+        Item.UpdateUi -= CheckHpBar;
+        Item.UpdateUi -= CheckEnergyBar;
     }
 
-    public void UpdateInventorySlotSprite(int slotId, Item item, bool itemUsed)
+    public void UpdateInventorySprite(int dimensionIndex, int slotIndex, bool itemUsed)
+    {
+        switch(dimensionIndex)    
+        {
+            case (0):
+                UpdateInventorySprite(HealPotionSlots,slotIndex,itemUsed);
+                break;
+            case (1):
+                UpdateInventorySprite(EnergyPotionSlots, slotIndex, itemUsed);
+                break;
+        }
+    }
+
+    private void UpdateInventorySprite(Image[] ItemImage, int slotIndex,bool itemUsed)
     {
         if (itemUsed)
-            Slots[slotId].sprite = emptyInventorySprite;
+        {
+            ItemImage[slotIndex].sprite = emptyInventorySprite;
+        }
         else
-            Slots[slotId].sprite = item.ItemSprite;
+        {
+            ItemImage[slotIndex].sprite = fullInventorySprite;
+        }
     }
 
     public void CheckHpBar()
     {
         hpBar.fillAmount = player.GetComponent<Health>().Hp / 100;
-
     }
     
     public void CheckEnergyBar()
