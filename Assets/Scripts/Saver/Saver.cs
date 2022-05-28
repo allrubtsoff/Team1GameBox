@@ -5,14 +5,25 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine.Audio;
+using UnityEditor;
 
 public class Saver : MonoBehaviour
 {
     public int CheckPointToSave { get; private set; }
-    
-    private void Start()
+
+    [MenuItem("Utils/Clear progress")]
+    public static void ClearProgress()
     {
-        
+        if (File.Exists(Application.persistentDataPath + "/MySavedCheckPoint.dat"))
+        {
+            File.Delete(Application.persistentDataPath + "/MySavedCheckPoint.dat");
+        }
+        Debug.Log("Progress Data Cleared!");
+    }
+
+    private void Awake()
+    {
+        LoadCheckPoint();
     }
 
     public void SaveCheckPoint( int checkPointNumber)

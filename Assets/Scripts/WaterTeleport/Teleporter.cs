@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
-    [SerializeField] private Transform safePosition;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private float damage;
+    [SerializeField] private LayerMask _playerLayer;
+    [SerializeField] private float _damage = 10;
+    [SerializeField] private Saver _saver;
+    [SerializeField] private float _teleportDelay = 0.5f;
+    [Header("CheckPoints")]
+    [SerializeField] private CheckPoint[] checkPoints;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,9 +21,21 @@ public class Teleporter : MonoBehaviour
 
     private IEnumerator TelerportToSafePosition(Transform player)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(_teleportDelay);
         if (player.TryGetComponent<IDamageable>(out IDamageable playerHealth))
-            playerHealth.TakeDamage(damage, playerLayer);
-        player.position = safePosition.position;
+            playerHealth.TakeDamage(_damage, _playerLayer);
+
+        Vector3 spawnPosition = checkPoints[0].SpawnPoint.position;
+
+        foreach (var point in checkPoints)
+        {
+            if (_saver.CheckPointToSave == point.PointNumber)
+            {
+                spawnPosition = point.SpawnPoint.position;
+                break;
+            }
+        }
+
+        player.position = spawnPosition;
     }
 }
